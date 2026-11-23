@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
+
+  <title>Hexhibit</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: sans-serif;
+    }
+
+    .bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .overlay {
+      position: fixed;
+      font-family: "Antonio", sans-serif;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    .overlay.hidden {
+      display: none;
+    }
+
+    .prompt-btn {
+      padding: 16px 32px;
+      font-size: 1.25rem;
+      color: #fff;
+      background: transparent;
+      border: 2px solid #fff;
+      cursor: pointer;
+      letter-spacing: 1px;
+    font-family: "Antonio", sans-serif;
+    text-transform: uppercase;
+
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Start / End Overlay -->
+  <div id="overlay" class="overlay">
+    <button id="promptBtn" class="prompt-btn">Click to Start</button>
+  </div>
+
+  <!-- Fullscreen Video -->
+  <video id="introVideo" class="bg-video" playsinline>
+    <source src="assets/hexhibit.mp4" type="video/mp4">
+  </video>
+
+  <script>
+    const overlay = document.getElementById('overlay');
+    const promptBtn = document.getElementById('promptBtn');
+    const video = document.getElementById('introVideo');
+
+    let videoFinished = false;
+
+    // 1. First click starts the video with sound; second click redirects after video ends
+    overlay.addEventListener('click', () => {
+      if (!videoFinished) {
+        overlay.classList.add('hidden');
+        video.muted = false;
+        video.play();
+      } else {
+        window.location.href = 'index.html'; // Change to your next HTML file
+      }
+    });
+
+    // 2. When video ends, bring back the overlay as "Click to Enter"
+    video.addEventListener('ended', () => {
+      videoFinished = true;
+      promptBtn.textContent = 'Enter Hexhibit';
+      overlay.style.background = 'rgba(0, 0, 0, 0.4)'; // Lighter tint so final frame shows through
+      overlay.classList.remove('hidden');
+    });
+  </script>
+
+</body>
+</html>
