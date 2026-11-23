@@ -34,7 +34,8 @@ No web research was needed. The design rests on platform features already named 
 
 ```mermaid
 graph TD
-  HTML[index.html] --> MAIN[js/main.js]
+  HTML[index.html] --> CSS[assets/css/style.css<br/>stays in place, not moved]
+  HTML --> MAIN[js/main.js]
   MAIN --> CONTENT[js/content.js<br/>pure: validate, door code, path check]
   MAIN --> STATE[js/state.js<br/>pure: state + transitions]
   MAIN --> CORR[js/corridor.js<br/>DOM + 3D camera]
@@ -292,9 +293,9 @@ export function buildCorridor(exhibition, hooks, opts) -> corridor
 
 ### Markup and CSS changes
 
-`index.html`: stylesheet link points at `style.css`; `<script type="module" src="js/main.js">`; the hard-coded `0/6 solved` becomes empty text filled by `render()`; a `#banner` element (`role="status"`) and a `#fatal` container are added; the dialog card gets `aria-labelledby` and `#fb` keeps `role="status"`.
+`index.html`: the stylesheet link keeps pointing at `assets/css/style.css` (unchanged); `<script type="module" src="js/main.js">`; the hard-coded `0/6 solved` becomes empty text filled by `render()`; a `#banner` element (`role="status"`) and a `#fatal` container are added; the dialog card gets `aria-labelledby` and `#fb` keeps `role="status"`.
 
-`style.css` (moved from `assets/css/style.css`, old file deleted):
+`assets/css/style.css` (edited in place, not moved to the repo root):
 
 - `.x`, `.btn`, `.tog`, `.card input`, and the choice option labels get `min-height:44px; min-width:44px`.
 - `.fb.bad{color:var(--bad)}`, `.fb.ok{color:var(--accent)}`, `.fb.hint{color:var(--muted)}` replace the inline `#e5484d`.

@@ -12,7 +12,7 @@ These findings come from reading the prototype and the steering files, and they 
 
 **Layout discrepancies against the target layout in structure steering**
 
-- The prototype stylesheet currently lives at `assets/css/style.css`. The target is `style.css` at the repo root, so this spec moves the file there explicitly, keeps `index.html` linking to it, and leaves the visuals unchanged.
+- The prototype stylesheet lives at `assets/css/style.css`. The user decided it stays there for repo organization, so it differs from the flat `style.css` in the target layout on purpose. This spec does not move it, and `index.html` keeps linking to it.
 - The script lives at `assets/js/script.js` as one classic script, and the target is ES modules under `js/` (`main.js`, `state.js`, `corridor.js`, `puzzles/`, `modal.js`, `content.js`). Only the JavaScript moves into `js/`, and it moves only as individual tasks need it, with no big-bang refactor.
 - `content/default-exhibition.json` and `content/exhibition.schema.json` do not exist.
 - `assets/hexhibit-logo.png` and `assets/favicon.png` are already at the required paths.
@@ -40,7 +40,7 @@ These findings come from reading the prototype and the steering files, and they 
 - E. The "wall" shown on the plaque is derived from the side of the corridor (left is North Wall, right is South Wall), as in the prototype, and is not stored in the data.
 - F. Hints are free in this spec. Scoring is out of scope, so a hint has no point cost.
 - G. (Decided) The page always starts in Gallery_Mode on load. The prototype's `hx-theme` restore is removed, and no progress is saved. Progress restore is a later spec.
-- I. (Decided, final) The prototype stylesheet is currently at `assets/css/style.css`. It moves to the root `style.css` in this spec, and `assets/css/style.css` is removed after the move. JavaScript moves into `js/` ES modules incrementally, only as tasks need it.
+- I. (Decided, final) The stylesheet stays at `assets/css/style.css` for repo organization and development best practice, and it is not moved to the repo root. Only the JavaScript moves into `js/` ES modules, incrementally, as tasks need it.
 - J. (Decided) Pure logic (exhibition validation, riddle normalization, state transitions, door-code computation) is tested in Node with `node --test`. `fast-check` is the only added package, as a dev-only dependency in `package.json` that the browser never loads. The app keeps no build step.
 - H. Generic button labels such as "Check", "Hint", and "Continue" stay in the markup. Exhibition-specific copy lives in the JSON.
 
@@ -80,16 +80,16 @@ These findings come from reading the prototype and the steering files, and they 
 
 #### Acceptance Criteria
 
-1. THE Hexhibit SHALL provide `index.html` and `style.css` at the repository root, with the stylesheet moved from `assets/css/style.css` to `style.css`, the old file removed, and `index.html` linking to the new location, and SHALL provide the ES modules `js/main.js`, `js/state.js`, `js/corridor.js`, `js/modal.js`, `js/content.js`, and `js/puzzles/index.js`.
+1. THE Hexhibit SHALL provide `index.html` at the repository root linking to the stylesheet at `assets/css/style.css`, and SHALL provide the ES modules `js/main.js`, `js/state.js`, `js/corridor.js`, `js/modal.js`, `js/content.js`, and `js/puzzles/index.js`.
 2. THE Hexhibit SHALL load `js/main.js` from `index.html` with `<script type="module">` and SHALL use no framework, bundler, build step, or runtime dependency. The only permitted added package is the dev-only test dependency in Requirement 15.
 3. THE Hexhibit SHALL keep `assets/hexhibit-logo.png` and `assets/favicon.png` at their current paths with their current file names.
 4. THE Hexhibit SHALL reuse the existing CSS custom properties, fonts, and component styles from the prototype stylesheet without new colors, fonts, or component styles.
-5. WHEN a new CSS token is needed, THE Hexhibit SHALL define the token for both `light` and `dark` themes in `style.css`.
+5. WHEN a new CSS token is needed, THE Hexhibit SHALL define the token for both `light` and `dark` themes in `assets/css/style.css`.
 6. THE Hexhibit SHALL keep the following prototype behaviors: Corridor perspective and camera easing, W/S/arrow/wheel/Back/Next walking, mouse look, turning to face the Artwork at a Stop, the "CLICK TO INSPECT" cue, click assist near an Artwork, door glow, door swing, and the theme toggle button.
 7. WHEN the Exhibition_Loader returns an Exhibition, THE Hexhibit SHALL render the Corridor, Plaques, Puzzles, progress text, and Door_Code slots from that Exhibition, with no Artwork, puzzle, or answer text defined in any `.js` file.
 8. THE Hexhibit SHALL start in Gallery_Mode on every page load and SHALL NOT restore After_Hours_Mode from `localStorage`.
 9. THE Hexhibit SHALL function when `localStorage` is unavailable, and every `localStorage` access in the code SHALL sit inside a try/catch block.
-10. WHEN the stylesheet is moved to `style.css`, THE Hexhibit SHALL render every screen with the same visuals as the prototype in both themes.
+10. WHEN the JavaScript is moved into `js/` modules, THE Hexhibit SHALL render every screen with the same visuals as the prototype in both themes.
 11. THE Hexhibit SHALL move JavaScript from `assets/js/script.js` into `js/` ES modules incrementally, one task at a time, and SHALL remain playable after each task.
 
 ### Requirement 2: Exhibition data file

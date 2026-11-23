@@ -1,11 +1,10 @@
 # Structure
 
-The repo starts flat (the prototype): `index.html`, `style.css`, `script.js`, `assets/`. Refactor into modules **only when a task needs it**, and keep the app openable by double-clicking `index.html` or via any static server.
+The repo starts flat (the prototype): `index.html`, `assets/css/style.css`, `assets/js/script.js`, `assets/`. Refactor into modules **only when a task needs it**, and keep the app openable by double-clicking `index.html` or via any static server.
 
 ## Target layout
 ```
 index.html
-style.css                 # tokens + all styles (split later only if needed)
 js/
   main.js                 # boot, wiring, render loop
   state.js                # game state machine + persistence
@@ -18,6 +17,7 @@ content/
   default-exhibition.json # shipped lesson
   exhibition.schema.json
 assets/
+  css/style.css            # tokens + all styles (split later only if needed)
   hexhibit-logo.png
   favicon.png
 .kiro/
