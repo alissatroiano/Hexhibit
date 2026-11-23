@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hexhibit</title>
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="vig"></div>
+<header class="top">
+  <a class="brand" href="./" aria-label="Hexhibit home">
+    <img class="mark" src="assets/favicon.png" alt="">
+    <img class="wordmark" src="assets/hexhibit-logo.png" alt="Hexhibit">
+  </a>
+  <div class="status"><span id="prog">0/6 solved</span><div class="slots" id="slots" aria-label="Door code"></div></div>
+  <button class="tog" id="theme" aria-label="Toggle theme"></button>
+</header>
+<div class="viewport"><div class="world" id="world">
+  <div class="floor"></div><div class="ceiling"></div><div class="wall wall-left"></div><div class="wall wall-right"></div>
+  <div class="wall wall-back"><div class="door-frame"><div class="door-void">ENTER THE ARCHIVE…</div>
+    <div class="door" id="door"><div class="door-panel"></div><div class="door-panel"></div><span class="lock" id="lock">LOCKED</span></div></div></div>
+</div></div>
+<div class="bar">
+  <button class="btn ghost" id="prev" aria-label="Previous stop">← Back</button>
+  <span class="pill hint">W/S or scroll to walk · mouse to look · click a painting when you’re beside it</span>
+  <button class="btn" id="next" aria-label="Next stop">Next →</button>
+</div>
+<div class="modal" id="modal" aria-hidden="true"><div class="card" role="dialog" aria-modal="true">
+  <button class="x" id="close" aria-label="Close">&times;</button>
+  <div id="mimg" class="art"></div><h2 id="mt"></h2><p class="meta" id="ma"></p><p class="lore" id="ml"></p>
+  <dl class="plaque" id="mp"></dl><div class="q" id="mq"></div>
+  <input id="ans" autocomplete="off" aria-label="Your answer">
+  <div class="row"><button class="btn" id="check">Check</button><button class="btn ghost" id="hintBtn">Hint</button></div>
+  <p class="fb" id="fb" role="status"></p>
+</div></div>
+<script src="assets/js/script.js"></script>
+</body>
+</html>
