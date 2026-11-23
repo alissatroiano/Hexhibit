@@ -15,7 +15,7 @@ These findings come from reading the prototype and the steering files, and they 
 - The prototype stylesheet lives at `assets/css/style.css`. The user decided it stays there for repo organization, so it differs from the flat `style.css` in the target layout on purpose. This spec does not move it, and `index.html` keeps linking to it.
 - The script lives at `assets/js/script.js` as one classic script, and the target is ES modules under `js/` (`main.js`, `state.js`, `corridor.js`, `puzzles/`, `modal.js`, `content.js`). Only the JavaScript moves into `js/`, and it moves only as individual tasks need it, with no big-bang refactor.
 - `content/default-exhibition.json` and `content/exhibition.schema.json` do not exist.
-- `assets/hexhibit-logo.png` and `assets/favicon.png` are already at the required paths.
+- `hexhibit-logo.png` and `favicon.png` were moved to `assets/images/hexhibit-logo.png` and `assets/images/favicon.png` by the user's decision. `assets/images/` is the home for images, and `index.html` now references them there.
 - `README.md` describes a different structure (`data/gallery-config.json`, `engine3d.js`, `audio.js`, `editor.js`, `storage.js`), five puzzle types, an educator studio, and share links. None of these exist or are in this spec, and the README does not match the structure steering.
 - The ignore file is named `.gitginore` (typo), so Git does not apply it. This is outside this spec and is noted for the user.
 

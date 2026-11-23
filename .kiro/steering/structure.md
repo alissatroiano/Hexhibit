@@ -18,8 +18,8 @@ content/
   exhibition.schema.json
 assets/
   css/style.css            # tokens + all styles (split later only if needed)
-  hexhibit-logo.png
-  favicon.png
+  images/hexhibit-logo.png
+  images/favicon.png
 .kiro/
   steering/               # these files
   specs/                  # requirements, design, tasks
@@ -28,5 +28,5 @@ assets/
 ## Rules
 - UI strings and lesson text live in content files, not in logic code.
 - New puzzle types are added under `js/puzzles/` and registered, never special-cased in the corridor.
-- Do not rename or move `assets/hexhibit-logo.png` or `assets/favicon.png`; the nav and tab icon depend on them.
+- Do not rename or move `assets/images/hexhibit-logo.png` or `assets/images/favicon.png`; the nav and tab icon depend on them. Images live under `assets/images/`.
 - Keep `README.md` current: what it is, how to run it, how to author an exhibition, and a short "Built with Kiro" section describing how specs and steering were used.
