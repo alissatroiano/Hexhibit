@@ -4,7 +4,7 @@
 
 This spec defines the minimum playable version of Hexhibit: one complete playthrough that runs end to end. The player studies the gallery in Daylight Mode, switches one-way to After-Hours Mode, solves every puzzle, enters the door code, and escapes.
 
-The existing prototype (`index.html`, `assets/css/style.css`, `assets/js/script.js`) is the visual and behavioral reference. Visuals and behavior stay the same unless a requirement below says otherwise. The prototype hard-codes six artworks, six puzzles, and a six-digit code in JavaScript. This spec moves that content into a JSON exhibition file, drives the corridor, plaques, puzzles, and door code from the file, and introduces a single state object and a puzzle registry. The placeholder exhibition has three artworks and three puzzles.
+The existing prototype (`index.html`, `assets/css/style.css`, `assets/js/script.js`) is the visual and behavioral reference. Visuals and behavior stay the same unless a requirement below says otherwise. The prototype hard-codes six artworks, six puzzles, a six-digit code, and the corridor length in JavaScript. This spec moves that content into a JSON exhibition file, drives the corridor, plaques, puzzles, and door code from the file, and introduces a single state object and a puzzle registry. An exhibition holds 3 to 6 artworks in this spec, and the corridor length, door-code length, solved counter, and wall layout follow from the artwork count. The placeholder exhibition has three artworks and three puzzles.
 
 ### Prototype review findings
 
@@ -12,8 +12,8 @@ These findings come from reading the prototype and the steering files, and they 
 
 **Layout discrepancies against the target layout in structure steering**
 
-- The stylesheet lives at `assets/css/style.css`, and the target is `style.css` at the repo root.
-- The script lives at `assets/js/script.js` as one classic script, and the target is ES modules under `js/` (`main.js`, `state.js`, `corridor.js`, `puzzles/`, `modal.js`, `content.js`).
+- The prototype stylesheet currently lives at `assets/css/style.css`. The target is `style.css` at the repo root, so this spec moves the file there explicitly, keeps `index.html` linking to it, and leaves the visuals unchanged.
+- The script lives at `assets/js/script.js` as one classic script, and the target is ES modules under `js/` (`main.js`, `state.js`, `corridor.js`, `puzzles/`, `modal.js`, `content.js`). Only the JavaScript moves into `js/`, and it moves only as individual tasks need it, with no big-bang refactor.
 - `content/default-exhibition.json` and `content/exhibition.schema.json` do not exist.
 - `assets/hexhibit-logo.png` and `assets/favicon.png` are already at the required paths.
 - `README.md` describes a different structure (`data/gallery-config.json`, `engine3d.js`, `audio.js`, `editor.js`, `storage.js`), five puzzle types, an educator studio, and share links. None of these exist or are in this spec, and the README does not match the structure steering.
@@ -23,8 +23,8 @@ These findings come from reading the prototype and the steering files, and they 
 
 - Artworks, puzzles, answers, hints, plaque details, and the count `6` live in `script.js`. `index.html` also hard-codes `0/6 solved`.
 - Dialog copy for the door, the enter-escape-room confirmation, the staff-only message, and the escaped message lives in `script.js`.
-- The prototype stores the theme in `localStorage` (`hx-theme`) and restores After-Hours Mode on reload while discarding progress, which leaves the player locked in with zero solved puzzles.
-- The correct-answer dialog auto-closes after 1100 ms, which leaves no time to read a one-line explanation.
+- The prototype stores the theme in `localStorage` (`hx-theme`) and restores After-Hours Mode on reload while discarding progress, which leaves the player locked in with zero solved puzzles. This spec removes the restore.
+- The correct-answer dialog auto-closes after 1100 ms, which leaves no time to read a one-line explanation. This spec replaces the auto-close with a Continue button.
 - The wrong-answer color is hard-coded as `#e5484d` instead of the `--bad` token.
 - The artwork image in the dialog uses an inline `border-radius:8px`, which breaks the square-corner rule.
 - The dialog has no focus trap, does not return focus on close, and the close button is 34px (the minimum is 44px).
@@ -33,13 +33,15 @@ These findings come from reading the prototype and the steering files, and they 
 
 ### Assumptions
 
-- A. The app is served by a static server. ES modules and `fetch` of a JSON file do not work from a `file://` double-click in Chrome, so the "openable by double-clicking" goal in structure steering cannot hold for the JSON loader. The README documents the one-line static server command.
-- B. The app loads `content/default-exhibition.json` on boot. An optional `?exhibition=<same-origin relative path>` query parameter loads a different exhibition so that the validation and fallback path can be checked in a browser. This parameter is not a share link.
+- A. (Decided) The app is served by a static server. ES modules and `fetch` of a JSON file do not work from a `file://` double-click in Chrome, so the "openable by double-clicking" goal in structure steering cannot hold for the JSON loader. The README gets a short note on how to run locally with a static server.
+- B. (Decided) The app loads `content/default-exhibition.json` on boot. An optional `?exhibition=<relative path>` query parameter loads a different exhibition so that the validation and fallback path can be checked in a browser. The parameter accepts same-site relative paths only and rejects absolute URLs, protocol-relative values, backslashes, and `..` segments (Requirement 3.11). It is a testing aid, documented in the README and in this spec, and it is not a share link.
 - C. Each artwork owns exactly one puzzle, and each puzzle yields exactly one door-code digit. The door code is the digits in artwork order.
-- D. The exhibition may contain 1 to 9 artworks. The default has 3.
+- D. (Decided) An exhibition contains 3 to 6 artworks in this spec. The default has 3. The corridor length is calculated from the artwork count, and the door-code length, the solved counter, and the left/right wall layout follow from the count.
 - E. The "wall" shown on the plaque is derived from the side of the corridor (left is North Wall, right is South Wall), as in the prototype, and is not stored in the data.
 - F. Hints are free in this spec. Scoring is out of scope, so a hint has no point cost.
-- G. The page always starts in Daylight Mode on load. The prototype's `hx-theme` restore is removed, and no progress is saved.
+- G. (Decided) The page always starts in Gallery_Mode on load. The prototype's `hx-theme` restore is removed, and no progress is saved. Progress restore is a later spec.
+- I. (Decided, final) The prototype stylesheet is currently at `assets/css/style.css`. It moves to the root `style.css` in this spec, and `assets/css/style.css` is removed after the move. JavaScript moves into `js/` ES modules incrementally, only as tasks need it.
+- J. (Decided) Pure logic (exhibition validation, riddle normalization, state transitions, door-code computation) is tested in Node with `node --test`. `fast-check` is the only added package, as a dev-only dependency in `package.json` that the browser never loads. The app keeps no build step.
 - H. Generic button labels such as "Check", "Hint", and "Continue" stay in the markup. Exhibition-specific copy lives in the JSON.
 
 ## Glossary
@@ -67,6 +69,7 @@ These findings come from reading the prototype and the steering files, and they 
 - **Corridor**: The CSS 3D world that holds the floor, ceiling, walls, framed Artworks, and the door.
 - **Stop**: A camera position in the Corridor beside one Artwork or at the door.
 - **Dialog**: The modal that shows Plaques, Puzzles, the door keypad, confirmations, and the escaped message.
+- **Pure_Logic_Module**: A module under `js/` that holds logic with no DOM or `localStorage` access at import time: exhibition validation, riddle normalization, state transitions, and Door_Code computation.
 - **Status_Region**: The element in the Dialog with `role="status"` that announces feedback.
 
 ## Requirements
@@ -77,8 +80,8 @@ These findings come from reading the prototype and the steering files, and they 
 
 #### Acceptance Criteria
 
-1. THE Hexhibit SHALL provide `index.html` and `style.css` at the repository root and the ES modules `js/main.js`, `js/state.js`, `js/corridor.js`, `js/modal.js`, `js/content.js`, and `js/puzzles/index.js`.
-2. THE Hexhibit SHALL load `js/main.js` from `index.html` with `<script type="module">` and SHALL use no framework, bundler, build step, or added dependency.
+1. THE Hexhibit SHALL provide `index.html` and `style.css` at the repository root, with the stylesheet moved from `assets/css/style.css` to `style.css`, the old file removed, and `index.html` linking to the new location, and SHALL provide the ES modules `js/main.js`, `js/state.js`, `js/corridor.js`, `js/modal.js`, `js/content.js`, and `js/puzzles/index.js`.
+2. THE Hexhibit SHALL load `js/main.js` from `index.html` with `<script type="module">` and SHALL use no framework, bundler, build step, or runtime dependency. The only permitted added package is the dev-only test dependency in Requirement 15.
 3. THE Hexhibit SHALL keep `assets/hexhibit-logo.png` and `assets/favicon.png` at their current paths with their current file names.
 4. THE Hexhibit SHALL reuse the existing CSS custom properties, fonts, and component styles from the prototype stylesheet without new colors, fonts, or component styles.
 5. WHEN a new CSS token is needed, THE Hexhibit SHALL define the token for both `light` and `dark` themes in `style.css`.
@@ -86,6 +89,8 @@ These findings come from reading the prototype and the steering files, and they 
 7. WHEN the Exhibition_Loader returns an Exhibition, THE Hexhibit SHALL render the Corridor, Plaques, Puzzles, progress text, and Door_Code slots from that Exhibition, with no Artwork, puzzle, or answer text defined in any `.js` file.
 8. THE Hexhibit SHALL start in Gallery_Mode on every page load and SHALL NOT restore After_Hours_Mode from `localStorage`.
 9. THE Hexhibit SHALL function when `localStorage` is unavailable, and every `localStorage` access in the code SHALL sit inside a try/catch block.
+10. WHEN the stylesheet is moved to `style.css`, THE Hexhibit SHALL render every screen with the same visuals as the prototype in both themes.
+11. THE Hexhibit SHALL move JavaScript from `assets/js/script.js` into `js/` ES modules incrementally, one task at a time, and SHALL remain playable after each task.
 
 ### Requirement 2: Exhibition data file
 
@@ -94,13 +99,14 @@ These findings come from reading the prototype and the steering files, and they 
 #### Acceptance Criteria
 
 1. THE Default_Exhibition SHALL define an Exhibition `title`, a `messages` object, and an `artworks` array.
-2. THE `messages` object SHALL hold the text for the enter-escape-room confirmation, the locked-door dialog, the unlocked-door prompt, the gallery staff-only dialog, and the escaped dialog.
+2. THE `messages` object SHALL hold the text for the enter-escape-room confirmation (`enterEscape`), the locked-door dialog (`doorLocked`), the unlocked-door prompt (`doorUnlocked`), the gallery staff-only dialog (`staffOnly`), the escaped dialog (`escaped`), the wrong-code door nudge (`doorNudge`), and the digits-found text (`digitsFound`), where `digitsFound` contains the placeholders `{found}` and `{total}`.
 3. THE Exhibition_Schema SHALL document each Artwork field: `id`, `title`, `artist`, `year`, `medium`, `size`, `curatorNote`, `lesson`, `colors` (two CSS hex colors for the generated gradient image), and `puzzle`.
 4. THE Exhibition_Schema SHALL document the common Puzzle fields: `type`, `prompt`, `hint`, `nudge`, `explanation`, and `digit` (a single character `0` to `9`).
 5. THE Exhibition_Schema SHALL document the Riddle_Puzzle field `answers` (a non-empty array of accepted answer strings) and the Choice_Puzzle fields `options` (an array of 2 to 6 strings) and `correctIndex` (an integer index into `options`).
-6. THE Default_Exhibition SHALL contain exactly 3 Artworks, each with one Puzzle and short placeholder lesson text, where at least one Puzzle has `type` `riddle` and at least one has `type` `choice`.
-7. THE Hexhibit SHALL reference Artwork images only as generated gradients derived from `colors` and SHALL NOT embed image data in the Exhibition.
-8. THE Hexhibit SHALL keep the Exhibition format extensible so that an unknown optional Artwork or Puzzle field does not cause validation to fail.
+6. THE Exhibition_Schema SHALL list all seven `messages` keys from criterion 2 as required strings, and THE Default_Exhibition SHALL define every one of them.
+7. THE Default_Exhibition SHALL contain exactly 3 Artworks, each with one Puzzle and short placeholder lesson text, where at least one Puzzle has `type` `riddle` and at least one has `type` `choice`.
+8. THE Hexhibit SHALL reference Artwork images only as generated gradients derived from `colors` and SHALL NOT embed image data in the Exhibition.
+9. THE Hexhibit SHALL keep the Exhibition format extensible so that an unknown optional Artwork or Puzzle field does not cause validation to fail.
 
 ### Requirement 3: Exhibition validation and fallback
 
@@ -109,7 +115,7 @@ These findings come from reading the prototype and the steering files, and they 
 #### Acceptance Criteria
 
 1. WHEN the Exhibition_Loader receives an Exhibition, THE Exhibition_Loader SHALL validate it against the Exhibition_Schema rules before any rendering.
-2. IF an Exhibition lacks a required field, has a field of the wrong type, has fewer than 1 or more than 9 Artworks, has duplicate Artwork `id` values, has a `digit` that is not a single character `0` to `9`, or has a Puzzle `type` that is not registered in the Puzzle_Registry, THEN THE Exhibition_Loader SHALL reject the Exhibition and report each problem with the field path.
+2. IF an Exhibition lacks a required field (including any `messages` key), has a field of the wrong type, has fewer than 3 or more than 6 Artworks, has duplicate Artwork `id` values, has a `digit` that is not a single character `0` to `9`, or has a Puzzle `type` that is not registered in the Puzzle_Registry, THEN THE Exhibition_Loader SHALL reject the Exhibition and report each problem with the field path.
 3. IF a Choice_Puzzle `correctIndex` is outside the range of `options`, THEN THE Exhibition_Loader SHALL reject the Exhibition.
 4. IF an Exhibition passed through the `?exhibition=` parameter is rejected or cannot be fetched, THEN THE Hexhibit SHALL show a friendly error message in a visible banner and SHALL load the Default_Exhibition instead.
 5. IF the Default_Exhibition is rejected or cannot be fetched, THEN THE Hexhibit SHALL show a friendly error screen that names the problem and SHALL NOT throw an uncaught exception.
@@ -117,6 +123,9 @@ These findings come from reading the prototype and the steering files, and they 
 7. FOR ALL valid Exhibitions, serializing the Exhibition with `JSON.stringify` and loading the result through the Exhibition_Loader SHALL produce an Exhibition equal to the original (round-trip property).
 8. FOR ALL valid Exhibitions with N Artworks, THE Door_Code SHALL have length N and character i SHALL equal the digit of the Puzzle on Artwork i (invariant).
 9. THE Hexhibit SHALL log no console errors during a rejected-Exhibition fallback.
+10. WHERE the page URL contains an `exhibition` query parameter, THE Exhibition_Loader SHALL fetch the Exhibition from the relative path given by the parameter instead of the Default_Exhibition.
+11. IF the `exhibition` query parameter value is an absolute URL with any scheme, is protocol-relative (begins with `//`), contains a backslash, or contains the segment `..`, THEN THE Exhibition_Loader SHALL reject the value without fetching it, SHALL show the friendly error banner, and SHALL load the Default_Exhibition.
+12. THE Hexhibit SHALL treat the `exhibition` query parameter as a testing aid, and THE README and the Exhibition_Schema documentation SHALL state that the parameter is not a share link.
 
 ### Requirement 4: Corridor generation
 
@@ -125,13 +134,14 @@ These findings come from reading the prototype and the steering files, and they 
 #### Acceptance Criteria
 
 1. WHEN an Exhibition with N Artworks is loaded, THE Corridor SHALL create N framed Artworks alternating between the left and right walls, starting on the left, at the same spacing as the prototype.
-2. WHEN an Exhibition with N Artworks is loaded, THE Corridor SHALL create N Stops, one door Stop, and a corridor length that places the door a constant distance beyond the last Artwork Stop.
-3. THE Corridor SHALL draw each Artwork image as the gradient generated from the two `colors` of the Artwork, using the same gradient construction as the prototype.
-4. THE Corridor SHALL define stop spacing, stop offset, click-assist window, and door distance as named constants.
-5. WHILE the camera is within the click-assist window of an Artwork, THE Corridor SHALL mark that Artwork as clickable with the existing glow.
-6. WHEN the player activates an Artwork with the pointer or the Enter key, THE Corridor SHALL open that Artwork's Dialog if the camera is within the click-assist window, and SHALL otherwise walk the camera to that Artwork's Stop and then open the Dialog.
-7. WHEN an Artwork Puzzle is solved, THE Corridor SHALL mark the Artwork as done with the existing check glyph.
-8. THE Corridor SHALL contain comments that explain the reason for each 3D transform and camera behavior.
+2. WHEN an Exhibition with N Artworks is loaded, THE Corridor SHALL create N Stops, one door Stop, and a corridor length calculated from N and the stop-spacing constants that places the door a constant distance beyond the last Artwork Stop, with no hard-coded corridor length.
+3. WHEN an Exhibition with N Artworks is loaded, THE Hexhibit SHALL show N Door_Code slots and SHALL show the viewed counter and the solved counter with N as the total.
+4. THE Corridor SHALL draw each Artwork image as the gradient generated from the two `colors` of the Artwork, using the same gradient construction as the prototype.
+5. THE Corridor SHALL define stop spacing, stop offset, click-assist window, and door distance as named constants.
+6. WHILE the camera is within the click-assist window of an Artwork, THE Corridor SHALL mark that Artwork as clickable with the existing glow.
+7. WHEN the player activates an Artwork with the pointer or the Enter key, THE Corridor SHALL open that Artwork's Dialog if the camera is within the click-assist window, and SHALL otherwise walk the camera to that Artwork's Stop and then open the Dialog.
+8. WHEN an Artwork Puzzle is solved, THE Corridor SHALL mark the Artwork as done with the existing check glyph.
+9. THE Corridor SHALL contain comments that explain the reason for each 3D transform and camera behavior.
 
 ### Requirement 5: Gallery mode plaques
 
@@ -240,10 +250,10 @@ These findings come from reading the prototype and the steering files, and they 
 
 #### Acceptance Criteria
 
-1. WHILE the Phase is `escape` or `solved`, WHEN the player activates the door, THE Dialog SHALL show the locked-door text from `messages`, the count of digits found, and a numeric keypad input with a "Check" button.
+1. WHILE the Phase is `escape` or `solved`, WHEN the player activates the door, THE Dialog SHALL show the locked-door text from `messages`, the `digitsFound` text from `messages` with `{found}` replaced by the number of solved Puzzles and `{total}` replaced by the number of Artworks, and a numeric keypad input with a "Check" button.
 2. WHILE the Phase is `escape` and fewer than all Puzzles are solved, WHEN the player submits the Door_Code, THE Dialog SHALL show a message that tells the player to solve every Puzzle first, even when the submitted value equals the Door_Code.
 3. WHILE the Phase is `solved`, WHEN the player submits a value equal to the Door_Code, THE Hexhibit SHALL change the lock label from "LOCKED" to "UNLOCKED", walk the camera to the door, swing the door open, and then show the escaped Dialog from `messages`.
-4. IF the player submits a value that does not equal the Door_Code, THEN THE Dialog SHALL show the door nudge from `messages` and SHALL play the shake animation unless reduced motion is requested.
+4. IF the player submits a value that does not equal the Door_Code, THEN THE Dialog SHALL show the `doorNudge` text from `messages` and SHALL play the shake animation unless reduced motion is requested.
 5. WHILE the Phase is `escaped`, THE escaped Dialog SHALL offer a "Return to the gallery" button and a "Stay a moment" button.
 6. WHEN the player chooses "Return to the gallery", THE Hexhibit SHALL reset the Corridor, the door, the Artwork done marks, and the slots, move the camera to the start, and switch to Gallery_Mode.
 7. WHEN the player chooses "Stay a moment", THE Dialog SHALL close and THE Game_State SHALL remain in the `escaped` Phase.
@@ -277,16 +287,24 @@ These findings come from reading the prototype and the steering files, and they 
 1. THE README SHALL describe how to run the app with a static server, including the command and the reason that a `file://` double-click is not supported.
 2. THE README SHALL describe how to author an Exhibition, with a minimal example of one `riddle` Puzzle and one `choice` Puzzle and a link to the Exhibition_Schema.
 3. THE README SHALL list the actual repository layout and SHALL remove or mark as planned any feature that is not built (additional puzzle types, educator studio, share links, audio).
-4. THE README SHALL include a short "Built with Kiro" section that describes the use of steering and specs.
+4. THE README SHALL document the `?exhibition=<relative path>` query parameter as a testing aid that accepts same-site relative paths only, rejects absolute URLs, protocol-relative paths, values containing a backslash, and paths containing `..`, and is not a share link.
+5. THE README SHALL include a short "Built with Kiro" section that describes the use of steering and specs.
+6. THE README SHALL document how to run the tests with `npm install` and `node --test`, and SHALL state that `fast-check` is a dev-only dependency that the browser app never loads.
+
+### Requirement 15: Testability of pure logic
+
+**User Story:** As a developer, I want the core logic tested without a browser, so that I can change it with confidence.
+
+#### Acceptance Criteria
+
+1. THE Hexhibit SHALL place exhibition validation, riddle answer normalization and evaluation, Game_State transitions, and Door_Code computation in Pure_Logic_Modules that import and run in Node without a browser.
+2. THE Pure_Logic_Modules SHALL NOT access `document`, `window`, or `localStorage` at import time, and SHALL receive any storage or DOM dependency as a function argument.
+3. THE Hexhibit SHALL run the test suite with the command `node --test` and no other build or transpile step.
+4. THE Hexhibit SHALL provide a `package.json` with `"type": "module"` and a `devDependencies` entry for `fast-check`, and the browser app SHALL NOT load `package.json`, `node_modules`, or any test file.
+5. THE test suite SHALL include one property-based test for each of Requirements 3.7 (round trip), 3.8 (Door_Code invariant), 6.10 (Phase and solved-set invariant), and 9.7 (riddle normalization), using `fast-check`.
+6. THE test suite SHALL include example-based tests for each rejection case in Requirement 3.2, 3.3, and 3.11.
+7. WHEN `node --test` runs on a clean checkout after `npm install`, THE test suite SHALL pass with no browser installed.
 
 ## Out of scope
 
 More puzzle types (UV lantern, chronological sort, dial, audio), scoring and hint cost, results screen and recap, saved progress, shareable `#room=` links, and the educator authoring tool. The data format (`type` plus per-type fields, unknown optional fields allowed) and the Puzzle_Registry are the extension points for these.
-
-## Open questions for the user
-
-1. Assumption A: Is a static server acceptable, given that ES modules and `fetch` cannot run from `file://` in Chrome?
-2. Assumption G: Is dropping the prototype's `hx-theme` restore acceptable, given that progress is not saved?
-3. Requirement 11.4: Is replacing the 1100 ms auto-close with a "Continue" button acceptable, so that the explanation can be read?
-4. Requirement 1.1: Should `assets/css/style.css` move to a root `style.css` now, as structure steering lists, or stay where it is until a later spec?
-5. Assumption B: Is the `?exhibition=` parameter acceptable as the way to check the invalid-exhibition fallback in a browser?
