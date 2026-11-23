@@ -200,6 +200,17 @@ export function buildCorridor(exhibition, hooks = {}, opts = {}) {
   listen(doorEl, "click", () => activateDoor());
   listen(doorEl, "keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activateDoor(); } });
 
+  // Keyboard Tab onto an off-screen painting or the door: walk the camera to it so the focus ring is
+  // visible, and undo any scroll the browser applied to the overflow:hidden viewport to reveal the
+  // focused element (it would otherwise shift the 3D scene sideways). Mouse focus is left alone so
+  // click assist keeps its current behavior.
+  function revealForKeyboard(el, stop) {
+    if (!el.matches(":focus-visible")) return;
+    if (stop <= maxD()) { S.td = stop; pending = null; }
+    const vp = world.parentElement;
+    if (vp) { vp.scrollLeft = 0; vp.scrollTop = 0; }
+  }
+
   // Open now if close enough, otherwise walk to the stop and open on arrival (see tick).
   function activateArtwork(i) {
     if (!inRange(i)) { S.td = stops[i]; pending = { kind: "art", i }; return; }

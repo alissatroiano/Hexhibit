@@ -210,26 +210,26 @@ Ground rules for every task:
     - Verify a second full loop works after returning, and the console stays empty through gallery → escaped → gallery.
     - _Requirements: 12.5, 12.6, 12.7, 7.5, 13.11_
 
-- [ ] 15. Motion, accessibility and responsive polish
+- [x] 15. Motion, accessibility and responsive polish
   - [x] 15.1 Reduced motion and tap targets
     - In `corridor.js`, listen to `matchMedia("(prefers-reduced-motion: reduce)")` live and set the camera directly to its target when it matches. Use short separate delay constants for the door and escaped dialog. In `assets/css/style.css`, disable `.world` transitions, the vignette flicker, the door swing and the shake under reduced motion.
     - Ensure every dialog button, input, option label, the close button, the theme button and Back/Next are at least 44px high and wide, adding `min-height` and `min-width` rules with existing tokens.
     - Verify with the browser's reduced-motion emulation: no flicker, no door swing, the camera jumps to its target, and wrong answers show text without a shake.
     - _Requirements: 13.6, 13.7, 11.11, 1.5_
 
-  - [-] 15.2 Responsive, contrast and no-emoji pass
+  - [x] 15.2 Responsive, contrast and no-emoji pass
     - Check every screen (gallery, plaque, puzzle, door, banner, fatal screen, escaped) at 390px, 768px and 1440px in both themes for no horizontal scroll, no clipped controls, the stacked top bar and hidden hint text on phones.
     - Check 4.5:1 contrast for body, muted and status text in both themes (adjust an existing token pair only if it fails, defining both themes), and that feedback always pairs text with color. Confirm no emoji in markup, JSON or JS.
     - Run a full keyboard-only playthrough with the console open and fix anything found.
     - _Requirements: 13.1, 13.8, 13.9, 13.10, 13.11, 13.12, 1.5_
 
-- [~] 16. Update the README
+- [x] 16. Update the README
   - Rewrite `README.md` to describe what Hexhibit is, how to run it with a static server (with the command and the reason `file://` is unsupported), the actual repository layout, and how to run tests (`npm install`, `node --test`, `fast-check` is dev-only and never loaded by the browser).
   - Add an authoring section with a minimal `riddle` and `choice` example and a link to `content/exhibition.schema.json`. Document `?exhibition=<relative path>` as a testing aid with its rejection rules, state it is not a share link, and note that a missing file shows a browser network line.
   - Remove or mark as planned the unbuilt features (extra puzzle types, educator studio, share links, audio). Add a short "Built with Kiro" section about steering and specs.
   - _Requirements: 14.1, 14.2, 14.3, 14.4, 14.5, 14.6, 3.12_
 
-- [~] 17. Final checkpoint - Ensure all tests pass and the loop works
+- [x] 17. Final checkpoint - Ensure all tests pass and the loop works
   - Run `node --test` and the browser checklist from the design (keyboard playthrough, 390px, 768px and 1440px in both themes, dialog focus behavior, reduced motion, `?exhibition=` cases, empty console). Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

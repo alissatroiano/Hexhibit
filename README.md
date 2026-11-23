@@ -1,92 +1,142 @@
-# 🏛️🕯️# Hexhibit
+# Hexhibit
 
-> **A 3D CSS Art Gallery that wears a haunted costume.**  
-> Built for **Kiroween 2026 — Costume Contest Category**
+Hexhibit turns a classroom lesson into a haunted 3D museum escape room. It was built for Kiroween 2026 (Costume Contest category).
 
-**Hexhibit* is an interactive, zero-dependency 3D web application designed for educators, students, and team facilitators. By day (**Light Mode**), it is a bright, peaceful art museum where visitors walk the corridor and study curated artworks. Flip the **After-Hours (Dark Mode)** switch, and the entire 3D gallery puts on a haunted costume—transforming into a locked **Escape Room** where every painting hides an interactive puzzle needed to shatter the chains sealing the exit door.
+By day (Daylight mode) the player walks a gallery corridor, inspects artworks and reads the plaques, which hold the lesson. After dark (After-Hours mode) the same room is sealed, and each painting opens a puzzle built from what the player just studied. Each solved puzzle reveals one digit of the door code. Enter the code to escape, then optionally return to the gallery.
 
----
+Everything runs in the browser from static files. There are no accounts, no backend and no build step. The corridor uses CSS 3D transforms.
 
-## ✨ Key Features
+## Run it
 
-### 1. The "Costume Toggle" (Daylight Museum ↔ Haunted Escape Room)
-* **☀️ Daylight Gallery Mode (Study & Exploration):** Warm architectural gallery walls, oak floors, curator plaques with historical context, and an open corridor built with pure CSS 3D transforms (`perspective` & `preserve-3d`).
-* **🌙 After-Hours Mode (Active Recall Escape Room):** Toggling Dark Mode transforms the entire CSS custom-property palette—dimming the lights with a flickering candlelit vignette, tarnishing the picture frames, sealing the exit door at `-3200px` with **5 spectral chains**, and unlocking interactive challenges on each canvas.
+Serve the repository folder with any static server and open the printed address:
 
-### 2. Five Distinct Interactive Painting Challenges
-Each artwork along the corridor features a unique puzzle mechanic that turns spooky visual design into functional learning:
-1. **UV Lantern Reveal (`uv-reveal`):** Sweep a cursor-controlled UV spotlight over the canvas to uncover hidden blood-ink dates and annotations.
-2. **Cursed Cipher Dial (`dial-align`):** Rotate concentric geometric rings on the painting until the glowing runes align.
-3. **Curator's Riddling Plaque (`riddle-plaque`):** Solve haunted riddles or customizable educator trivia questions.
-4. **Echoes in the Dark (`audio-sequence`):** Listen to (and watch via accessible candle flashes) a procedural 3-note Web Audio organ sequence and repeat it.
-5. **Chronological Relic Sort (`order-sort`):** Arrange spectral exhibition cards into the correct historical order to break the final seal.
-
-### 3. No-Code Educator & Facilitator Studio (Zero-Backend Sharing)
-* **Live Room Customizer:** Educators and team leaders can edit gallery titles, artwork URLs, Daylight Curator notes, and After-Hours puzzle prompts/answers directly in the browser.
-* **Built-In Presets:** Switch between *"19th-Century Art History Review"* and *"Team Onboarding & Icebreaker"* with one click.
-* **Shareable Hash URLs (`#room=...`) & JSON Export:** Custom rooms compress directly into a shareable URL—requiring **zero student logins, zero databases, and zero server setup** on restricted school Chromebooks.
-
----
-
-## 🎮 Controls
-
-| Action | Input |
-| :--- | :--- |
-| **Walk Forward / Backward** | `W` / `S`, `↑` / `↓` Arrow Keys, Mouse Wheel, or On-Screen HUD Buttons |
-| **Look Around** | Move Mouse Cursor |
-| **Inspect Painting / Solve Clue** | Click any framed artwork |
-| **Transform Museum (Costume Toggle)** | Click **Daylight / Hexhibit** in the top HUD |
-| **Close Modal** | `Escape` key or `×` button |
-
----
-
-## 🚀 Quick Start (Run Locally)
-
-Because **Hexhibit** will be built with zero-dependency static HTML5, CSS3, and ES6 Modules, no build step is required:
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com<your-username>/<your-repo-name>.git
-   cd <your-repo-name>
-   ```
-2. **Serve locally** (using VS Code Live Server, Kiro preview, or Python):
-   ```bash
-   python3 -m http.server 8080
-   ```
-3. Open `http://localhost:8080` in your browser.
-
----
-
-## 🤖 How Kiro Will Be Used
-
-All Kiro artifacts are committed in the `/.kiro` directory at the root of this repository:
-* **Steering Docs (`.kiro/steering/`):** Enforced zero-dependency static ES6 architecture, CSS 3D spatial invariants, and accessibility standards across every generation.
-* **Spec-Driven Development (`.kiro/specs/`):** Structured EARS requirements, modular design (`engine3d`, `puzzles`, `audio`, `editor`, `storage`), and incremental implementation tasks before writing feature code.
-* **Agent Hooks (`.kiro/hooks/`):** Automated JSON schema validation and property-based test checks on file edits.
-* **Property-Based Testing (PBT):** Verified critical game invariants—including exit-door lock guarantees across all `0..4` solved subsets, corridor `MIN_Z`/`MAX_Z` camera bounds, and lossless `#room=` URL compression round-trips.
-
----
-
-## 📁 Project Structure
-
-```text
-├── .kiro/                  # Kiro steering docs, specs, and agent hooks
-├── data/
-│   └── gallery-config.json # Default exhibition & 5-challenge escape room config
-├── js/
-│   ├── engine3d.js         # CSS 3D corridor rendering & smooth camera loop
-│   ├── puzzles.js          # 5 interactive painting challenge renderers
-│   ├── audio.js            # Procedural Web Audio synthesizer (footsteps, chimes, creaks)
-│   ├── editor.js           # No-code Educator & Facilitator Studio drawer
-│   └── storage.js          # localStorage, JSON import/export, & #room= URL compression
-├── index.html
-├── style.css
-├── LICENSE                 # MIT License
-└── README.md
+```bash
+python -m http.server 8080
 ```
 
----
+Then open `http://localhost:8080/`. Any other static server works too (for example VS Code Live Server).
 
-## 📄 License
+Opening `index.html` by double-click (`file://`) is not supported. The app loads its ES modules and the exhibition JSON with `fetch`, and browsers block both for `file://` pages.
 
-This project is open source under the [MIT License](LICENSE).
+## Tests
+
+```bash
+npm install
+node --test
+```
+
+`npm test` runs the same command. The tests cover the pure logic modules (exhibition validation, riddle answer normalization, state transitions and door code) and run in Node without a browser.
+
+`fast-check` is a dev-only dependency used by the property-based tests. The browser app never loads it, and `node_modules` is not needed to run the app.
+
+## Repository layout
+
+```text
+index.html                    # page shell
+assets/
+  css/style.css               # design tokens and all styles
+  js/script.js                # original prototype script
+  images/hexhibit-logo.png    # wordmark
+  images/favicon.png          # skull icon
+  hexhibit.mp4                # demo video
+advanced/landing.html         # separate landing page
+js/
+  main.js                     # boot and wiring
+  state.js                    # game state and transitions
+  corridor.js                 # 3D corridor, camera, stops
+  modal.js                    # dialogs
+  content.js                  # exhibition loading and validation
+  puzzles/
+    index.js                  # puzzle registry
+    riddle.js                 # riddle puzzle
+    choice.js                 # multiple choice puzzle
+content/
+  default-exhibition.json     # the built-in lesson
+  exhibition.schema.json      # documented exhibition schema
+test/
+  smoke.test.js               # Node tests
+package.json                  # test script and dev dependency
+.kiro/                        # steering and specs
+```
+
+## Author an exhibition
+
+All lesson text, artworks, puzzles, hints and messages live in a JSON file. Start from `content/default-exhibition.json`. The format is described in [`content/exhibition.schema.json`](content/exhibition.schema.json).
+
+An exhibition needs a `title`, a `messages` object and 3 to 6 `artworks`. Each artwork has one `puzzle`, and each puzzle has a single-character `digit`. The door code is the digits in artwork order.
+
+A `riddle` puzzle accepts a text answer and any listed variants:
+
+```json
+{
+  "id": "the-quiet-staircase",
+  "title": "The Quiet Staircase",
+  "artist": "E. Vance",
+  "year": "1907",
+  "medium": "Charcoal on paper",
+  "size": "60 x 45 cm",
+  "curatorNote": "Each step is drawn a little darker than the last.",
+  "lesson": "An echo is sound that bounces off a surface and returns to your ears.",
+  "colors": ["#4a4540", "#0d0c0b"],
+  "puzzle": {
+    "type": "riddle",
+    "prompt": "I speak without a mouth and answer only when you call. What am I?",
+    "answers": ["echo", "an echo"],
+    "hint": "Try calling out in an empty stairwell.",
+    "nudge": "Think of a sound that comes back to you.",
+    "explanation": "An echo is your own sound reflected back from a surface.",
+    "digit": "5"
+  }
+}
+```
+
+A `choice` puzzle lists `options` and the zero-based `correctIndex`:
+
+```json
+{
+  "type": "choice",
+  "prompt": "What mainly causes the ocean tides?",
+  "options": ["The Moon's gravity", "Strong winds", "Ocean currents", "The Sun's heat"],
+  "correctIndex": 0,
+  "hint": "It is the bright thing that watches the shore at night.",
+  "nudge": "Look up at the night sky for your answer.",
+  "explanation": "The Moon's gravity pulls on the ocean and raises the tides.",
+  "digit": "3"
+}
+```
+
+The `choice` object goes in an artwork's `puzzle` field, the same way as in the riddle example. If an exhibition fails validation, Hexhibit shows a friendly message and falls back to the built-in lesson.
+
+### Testing a different exhibition: `?exhibition=`
+
+To try your own file without editing the default, add `?exhibition=<relative path>` to the page address, for example `http://localhost:8080/?exhibition=content/my-lesson.json`.
+
+This is a testing aid, not a share link. It only loads files from the same site, so it does not let you send a lesson to someone else. The path is rejected, and the built-in lesson loads instead, if it:
+
+- is empty
+- is an absolute URL or has a URL scheme (such as `https:`)
+- is protocol-relative (starts with `//`)
+- contains a backslash
+- contains a `..` segment
+- contains percent-encoding, whitespace or control characters
+- resolves to a different origin
+
+If the path is valid but the file does not exist, the app falls back to the built-in lesson, and the browser console and network panel show a failed request for that file. This is expected.
+
+## Planned, not built yet
+
+These ideas are not part of the current version:
+
+- More puzzle types (chronological sorting, UV lantern reveal, dial alignment)
+- Educator Studio for editing a lesson in the browser
+- Shareable `#room=` links
+- Audio puzzles and sound
+
+## Built with Kiro
+
+- Steering files in `.kiro/steering/` set the product goals, the tech rules (plain HTML, CSS and ES modules, no framework or build step), the repository structure and the design system. Every change followed them.
+- Specs in `.kiro/specs/` hold the requirements, design and task list for the playable loop. Work proceeded task by task from the spec, and the tests check the pure logic against its acceptance criteria.
+
+## License
+
+Released under the [MIT License](LICENSE).

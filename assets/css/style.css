@@ -19,6 +19,7 @@
     --doorb: #08080a;
     --glow: rgba(14, 14, 16, .28);
     --bad: #c4222d;
+    --void-ink: #ff5a5f;
     --font: Inter, system-ui, sans-serif;
     --display: Antonio, "Bebas Neue", Impact, "Arial Narrow", sans-serif
 }
@@ -42,7 +43,14 @@
     --door: #241a17;
     --doorb: #120c0a;
     --glow: rgba(200, 30, 40, .5);
-    --bad: #ff5a5f
+    --bad: #ff5a5f;
+    --void-ink: #ff5a5f
+}
+
+/* Visible keyboard focus on every control, both themes. */
+:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px
 }
 
 * {
@@ -224,7 +232,9 @@ button {
     letter-spacing: .08em;
     color: var(--muted);
     display: flex;
-    align-items: center
+    align-items: center;
+    min-width: 300px;
+    margin-bottom: 20px;
 }
 
 .btn {
@@ -245,7 +255,10 @@ button {
 .btn.ghost {
     background: var(--panel);
     color: var(--ink);
-    border-color: var(--line)
+    border-color: var(--line);
+    min-width: fit-content;
+    height: auto;
+    margin-bottom: 20px;
 }
 
 /* 3D corridor */
@@ -345,7 +358,8 @@ button {
     padding: 1rem;
     font: 600 .9rem var(--display);
     letter-spacing: .3em;
-    color: var(--bad);
+    /* The void is dark in both themes, so use the dark-theme red (5.5:1) in both; light --bad is 2.9:1 here. */
+    color: var(--void-ink);
     background: radial-gradient(#3b0d11, #050203 85%)
 }
 
@@ -699,8 +713,8 @@ dl.plaque {
 
 /* Tap targets: every control is at least 44px high and wide. */
 .btn,.tog,.x,.banner-x,.card button,.card input:not([type=radio]),.opt {
-    min-height: 44px;
-    min-width: 44px
+    height: auto;
+    margin-bottom: 20px;
 }
 
 @media(prefers-reduced-motion:reduce) {
