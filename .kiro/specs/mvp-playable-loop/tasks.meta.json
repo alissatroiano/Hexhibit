@@ -113,6 +113,11 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795449298273
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449318020
       }
     ],
     "6. Create the puzzle registry skeleton (`js/puzzles/index.js`)": [
@@ -120,6 +125,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448902599
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449320608
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449347846
       }
     ],
     "7.1 Create `js/puzzles/riddle.js` and register it": [
@@ -127,6 +142,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448902816
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449350140
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449375955
       }
     ],
     "8.1 Create `js/puzzles/choice.js`, register it, and add its styles": [
@@ -134,6 +159,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448902972
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449378645
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449413776
       }
     ],
     "9. Checkpoint - Ensure all tests pass": [
@@ -141,6 +176,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448903161
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449416203
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449779108
       }
     ],
     "10.1 Convert the prototype script into `js/main.js`": [
@@ -148,6 +193,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448903320
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449781525
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449964432
       }
     ],
     "10.2 Extract the dialog into `js/modal.js`": [
@@ -155,6 +210,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448903484
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449969907
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450212777
       }
     ],
     "10.3 Boot from the exhibition with banner and fallback": [
@@ -162,6 +227,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448903644
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450215142
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450480710
       }
     ],
     "11.1 Create `js/corridor.js` with layout and gradient helpers": [
@@ -169,6 +244,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448903812
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450483385
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450568818
       }
     ],
     "11.3 Build the corridor, slots and counters from N": [
@@ -176,6 +261,11 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448903965
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450571203
       }
     ],
     "12.1 Wire `state.js` and a single `render()`": [
@@ -260,6 +350,34 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795449265280
+      }
+    ],
+    "5. Implement game state (`js/state.js`)": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449318160
+      }
+    ],
+    "7. Implement the riddle puzzle type": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449376243
+      }
+    ],
+    "8. Implement the choice puzzle type": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449414049
+      }
+    ],
+    "10. Move the app into ES modules and load the exhibition": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450481041
       }
     ]
   }

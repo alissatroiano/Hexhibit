@@ -69,8 +69,8 @@ Ground rules for every task:
 - [x] 4. Checkpoint - Ensure all tests pass
   - Run `node --test`. Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 5. Implement game state (`js/state.js`)
-  - [-] 5.1 Implement the state module
+- [x] 5. Implement game state (`js/state.js`)
+  - [x] 5.1 Implement the state module
     - Export `PHASES`, `createState(artworkIds)`, `themeFor(phase)`, `enterEscape`, `markSolved`, `submitCode`, `returnToGallery`, `markViewed` and `revealHint`, as specified in the design. Transitions mutate the single state object and return a boolean, except `submitCode`, which returns `"unsolved"`, `"wrong"` or `"correct"`.
     - Refuse transitions from the wrong phase with no change. `markSolved` rejects ids not in `artworkIds` and moves to `solved` when all are solved. `submitCode` returns `"unsolved"` in `escape` even for the right code, compares `input.trim()` exactly, and moves `solved → escaped` only on a match. `returnToGallery` clears all three sets and resets `currentIndex`. `revealHint` is idempotent.
     - No `document`, `window` or `localStorage` access.
@@ -90,14 +90,14 @@ Ground rules for every task:
     - In `test/state.test.js`, cover each transition, refusals from the wrong phase, `themeFor`, a foreign id passed to `markSolved`, leading-zero door codes, and the `escape → solved` step on the last solved puzzle.
     - _Requirements: 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9_
 
-- [~] 6. Create the puzzle registry skeleton (`js/puzzles/index.js`)
+- [x] 6. Create the puzzle registry skeleton (`js/puzzles/index.js`)
   - Export `hasType(type)` using `Object.hasOwn`, `getHandler(type)`, and `registry` (`{has, validate}`) over an initially empty `HANDLERS` map.
   - Document the handler contract in a comment: each file exports `type`, `validate(puzzle, path)`, `evaluate(puzzle, answer)` and `render(root, puzzle, ctx)`, and touches `document` only inside `render`.
   - Check in Node that `hasType("constructor")` and `hasType("__proto__")` are `false`.
   - _Requirements: 8.1, 8.3, 8.6_
 
-- [ ] 7. Implement the riddle puzzle type
-  - [~] 7.1 Create `js/puzzles/riddle.js` and register it
+- [x] 7. Implement the riddle puzzle type
+  - [x] 7.1 Create `js/puzzles/riddle.js` and register it
     - Export `type`, `normalize(s)` (trim, collapse whitespace, lower-case), `validate` (non-empty `answers` array whose entries are non-empty after normalization), `evaluate` (`"correct"` when the normalized answer equals a normalized accepted answer, otherwise `"incorrect"`, including empty input), and `render` (labeled `<input type="text" autocomplete="off">`, Enter calls `ctx.onSubmit`, returns `{getAnswer, focus}`).
     - Import it into `js/puzzles/index.js` and add it to `HANDLERS`.
     - Check in Node that `evaluate` and `validate` import and run without a browser.
@@ -112,8 +112,8 @@ Ground rules for every task:
     - In `test/riddle.test.js`, cover accepted variants, internal whitespace collapse, empty submission, a wrong answer, `validate` rejecting an empty `answers` array and a blank accepted answer, and a note that Unicode case mapping (for example `ß`) is outside Property 4.
     - _Requirements: 9.2, 9.3, 9.4, 9.6_
 
-- [ ] 8. Implement the choice puzzle type
-  - [~] 8.1 Create `js/puzzles/choice.js`, register it, and add its styles
+- [x] 8. Implement the choice puzzle type
+  - [x] 8.1 Create `js/puzzles/choice.js`, register it, and add its styles
     - Export `type`, `validate` (2 to 6 non-empty string `options`, integer `correctIndex` in range), `evaluate` (`"correct"` only when `Number.isInteger(answer) && answer === correctIndex`), and `render` (a `<fieldset>` with `<legend>` and one native radio per option inside a `<label class="opt">`, in order; `getAnswer()` returns the selected index or `null`).
     - Register it in `js/puzzles/index.js`.
     - Add `.opt` styles to `assets/css/style.css` using existing tokens only: 1px `--line` border, square corners, `min-height:44px`, `accent-color:var(--accent)`, and `.opt:has(input:checked)` with a 2px `--ink` border so selection is not color-only.
@@ -128,16 +128,16 @@ Ground rules for every task:
     - Assert `REQUIRED_MESSAGE_KEYS` equals the `messages.required` list in `content/exhibition.schema.json`.
     - _Requirements: 2.6, 2.7, 15.1_
 
-- [~] 9. Checkpoint - Ensure all tests pass
+- [x] 9. Checkpoint - Ensure all tests pass
   - Run `node --test`. Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 10. Move the app into ES modules and load the exhibition
-  - [~] 10.1 Convert the prototype script into `js/main.js`
+- [x] 10. Move the app into ES modules and load the exhibition
+  - [x] 10.1 Convert the prototype script into `js/main.js`
     - Move the contents of `assets/js/script.js` into `js/main.js` with no behavior change, load it with `<script type="module" src="js/main.js">`, and delete `assets/js/script.js` and the empty `assets/js/` folder. Fix any globals the module scope breaks.
     - Verify in a browser (static server) at desktop and phone widths that the prototype still plays end to end and the console is clean.
     - _Requirements: 1.1, 1.2, 1.3, 1.6, 1.10, 1.11_
 
-  - [~] 10.2 Extract the dialog into `js/modal.js`
+  - [x] 10.2 Extract the dialog into `js/modal.js`
     - Implement `initModal`, `openDialog(spec)`, `closeDialog`, `setStatus(text, kind)` and `isOpen`, and use them from `main.js` for the existing prototype dialogs.
     - Write all text with `textContent` and build the image as a square-cornered gradient `div`. Set `aria-modal="true"` and `aria-labelledby` to the heading. On open, save the opener, set `inert` on `.top`, `.viewport` and `.bar`, and focus the first interactive control. Wrap Tab and Shift+Tab inside the card as a fallback. Escape and a backdrop click close it. On close, remove `inert` and return focus to the opener (fallback `#next`).
     - Keep `#fb` as a permanent `role="status"` element. `setStatus` prefixes plain-text labels ("Not quite.", "Correct.", "Hint:") and shakes only for `bad` when reduced motion is off.
@@ -145,7 +145,7 @@ Ground rules for every task:
     - Verify at 390px, 768px and 1440px in both themes: focus enters and returns, Tab wraps, Escape closes, close button is at least 44px, no rounded image corners.
     - _Requirements: 5.6, 11.1, 11.10, 13.2, 13.3, 13.4, 13.5, 13.6, 13.10, 1.5_
 
-  - [~] 10.3 Boot from the exhibition with banner and fallback
+  - [x] 10.3 Boot from the exhibition with banner and fallback
     - In `index.html`, add a `#banner` (`role="status"`) and a `#fatal` container, and replace the hard-coded `0/6 solved` text with an empty element filled by script.
     - In `main.js`, resolve `?exhibition=` with `resolveExhibitionPath`, call `loadExhibition` with the real `registry`, and on an unsafe, unreachable or invalid custom file show the banner (first 3 field paths plus a "Show all" disclosure) and load the default. If the default also fails, show the `#fatal` screen. Wrap boot in try/catch and never call `console.error`.
     - Replace the hard-coded artworks, puzzles, answers, hints and dialog copy in `main.js` with values read from the loaded exhibition (plaque text, puzzle prompt, hint, nudge, explanation, `messages`). Until task 11.3 the corridor still uses its prototype geometry, so temporarily keep only the first N paintings the prototype lays out.
@@ -154,7 +154,7 @@ Ground rules for every task:
     - _Requirements: 1.7, 3.4, 3.5, 3.9, 3.10, 3.11, 2.8_
 
 - [ ] 11. Generate the corridor from the artwork count
-  - [~] 11.1 Create `js/corridor.js` with layout and gradient helpers
+  - [x] 11.1 Create `js/corridor.js` with layout and gradient helpers
     - Export the named constants (`STOP_SPACING`, `STOP_OFFSET`, `DOOR_GAP`, `DOOR_VIEW_DIST`, `EXIT_OVERSHOOT`, assist window, speeds, `WALL_X`, `TURN_DEG`), `computeLayout(n)` (pure) and `artGradient(colors)`. `computeLayout(6)` must give stops `[260, 710, 1160, 1610, 2060, 2510]`, door stop 2800, exit stop 2950, door z `-3200`.
     - Comment the reason for each 3D value.
     - Check with `node -e` that `computeLayout(6)` matches the prototype numbers and `computeLayout(3)` is shorter.
@@ -164,7 +164,7 @@ Ground rules for every task:
     - In `test/corridor-layout.test.js`, assert the N=6 prototype numbers, the N=3 stops, that the door is a constant distance beyond the last stop, and that the length grows with N.
     - _Requirements: 4.2, 4.5_
 
-  - [~] 11.3 Build the corridor, slots and counters from N
+  - [-] 11.3 Build the corridor, slots and counters from N
     - Implement `buildCorridor(exhibition, hooks, opts)` returning `{markDone, reset, setDoorOpenable, setLockLabel, walkTo, openDoor, goHome, destroy}`, and move the camera, mouse look, wheel, W/S/arrow, Back/Next, turn-to-face, "CLICK TO INSPECT" cue, click assist and door glow out of `main.js` into it, with comments explaining the camera and 3D math (including `--len` plane sizing).
     - Create N framed paintings alternating left then right, N stops, one door stop and the corridor length from `computeLayout`. Remove old paintings before rebuilding. Give paintings `tabindex="0"` and an `aria-label` with Enter activation, and give the door `tabindex="0"`, `role="button"`, an `aria-label` and Enter/Space activation. Activation opens the dialog immediately when within the click-assist window, otherwise walks to the stop and then opens it.
     - Render N door-code slots and `viewed` and `solved` counters with N as the total. Keep `corridor.js` free of puzzle types and phases.

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -14,32 +14,31 @@
 </head>
 <body>
 <div class="vig"></div>
+<div class="banner" id="banner" role="status" hidden></div>
+<div class="fatal" id="fatal" role="alert" hidden></div>
 <header class="top">
   <a class="brand" href="./" aria-label="Hexhibit home">
     <img class="mark" src="assets/images/favicon.png" alt="">
     <img class="wordmark" src="assets/images/hexhibit-logo.png" alt="Hexhibit">
   </a>
-  <div class="status"><span id="prog">0/6 solved</span><div class="slots" id="slots" aria-label="Door code"></div></div>
+  <div class="status"><span id="prog"></span><div class="slots" id="slots" aria-label="Door code"></div></div>
   <button class="tog" id="theme" aria-label="Toggle theme"></button>
 </header>
 <div class="viewport"><div class="world" id="world">
   <div class="floor"></div><div class="ceiling"></div><div class="wall wall-left"></div><div class="wall wall-right"></div>
-  <div class="wall wall-back"><div class="door-frame"><div class="door-void">ENTER THE ARCHIVE…</div>
+  <div class="wall wall-back"><div class="door-frame"><div class="door-void">ENTER THE ARCHIVEâ€¦</div>
     <div class="door" id="door"><div class="door-panel"></div><div class="door-panel"></div><span class="lock" id="lock">LOCKED</span></div></div></div>
 </div></div>
 <div class="bar">
-  <button class="btn ghost" id="prev" aria-label="Previous stop">← Back</button>
-  <span class="pill hint">W/S or scroll to walk · mouse to look · click a painting when you’re beside it</span>
-  <button class="btn" id="next" aria-label="Next stop">Next →</button>
+  <button class="btn ghost" id="prev" aria-label="Previous stop">â† Back</button>
+  <span class="pill hint">W/S or scroll to walk Â· mouse to look Â· click a painting when youâ€™re beside it</span>
+  <button class="btn" id="next" aria-label="Next stop">Next â†’</button>
 </div>
-<div class="modal" id="modal" aria-hidden="true"><div class="card" role="dialog" aria-modal="true">
+<div class="modal" id="modal" aria-hidden="true"><div class="card" role="dialog" aria-modal="true" aria-labelledby="mt">
   <button class="x" id="close" aria-label="Close">&times;</button>
-  <div id="mimg" class="art"></div><h2 id="mt"></h2><p class="meta" id="ma"></p><p class="lore" id="ml"></p>
-  <dl class="plaque" id="mp"></dl><div class="q" id="mq"></div>
-  <input id="ans" autocomplete="off" aria-label="Your answer">
-  <div class="row"><button class="btn" id="check">Check</button><button class="btn ghost" id="hintBtn">Hint</button></div>
+  <div id="mdyn"></div>
   <p class="fb" id="fb" role="status"></p>
 </div></div>
-<script src="assets/js/script.js"></script>
+<script type="module" src="js/main.js"></script>
 </body>
 </html>
