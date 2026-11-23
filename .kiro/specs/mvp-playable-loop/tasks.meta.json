@@ -1,0 +1,266 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Add test tooling": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448901200
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448908927
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448955801
+      }
+    ],
+    "2.1 Create `content/default-exhibition.json`": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448901565
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448958151
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449148553
+      }
+    ],
+    "2.2 Create `content/exhibition.schema.json`": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448901731
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449150952
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449188989
+      }
+    ],
+    "3.1 Implement validation helpers": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448901892
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449190921
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449233178
+      }
+    ],
+    "3.2 Implement `resolveExhibitionPath` and `loadExhibition`": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448902054
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449235428
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449265138
+      }
+    ],
+    "4. Checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448902234
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449271643
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449296205
+      }
+    ],
+    "5.1 Implement the state module": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448902413
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449298273
+      }
+    ],
+    "6. Create the puzzle registry skeleton (`js/puzzles/index.js`)": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448902599
+      }
+    ],
+    "7.1 Create `js/puzzles/riddle.js` and register it": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448902816
+      }
+    ],
+    "8.1 Create `js/puzzles/choice.js`, register it, and add its styles": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448902972
+      }
+    ],
+    "9. Checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448903161
+      }
+    ],
+    "10.1 Convert the prototype script into `js/main.js`": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448903320
+      }
+    ],
+    "10.2 Extract the dialog into `js/modal.js`": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448903484
+      }
+    ],
+    "10.3 Boot from the exhibition with banner and fallback": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448903644
+      }
+    ],
+    "11.1 Create `js/corridor.js` with layout and gradient helpers": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448903812
+      }
+    ],
+    "11.3 Build the corridor, slots and counters from N": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448903965
+      }
+    ],
+    "12.1 Wire `state.js` and a single `render()`": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448904120
+      }
+    ],
+    "12.2 Add the one-way switch and gallery door message": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448904283
+      }
+    ],
+    "13.1 Open puzzles by type and check answers": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448904453
+      }
+    ],
+    "13.2 Add the single hint and the solved-artwork view": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448904633
+      }
+    ],
+    "14.1 Door dialog and escape sequence": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448904791
+      }
+    ],
+    "14.2 Escaped dialog and return to the gallery": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448904949
+      }
+    ],
+    "15.1 Reduced motion and tap targets": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448905133
+      }
+    ],
+    "15.2 Responsive, contrast and no-emoji pass": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448905301
+      }
+    ],
+    "16. Update the README": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448905482
+      }
+    ],
+    "17. Final checkpoint - Ensure all tests pass and the loop works": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795448905653
+      }
+    ],
+    "2. Create the exhibition data and schema": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449189219
+      }
+    ],
+    "3. Implement the exhibition loader (`js/content.js`)": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795449265280
+      }
+    ]
+  }
+}

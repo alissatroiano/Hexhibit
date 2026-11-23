@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hexhibit.local/content/exhibition.schema.json",
+  "title": "Hexhibit Exhibition",
+  "description": "One Hexhibit lesson: a title, seven required messages, and 3 to 6 artworks that each own exactly one puzzle. The door code is the puzzle digits in artwork order. The runtime validator in js/content.js enforces these rules; this schema documents them for authors and editors. The ?exhibition=<relative path> URL parameter loads an exhibition from a same-site relative path. It is a testing aid and is not a share link.",
+  "type": "object",
+  "required": ["title", "messages", "artworks"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Exhibition title."
+    },
+    "messages": {
+      "type": "object",
+      "description": "Exhibition-specific dialog copy. All seven keys are required strings.",
+      "required": [
+        "enterEscape",
+        "doorLocked",
+        "doorUnlocked",
+        "staffOnly",
+        "escaped",
+        "doorNudge",
+        "digitsFound"
+      ],
+      "properties": {
+        "enterEscape": {
+          "type": "string",
+          "description": "Body of the enter-escape-room confirmation."
+        },
+        "doorLocked": {
+          "type": "string",
+          "description": "Body of the locked-door dialog."
+        },
+        "doorUnlocked": {
+          "type": "string",
+          "description": "Prompt shown when the door is activated after escaping."
+        },
+        "staffOnly": {
+          "type": "string",
+          "description": "Gallery-mode door dialog text."
+        },
+        "escaped": {
+          "type": "string",
+          "description": "Body of the escaped dialog."
+        },
+        "doorNudge": {
+          "type": "string",
+          "description": "Shown when a wrong door code is submitted."
+        },
+        "digitsFound": {
+          "type": "string",
+          "description": "Progress text. May contain the placeholders {found} and {total}."
+        }
+      }
+    },
+    "artworks": {
+      "type": "array",
+      "description": "3 to 6 artworks. Corridor length, code length and counters follow from the count. Ids must be unique (enforced at runtime).",
+      "minItems": 3,
+      "maxItems": 6,
+      "items": { "$ref": "#/$defs/artwork" }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "artwork": {
+      "type": "object",
+      "description": "One framed painting with plaque details, a lesson and one puzzle. Unknown optional fields are allowed. Images are generated gradients from colors; no image data is embedded.",
+      "required": [
+        "id",
+        "title",
+        "artist",
+        "year",
+        "medium",
+        "size",
+        "curatorNote",
+        "lesson",
+        "colors",
+        "puzzle"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique artwork id. Also used as the puzzle id."
+        },
+        "title": { "type": "string" },
+        "artist": { "type": "string" },
+        "year": {
+          "type": "string",
+          "description": "A string so values such as \"c. 1884\" work."
+        },
+        "medium": { "type": "string" },
+        "size": { "type": "string" },
+        "curatorNote": { "type": "string" },
+        "lesson": { "type": "string" },
+        "colors": {
+          "type": "array",
+          "description": "Two 6-digit CSS hex colors for the generated gradient image.",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          }
+        },
+        "puzzle": { "$ref": "#/$defs/puzzle" }
+      },
+      "additionalProperties": true
+    },
+    "puzzle": {
+      "type": "object",
+      "description": "A puzzle with common fields plus fields specific to its type. Unknown optional fields are allowed.",
+      "required": ["type", "prompt", "hint", "nudge", "explanation", "digit"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Puzzle type registered in js/puzzles/index.js. This spec ships \"riddle\" and \"choice\"."
+        },
+        "prompt": { "type": "string" },
+        "hint": {
+          "type": "string",
+          "description": "The single free hint."
+        },
+        "nudge": {
+          "type": "string",
+          "description": "Short helpful message after a wrong answer."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "One line on why the correct answer works."
+        },
+        "digit": {
+          "type": "string",
+          "pattern": "^[0-9]$",
+          "description": "Single character 0 to 9 that this puzzle contributes to the door code."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "type": { "const": "riddle" } },
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["answers"],
+            "properties": {
+              "answers": {
+                "type": "array",
+                "description": "Accepted answers. Compared after trim, whitespace collapse and lower-casing. Each must be non-empty after normalizing.",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "\\S"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "type": { "const": "choice" } },
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["options", "correctIndex"],
+            "properties": {
+              "options": {
+                "type": "array",
+                "description": "Selectable options, shown in the order given.",
+                "minItems": 2,
+                "maxItems": 6,
+                "items": {
+                  "type": "string",
+                  "pattern": "\\S"
+                }
+              },
+              "correctIndex": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Zero-based index into options. Must be less than options.length (enforced at runtime)."
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": true
+    }
+  }
+}

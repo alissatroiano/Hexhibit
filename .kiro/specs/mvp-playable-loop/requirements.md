@@ -82,7 +82,7 @@ These findings come from reading the prototype and the steering files, and they 
 
 1. THE Hexhibit SHALL provide `index.html` at the repository root linking to the stylesheet at `assets/css/style.css`, and SHALL provide the ES modules `js/main.js`, `js/state.js`, `js/corridor.js`, `js/modal.js`, `js/content.js`, and `js/puzzles/index.js`.
 2. THE Hexhibit SHALL load `js/main.js` from `index.html` with `<script type="module">` and SHALL use no framework, bundler, build step, or runtime dependency. The only permitted added package is the dev-only test dependency in Requirement 15.
-3. THE Hexhibit SHALL keep `assets/hexhibit-logo.png` and `assets/favicon.png` at their current paths with their current file names.
+3. THE Hexhibit SHALL keep the logo and favicon at `assets/images/hexhibit-logo.png` and `assets/images/favicon.png` with their current file names, and `index.html` SHALL reference them at those paths.
 4. THE Hexhibit SHALL reuse the existing CSS custom properties, fonts, and component styles from the prototype stylesheet without new colors, fonts, or component styles.
 5. WHEN a new CSS token is needed, THE Hexhibit SHALL define the token for both `light` and `dark` themes in `assets/css/style.css`.
 6. THE Hexhibit SHALL keep the following prototype behaviors: Corridor perspective and camera easing, W/S/arrow/wheel/Back/Next walking, mouse look, turning to face the Artwork at a Stop, the "CLICK TO INSPECT" cue, click assist near an Artwork, door glow, door swing, and the theme toggle button.

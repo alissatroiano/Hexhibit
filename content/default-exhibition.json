@@ -1,0 +1,75 @@
+{
+  "title": "The Corridor Remembers",
+  "messages": {
+    "enterEscape": "The lights will dim and the doors will seal behind you. Everything you studied in the gallery will help you find your way out. Step inside?",
+    "doorLocked": "The lock is cold and patient. Solve each painting's puzzle to uncover the digits of the code.",
+    "doorUnlocked": "The door stands open. The corridor remembers you fondly.",
+    "staffOnly": "The permanent archive is closed to visitors. Gallery hours: 10am to 6pm daily.",
+    "escaped": "The door swings wide and the evening air feels wonderful. The corridor will remember what you learned.",
+    "doorNudge": "The lock does not stir. Check the digits and their order.",
+    "digitsFound": "You have found {found} of {total} digits."
+  },
+  "artworks": [
+    {
+      "id": "the-patient-watcher",
+      "title": "The Patient Watcher",
+      "artist": "Unknown",
+      "year": "c. 1884",
+      "medium": "Oil on canvas",
+      "size": "92 x 76 cm",
+      "curatorNote": "Placeholder note: notice how the sitter's gaze seems to follow you down the hall.",
+      "lesson": "Placeholder lesson: a keyboard has many keys, yet it unlocks no door. Riddles often describe a thing by what it has and what it lacks.",
+      "colors": ["#7a1f2b", "#120609"],
+      "puzzle": {
+        "type": "riddle",
+        "prompt": "I have keys but no locks. What am I?",
+        "answers": ["keyboard", "a keyboard"],
+        "hint": "You are probably touching one right now.",
+        "nudge": "Think about what sits under your hands as you type.",
+        "explanation": "A keyboard has keys, yet nothing for them to unlock.",
+        "digit": "7"
+      }
+    },
+    {
+      "id": "lantern-at-low-tide",
+      "title": "Lantern at Low Tide",
+      "artist": "M. Alder",
+      "year": "1921",
+      "medium": "Watercolor on paper",
+      "size": "40 x 55 cm",
+      "curatorNote": "Placeholder note: the painter used a single lantern to light the whole shoreline.",
+      "lesson": "Placeholder lesson: the Moon's pull on the ocean causes tides, so the water rises and falls twice a day.",
+      "colors": ["#2b4a5e", "#0a1218"],
+      "puzzle": {
+        "type": "choice",
+        "prompt": "What mainly causes the ocean tides?",
+        "options": ["The Moon's gravity", "Strong winds", "Ocean currents", "The Sun's heat"],
+        "correctIndex": 0,
+        "hint": "It is the bright thing that watches the shore at night.",
+        "nudge": "Look up at the night sky for your answer.",
+        "explanation": "The Moon's gravity pulls on the ocean and raises the tides.",
+        "digit": "3"
+      }
+    },
+    {
+      "id": "the-quiet-staircase",
+      "title": "The Quiet Staircase",
+      "artist": "E. Vance",
+      "year": "1907",
+      "medium": "Charcoal on paper",
+      "size": "60 x 45 cm",
+      "curatorNote": "Placeholder note: each step is drawn a little darker than the last.",
+      "lesson": "Placeholder lesson: an echo is sound that bounces off a surface and returns to your ears.",
+      "colors": ["#4a4540", "#0d0c0b"],
+      "puzzle": {
+        "type": "riddle",
+        "prompt": "I speak without a mouth and answer only when you call. What am I?",
+        "answers": ["echo", "an echo"],
+        "hint": "Try calling out in an empty stairwell.",
+        "nudge": "Think of a sound that comes back to you.",
+        "explanation": "An echo is your own sound reflected back from a surface.",
+        "digit": "5"
+      }
+    }
+  ]
+}
