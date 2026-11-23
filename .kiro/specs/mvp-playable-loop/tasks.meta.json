@@ -266,6 +266,11 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795450571203
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450714609
       }
     ],
     "12.1 Wire `state.js` and a single `render()`": [
@@ -273,6 +278,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448904120
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450716865
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450786324
       }
     ],
     "12.2 Add the one-way switch and gallery door message": [
@@ -280,6 +295,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448904283
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450788261
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450832524
       }
     ],
     "13.1 Open puzzles by type and check answers": [
@@ -287,6 +312,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448904453
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450834799
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450869183
       }
     ],
     "13.2 Add the single hint and the solved-artwork view": [
@@ -294,6 +329,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448904633
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450871569
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450926929
       }
     ],
     "14.1 Door dialog and escape sequence": [
@@ -301,6 +346,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448904791
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450929114
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450965279
       }
     ],
     "14.2 Escaped dialog and return to the gallery": [
@@ -308,6 +363,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448904949
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450967522
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795451010303
       }
     ],
     "15.1 Reduced motion and tap targets": [
@@ -315,6 +380,16 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448905133
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795451012731
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795451095941
       }
     ],
     "15.2 Responsive, contrast and no-emoji pass": [
@@ -322,6 +397,11 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795448905301
+      },
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795451098425
       }
     ],
     "16. Update the README": [
@@ -378,6 +458,34 @@
         "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
         "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
         "timestamp": 1795450481041
+      }
+    ],
+    "11. Generate the corridor from the artwork count": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450714854
+      }
+    ],
+    "12. Drive the app from the state machine": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450832741
+      }
+    ],
+    "13. Puzzle dialog through the registry": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795450927138
+      }
+    ],
+    "14. Door code, escape and return": [
+      {
+        "executionId": "dd65ee42-f43a-4552-a01a-3053fedc4e60",
+        "chatSessionId": "sess_fdad43ba-8186-4672-bef4-e8c7fd237208",
+        "timestamp": 1795451010713
       }
     ]
   }

@@ -153,7 +153,7 @@ Ground rules for every task:
     - Verify in a browser: default loads; `?exhibition=content/missing.json`, `?exhibition=https://x.test/a.json` and `?exhibition=../x.json` show the banner and load the default with no uncaught errors (a browser network line for the 404 is expected).
     - _Requirements: 1.7, 3.4, 3.5, 3.9, 3.10, 3.11, 2.8_
 
-- [ ] 11. Generate the corridor from the artwork count
+- [x] 11. Generate the corridor from the artwork count
   - [x] 11.1 Create `js/corridor.js` with layout and gradient helpers
     - Export the named constants (`STOP_SPACING`, `STOP_OFFSET`, `DOOR_GAP`, `DOOR_VIEW_DIST`, `EXIT_OVERSHOOT`, assist window, speeds, `WALL_X`, `TURN_DEG`), `computeLayout(n)` (pure) and `artGradient(colors)`. `computeLayout(6)` must give stops `[260, 710, 1160, 1610, 2060, 2510]`, door stop 2800, exit stop 2950, door z `-3200`.
     - Comment the reason for each 3D value.
@@ -164,60 +164,60 @@ Ground rules for every task:
     - In `test/corridor-layout.test.js`, assert the N=6 prototype numbers, the N=3 stops, that the door is a constant distance beyond the last stop, and that the length grows with N.
     - _Requirements: 4.2, 4.5_
 
-  - [-] 11.3 Build the corridor, slots and counters from N
+  - [x] 11.3 Build the corridor, slots and counters from N
     - Implement `buildCorridor(exhibition, hooks, opts)` returning `{markDone, reset, setDoorOpenable, setLockLabel, walkTo, openDoor, goHome, destroy}`, and move the camera, mouse look, wheel, W/S/arrow, Back/Next, turn-to-face, "CLICK TO INSPECT" cue, click assist and door glow out of `main.js` into it, with comments explaining the camera and 3D math (including `--len` plane sizing).
     - Create N framed paintings alternating left then right, N stops, one door stop and the corridor length from `computeLayout`. Remove old paintings before rebuilding. Give paintings `tabindex="0"` and an `aria-label` with Enter activation, and give the door `tabindex="0"`, `role="button"`, an `aria-label` and Enter/Space activation. Activation opens the dialog immediately when within the click-assist window, otherwise walks to the stop and then opens it.
     - Render N door-code slots and `viewed` and `solved` counters with N as the total. Keep `corridor.js` free of puzzle types and phases.
     - Verify: the default (N=3) shows 3 paintings, 3 slots and a shorter corridor. Temporarily point `?exhibition=` at a 6-artwork test file and compare against the prototype geometry, adjusting the plane offset until they match (design open point 6). Remove or keep the test file under `content/` as a documented sample. Check 390px, 768px and 1440px.
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.6, 4.7, 4.9, 1.6, 1.7, 13.1_
 
-- [ ] 12. Drive the app from the state machine
-  - [~] 12.1 Wire `state.js` and a single `render()`
+- [x] 12. Drive the app from the state machine
+  - [x] 12.1 Wire `state.js` and a single `render()`
     - Create the state with `createState(ids)` after the exhibition loads. Delete every `hx-theme` read and write so the page always starts in `gallery`. Write `data-theme`, the theme button label and `disabled`, the progress text, the slots and the lock label only from one `render()` function.
     - Progress text: `<viewed>/<N> artworks viewed` in `gallery` and `<solved>/<N> solved` otherwise, with no timer or score. Call `markViewed` when a plaque opens.
     - Verify: reload during After-Hours always starts in the gallery, and no `localStorage` access remains (search the code).
     - _Requirements: 1.8, 1.9, 5.2, 5.3, 5.4, 6.3, 6.9, 7.6_
 
-  - [~] 12.2 Add the one-way switch and gallery door message
+  - [x] 12.2 Add the one-way switch and gallery door message
     - Theme button labels: "Enter escape room →" (enabled) in `gallery`, "Locked in" (disabled) in `escape` and `solved`, "Back to gallery" (enabled) in `escaped`.
     - Clicking in `gallery` opens a confirm dialog with `messages.enterEscape`, "Step inside" (calls `enterEscape`) and "Stay in the gallery" (closes). In `gallery`, activating the door shows `messages.staffOnly`.
     - Verify in a browser with the keyboard only: cancel keeps the gallery, confirm switches to the dark theme and the button reads "Locked in" and is disabled.
     - _Requirements: 5.5, 7.1, 7.2, 7.3, 7.4, 7.5, 6.4_
 
-- [ ] 13. Puzzle dialog through the registry
-  - [~] 13.1 Open puzzles by type and check answers
+- [x] 13. Puzzle dialog through the registry
+  - [x] 13.1 Open puzzles by type and check answers
     - In `escape` and `solved`, activating a painting opens the puzzle scene. Get the handler with `getHandler(puzzle.type)` (no branching on type names), call `render`, and give the dialog Check, Hint and Close controls.
     - On `incorrect`, show `puzzle.nudge` via `setStatus(..., "bad")` with the shake. On `correct`, call `markSolved`, keep the dialog open, hide the answer area and Hint, show `puzzle.explanation` and the digit via `setStatus(..., "ok")`, show a Continue button that closes the dialog, fill the matching slot, and call `corridor.markDone(i)`. An empty or missing answer shows the nudge. Attempts are unlimited.
     - Verify with the default exhibition: wrong riddle, empty riddle, wrong choice, no choice selected, then correct answers. Slots fill, counter reads `n/3 solved`, and the last solve moves the phase to `solved`.
     - _Requirements: 8.4, 8.5, 9.1, 9.5, 10.1, 10.4, 11.1, 11.2, 11.3, 11.4, 11.9, 11.10, 6.5_
 
-  - [~] 13.2 Add the single hint and the solved-artwork view
+  - [x] 13.2 Add the single hint and the solved-artwork view
     - The Hint button shows `puzzle.hint` via `setStatus(..., "hint")` and calls `revealHint`. Pressing it again shows the same text with no state change. One hint per puzzle, no cost, no progress block.
     - Reopening a solved artwork shows the explanation and digit, hides the answer area and Hint, and shows Continue.
     - Verify the keyboard flow (Tab to Hint, Enter, then Escape) and that focus returns to the painting.
     - _Requirements: 11.5, 11.6, 11.7, 11.8, 11.9, 13.1_
 
-- [ ] 14. Door code, escape and return
-  - [~] 14.1 Door dialog and escape sequence
+- [x] 14. Door code, escape and return
+  - [x] 14.1 Door dialog and escape sequence
     - In `escape` and `solved`, activating the door opens `messages.doorLocked`, `fillTemplate(messages.digitsFound, {found, total})` and a numeric keypad input (`inputmode="numeric"`) with a "Check" button.
     - On submit, call `submitCode(state, input, doorCode)`. `"unsolved"` tells the player to solve every puzzle first. `"wrong"` shows `messages.doorNudge` with the shake. `"correct"` sets a `busy` flag, closes the dialog, changes LOCKED to UNLOCKED, walks to the exit stop, swings the door after `DOOR_SWING_DELAY`, then opens the escaped dialog (`messages.escaped`) after `ESCAPE_DIALOG_DELAY` and clears `busy`. While `busy`, ignore door activation and disable the theme button. No results screen, score or recap.
     - Verify: wrong code, right code too early (phase `escape`), then the full solve and a correct code.
     - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.8, 6.6_
 
-  - [~] 14.2 Escaped dialog and return to the gallery
+  - [x] 14.2 Escaped dialog and return to the gallery
     - The escaped dialog offers "Return to the gallery" and "Stay a moment". "Stay a moment" closes the dialog and leaves the phase `escaped`. "Return to the gallery" calls `returnToGallery`, `corridor.reset()`, walks the camera to the start instantly, and re-renders (light theme, empty slots, no done marks, door closed and LOCKED).
     - In `escaped`, activating the door opens `messages.doorUnlocked` with the same two buttons, and the theme button "Back to gallery" does the same as "Return to the gallery".
     - Verify a second full loop works after returning, and the console stays empty through gallery → escaped → gallery.
     - _Requirements: 12.5, 12.6, 12.7, 7.5, 13.11_
 
 - [ ] 15. Motion, accessibility and responsive polish
-  - [~] 15.1 Reduced motion and tap targets
+  - [x] 15.1 Reduced motion and tap targets
     - In `corridor.js`, listen to `matchMedia("(prefers-reduced-motion: reduce)")` live and set the camera directly to its target when it matches. Use short separate delay constants for the door and escaped dialog. In `assets/css/style.css`, disable `.world` transitions, the vignette flicker, the door swing and the shake under reduced motion.
     - Ensure every dialog button, input, option label, the close button, the theme button and Back/Next are at least 44px high and wide, adding `min-height` and `min-width` rules with existing tokens.
     - Verify with the browser's reduced-motion emulation: no flicker, no door swing, the camera jumps to its target, and wrong answers show text without a shake.
     - _Requirements: 13.6, 13.7, 11.11, 1.5_
 
-  - [~] 15.2 Responsive, contrast and no-emoji pass
+  - [-] 15.2 Responsive, contrast and no-emoji pass
     - Check every screen (gallery, plaque, puzzle, door, banner, fatal screen, escaped) at 390px, 768px and 1440px in both themes for no horizontal scroll, no clipped controls, the stacked top bar and hidden hint text on phones.
     - Check 4.5:1 contrast for body, muted and status text in both themes (adjust an existing token pair only if it fails, defining both themes), and that feedback always pairs text with color. Confirm no emoji in markup, JSON or JS.
     - Run a full keyboard-only playthrough with the console open and fix anything found.
