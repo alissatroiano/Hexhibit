@@ -2,7 +2,7 @@
 
 Hexhibit turns a classroom lesson into a haunted 3D museum escape room. It was built for Kiroween 2026 (Costume Contest category).
 
-By day (Daylight mode) the player walks a gallery corridor, inspects artworks and reads the plaques, which hold the lesson. After dark (After-Hours mode) the same room is sealed, and each painting opens a puzzle built from what the player just studied. Each solved puzzle reveals one digit of the door code. Enter the code to escape, then optionally return to the gallery.
+By day (Daylight mode) the player walks a gallery corridor, inspects artworks and reads the plaques, which hold the lesson. After dark (After-Hours mode) the same room is sealed, and each painting opens a puzzle built from what the player just studied. Each solved puzzle reveals one digit of the door code. Enter the code to escape, then optionally return to the gallery. In Daylight mode the exit door stays closed, and its message (the `exitClosed` key under `messages`) tells the player to study the paintings first.
 
 Everything runs in the browser from static files. There are no accounts, no backend and no build step. The corridor uses CSS 3D transforms.
 
@@ -37,7 +37,7 @@ assets/
   css/style.css               # design tokens and all styles
   images/hexhibit-logo.png    # wordmark
   images/favicon.png          # skull icon
-  hexhibit.mp4                # demo video
+  videos/hexhibit.mp4         # demo video
   js/
     main.js                   # boot and wiring
     state.js                  # game state and transitions
@@ -126,6 +126,7 @@ If the path is valid but the file does not exist, the app falls back to the buil
 
 These ideas are not part of the current version:
 
+- Scoring (hint costs, points) and the results screen with a "what you learned" recap
 - More puzzle types (chronological sorting, UV lantern reveal, dial alignment)
 - Educator Studio for editing a lesson in the browser
 - Shareable `#room=` links

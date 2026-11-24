@@ -377,6 +377,7 @@ button {
     padding: 16px
 }
 
+.door.open .lock { visibility: hidden; }
 .door.open {
     transform: rotateY(-108deg)
 }
