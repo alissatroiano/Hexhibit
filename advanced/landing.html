@@ -1,108 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="assets/images/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
-
+  <title>Landing Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="landing.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
   <title>Hexhibit</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #000;
-      font-family: sans-serif;
-    }
-
-    .bg-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: 1;
-    }
-
-    .overlay {
-      position: fixed;
-      font-family: "Antonio", sans-serif;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      cursor: pointer;
-    }
-
-    .overlay.hidden {
-      display: none;
-    }
-
-    .prompt-btn {
-      padding: 16px 32px;
-      font-size: 1.25rem;
-      color: #fff;
-      background: transparent;
-      border: 2px solid #fff;
-      cursor: pointer;
-      letter-spacing: 1px;
-    font-family: "Antonio", sans-serif;
-    text-transform: uppercase;
-
-    }
-  </style>
 </head>
+
 <body>
 
-  <!-- Start / End Overlay -->
-  <div id="overlay" class="overlay">
-    <button id="promptBtn" class="prompt-btn">Click to Start</button>
-  </div>
 
-  <!-- Fullscreen Video -->
-  <video id="introVideo" class="bg-video" playsinline>
-    <source src="../assets/videos/hexhibit.mp4" type="video/mp4">
-  </video>
+<header class="nav">
+  <a class="logo" href="#">Hex<strong>hibit</strong></a>
+  <nav class="links">
+  </nav>
+  <div class="nav-r">
+       <a class="instructions" href="#"><label for="modal-toggle" class="open-btn">How to Play </label></a>
+
+<input type="checkbox" id="modal-toggle" class="modal-toggle" hidden>
+
+<div class="modal-backdrop">
+  <div class="modal-box">
+    <label for="modal-toggle" class="close-btn" aria-label="Close modal">&times;</label>
+    <h2>Hexhibit</h2>
+    <p>Hexhibit is an interactive, zero-dependency 3D web application designed for educators, students, and team facilitators. By day (Light Mode), it is a bright, peaceful art museum where visitors walk the corridor and study curated artworks. Flip the After-Hours (Dark Mode) switch, and the entire 3D gallery puts on a haunted costume—transforming into a locked Escape Room where every painting hides an interactive puzzle needed to shatter the chains sealing the exit door.
+</p>
+  </div>
+</div>
+  </div>
+</header>
+
+
+<section class="jumbotron">
+<div class="hero">
+  <h1 class="headline">
+    <span class="line">
+      <span class="hex">
+     Hex</span>
+       <em>hibit</em>
+      </span>
+  </h1>
+  <h2 class="subtitle">Art Gallery Escape Room</h2>
+</div>
+  <div class="row">
+    <a href="../index.html" target="_blank" class="cta-btn">Enter Hexhibit ></a>
+    </div>
+</section>
+
+
+<section class="reveal">
+  <div id="videoIntroWrapper" class="video-intro-wrapper">
+    <video id="introVideo" class="bg-video" autoplay playsinline>
+      <source src="../assets/videos/hexhibit.mp4" type="video/mp4">
+    </video>
+    <div id="videoClickLayer" class="video-click-layer"></div>
+    <button id="skipIntroBtn" class="skip-intro-btn">Skip Intro</button>
+  </div>
+</section>
 
   <script>
-    const overlay = document.getElementById('overlay');
-    const promptBtn = document.getElementById('promptBtn');
-    const video = document.getElementById('introVideo');
+    // Scroll-driven image expansion + magnetic button.
+    const reveal = document.querySelector('.reveal');
+    const media = document.querySelector('.media');
+    const nav = document.querySelector('.nav');
 
-    let videoFinished = false;
+    let target = 0, current = 0, raf = 0;
+    const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 
-    // 1. First click starts the video with sound; second click redirects after video ends
-    overlay.addEventListener('click', () => {
-      if (!videoFinished) {
-        overlay.classList.add('hidden');
-        video.muted = false;
-        video.play();
-      } else {
-        window.location.href = '../index.html'; // Change to your next HTML file
-      }
-    });
+    function measure() {
+      const r = reveal.getBoundingClientRect();
+      const span = reveal.offsetHeight - innerHeight;          // distance the image stays pinned
+      target = clamp(-r.top / (span * .7));                    // fully open at 70% of the pin
+      if (!raf) raf = requestAnimationFrame(tick);
+    }
+    function tick() {
+      current += (target - current) * .12;                     // light smoothing
+      if (Math.abs(target - current) < .0005) current = target;
+      media.style.setProperty('--p', current.toFixed(4));
 
-    // 2. When video ends, bring back the overlay as "Click to Enter"
-    video.addEventListener('ended', () => {
-      videoFinished = true;
-      promptBtn.textContent = 'Enter Hexhibit';
-      overlay.style.background = 'rgba(0, 0, 0, 0.4)'; // Lighter tint so final frame shows through
-      overlay.classList.remove('hidden');
+      raf = current === target ? 0 : requestAnimationFrame(tick);
+    }
+    // nav: hide on scroll down, show on scroll up; go white while over the photo
+    let lastY = scrollY;
+    function navState() {
+      const y = scrollY, r = media.getBoundingClientRect();
+      nav.classList.toggle('hidden', y > lastY && y > 120);
+      nav.classList.toggle('inverse', r.top < 40 && r.bottom > 70 && target > .82);
+      lastY = y;
+    }
+    addEventListener('scroll', () => { measure(); navState(); }, { passive: true });
+    addEventListener('resize', measure);
+    measure();
+
+    // Magnetic CTA
+    document.querySelectorAll('.btn').forEach(btn => {
+      const strength = 0.28;
+      btn.addEventListener('pointermove', e => {
+        const r = btn.getBoundingClientRect();
+        const x = e.clientX - (r.left + r.width / 2);
+        const y = e.clientY - (r.top + r.height / 2);
+        btn.style.setProperty('--mx', (x * strength).toFixed(1) + 'px');
+        btn.style.setProperty('--my', (y * strength).toFixed(1) + 'px');
+      });
+      btn.addEventListener('pointerleave', () => {
+        btn.style.setProperty('--mx', '0px');
+        btn.style.setProperty('--my', '0px');
+      });
     });
   </script>
 
+  <script>
+    const wrapper = document.getElementById('videoIntroWrapper');
+    const video = document.getElementById('introVideo');
+    const clickLayer = document.getElementById('videoClickLayer');
+    const skipBtn = document.getElementById('skipIntroBtn');
+
+    let hasPausedAtPrompt = false;
+
+    function revealHexhibit() {
+      video.pause();
+      wrapper.classList.add('fade-out');
+      setTimeout(() => wrapper.remove(), 850);
+    }
+
+    // Play the glitch outro with audio when clicked
+    clickLayer.addEventListener('click', () => {
+      clickLayer.style.display = 'none';
+      video.muted = false;
+      video.play();
+    });
+
+    // Smoothly reveal your Hexhibit landing page & Instructions when finished
+    video.addEventListener('ended', revealHexhibit);
+    skipBtn.addEventListener('click', revealHexhibit);
+
+  </script>
+
 </body>
+
 </html>

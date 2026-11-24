@@ -25,21 +25,21 @@
 }
 
 :root[data-theme=dark] {
-    --bg: #060607;
-    --wallA: #151416;
-    --wallB: #1e1b1e;
-    --floor1: #131113;
-    --floor2: #09080a;
-    --ceil: #08080a;
-    --frame: #2c2a2e;
-    --mat: #0d0d0f;
+    --bg: #0c0b0e;
+    --wallA: #1d1b20;
+    --wallB: #28242a;
+    --floor1: #18161a;
+    --floor2: #100f12;
+    --ceil: #121115;
+    --frame: #36333a;
+    --mat: #121216;
     --ink: #ece8e0;
     --muted: #8c8a92;
     --accent: #ece8e0;
     --panel: rgba(10, 10, 12, .86);
     --line: rgba(236, 232, 224, .2);
     --shadow: rgba(0, 0, 0, .85);
-    --vig: rgba(0, 0, 0, .9);
+    --vig: rgba(0, 0, 0, .62);
     --door: #241a17;
     --doorb: #120c0a;
     --glow: rgba(200, 30, 40, .5);
@@ -85,7 +85,20 @@ button {
 }
 
 [data-theme=dark] .vig {
-    animation: fl 6s infinite alternate
+  background: radial-gradient(
+        circle 380px at var(--mx, 50%) var(--my, 50%),
+        transparent 0%,
+        rgba(6, 6, 7, .32) 60%,
+        var(--vig) 100%
+    );
+}
+
+[data-theme=dark] .artwork {
+    box-shadow: 0 14px 30px var(--shadow), 0 0 18px rgba(236, 232, 224, .08);
+}
+
+[data-theme=dark] .art {
+    filter: contrast(1.06) brightness(.95);
 }
 
 @keyframes fl {
@@ -234,7 +247,6 @@ button {
     display: flex;
     align-items: center;
     min-width: 300px;
-    margin-bottom: 20px;
 }
 
 .btn {
@@ -258,7 +270,6 @@ button {
     border-color: var(--line);
     min-width: fit-content;
     height: auto;
-    margin-bottom: 20px;
 }
 
 /* 3D corridor */
@@ -302,11 +313,14 @@ button {
 
 .ceiling {
     width: 500px;
-    height: 3600px;
+    height: var(--len, 3600px);
     left: -250px;
-    top: -1800px;
-    background: var(--ceil);
-    /* transform: translateY(-180px) rotateX(-90deg) */
+    top: calc(var(--len, 3600px) / -2);
+    background: linear-gradient(var(--vig), transparent 18%, transparent 82%, var(--vig)), var(--ceil);
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    backface-visibility: hidden;
+    transform: translate3d(0, -180.5px, var(--zc, -1400px)) rotateX(-90deg)
 }
 
 .wall-left,
@@ -731,7 +745,7 @@ dl.plaque {
 /* Boot messages: banner for a rejected custom exhibition, fatal screen if even the default fails. */
 .banner {
     position: fixed;
-    top: 4.2rem;
+    top: calc(3.8rem + env(safe-area-inset-top, 0px));
     left: 50%;
     transform: translateX(-50%);
     z-index: 9;
