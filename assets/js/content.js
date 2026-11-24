@@ -19,7 +19,6 @@ const ARTWORK_STRING_FIELDS = [
 ];
 const PUZZLE_STRING_FIELDS = ["prompt", "hint", "nudge", "explanation"];
 const HEX_COLOR = /^#[0-9a-fA-F]{6}$/;
-const DIGIT = /^[0-9]$/;
 
 function isPlainObject(v) {
   return v !== null && typeof v === "object" && !Array.isArray(v);
@@ -56,9 +55,6 @@ function validatePuzzle(puzzle, path, registry, errors) {
   }
   checkString(puzzle, "type", path, errors);
   PUZZLE_STRING_FIELDS.forEach((k) => checkString(puzzle, k, path, errors));
-  if (typeof puzzle.digit !== "string" || !DIGIT.test(puzzle.digit)) {
-    errors.push({ path: `${path}.digit`, message: "must be a single digit string, 0 to 9" });
-  }
   if (typeof puzzle.type !== "string") return;
   if (!registry.has(puzzle.type)) {
     errors.push({ path: `${path}.type`, message: `unknown puzzle type "${puzzle.type}"` });
@@ -93,8 +89,8 @@ function validateArtwork(art, i, seenIds, registry, errors) {
 
 /**
  * Validate parsed exhibition JSON. Never throws; reports every problem.
- * Returns the input object untouched (so unknown optional fields survive)
- * and the door code beside it.
+ * Returns the input object untouched (so unknown optional fields survive).
+ * A legacy puzzle "digit" field is ignored; the door code is generated per game.
  */
 export function validateExhibition(data, registry) {
   const errors = [];
@@ -131,7 +127,7 @@ export function validateExhibition(data, registry) {
     }
 
     if (errors.length > 0) return { ok: false, errors };
-    return { ok: true, exhibition: data, doorCode: computeDoorCode(data.artworks) };
+    return { ok: true, exhibition: data };
   } catch (err) {
     errors.push({ path: "(root)", message: `unexpected validation failure: ${err && err.message}` });
     return { ok: false, errors };
@@ -185,11 +181,6 @@ export async function loadExhibition(path, fetchFn, registry) {
     return fail(`could not load or parse ${path}: ${err && err.message}`);
   }
   return validateExhibition(data, registry);
-}
-
-/** Door code is each artwork's puzzle digit, in artwork order. */
-export function computeDoorCode(artworks) {
-  return artworks.map((a) => a.puzzle.digit).join("");
 }
 
 /** Replace {found} and {total} placeholders. */

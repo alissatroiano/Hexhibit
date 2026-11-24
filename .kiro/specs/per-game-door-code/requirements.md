@@ -19,7 +19,7 @@ This spec also implements three spec 1 property-based tests that were never writ
 ### Assumptions
 
 - A. (Decided) One Door_Code per game, with one digit per artwork. The digit at index i belongs to the artwork at index i of the Exhibition. N equals the artwork count (3 to 6).
-- B. (Decided) A game starts when the player confirms "Step inside" and ends when the Phase becomes `escaped`. The Door_Code lives from the first moment to the return to the gallery, so that the escaped dialog and any reopened artwork stay consistent until the player leaves.
+- B. (Decided) A game starts when the player confirms "Enter Escape Room" and ends when the Phase becomes `escaped`. The Door_Code lives from the first moment to the return to the gallery, so that the escaped dialog and any reopened artwork stay consistent until the player leaves.
 - C. (Decided) The Door_Code is held only in the Game_State object in memory. It is never written to the URL, `localStorage`, the DOM (including attributes), the console, or the Exhibition.
 - D. (Decided) Digits are independent and uniform, but a Door_Code whose digits are all identical is never generated. The Code_Generator retries up to `MAX_ALL_SAME_RETRIES` (10) times, then fixes up the last digit, so it always terminates (Requirement 1.12). Repeated digits that are not all identical remain valid. Retrying slightly changes the distribution over codes (all-same codes are excluded), which is intended.
 - E. (Decided) The Random_Source is a caller-supplied function that returns one random byte (an integer from 0 to 255) per call. The Code_Generator maps bytes to digits by rejection sampling (bytes 250 to 255 are discarded and redrawn), which avoids modulo bias. The exact function signatures are left to design.

@@ -3,7 +3,7 @@
 import { initModal, openDialog, closeDialog, setStatus, isOpen } from "./modal.js";
 import { registry, getHandler } from "./puzzles/index.js";
 import { buildCorridor } from "./corridor.js";
-import { createState, themeFor, enterEscape, markSolved, submitCode, returnToGallery, markViewed, revealHint } from "./state.js";
+import { createState, themeFor, enterEscape, markSolved, submitCode, returnToGallery, markViewed, revealHint, revealedDigit } from "./state.js";
 import { DEFAULT_EXHIBITION_PATH, resolveExhibitionPath, loadExhibition, fillTemplate, wallFor } from "./content.js";
 
 // Door swing starts once the camera has walked to the exit stop; the escaped dialog follows the swing (~1.4s).
@@ -13,8 +13,13 @@ const DOOR_SWING_DELAY_REDUCED = 150, ESCAPE_DIALOG_DELAY_REDUCED = 400;
 const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 // Shown when the code is entered before every puzzle is solved (no matching key in the exhibition messages).
 const SOLVE_FIRST_TEXT = "Solve every puzzle first.";
+// Shown when the lock cannot be set (no crypto, or the generator threw).
+const LOCK_FAILED_TEXT = "The lock would not set. Please try again.";
+// Random_Source for the generator: one byte per call from the browser CSPRNG. No Math.random fallback:
+// if crypto is missing, enterEscape throws and the player stays in the gallery.
+const byteSource = () => { const b = new Uint8Array(1); window.crypto.getRandomValues(b); return b[0] };
 // Corridor camera, paintings and door live in assets/js/corridor.js; main.js owns state and dialogs.
-let EX = null, P = [], CODE = "", corridor = null;
+let EX = null, P = [], corridor = null;
 const $ = id => document.getElementById(id);
 // S is the single source of truth for phase, viewed and solved. Only render() writes the DOM that mirrors it.
 let S = null, busy = false, mode = null, cur = 0;
@@ -68,7 +73,7 @@ async function boot() {
         const out = await loadExhibitionOrDefault();
         if (out.fatal) { showFatal(out.fatal); return }
         if (out.bannerErrors) showBanner(out.bannerErrors);
-        EX = out.res.exhibition; CODE = out.res.doorCode; P = EX.artworks;
+        EX = out.res.exhibition; P = EX.artworks;
         document.title = `Hexhibit — ${EX.title}`;
         S = createState(P.map(a => a.id));
         corridor = buildCorridor(EX, { onArtwork: pick, onDoor: openDoorDialog }, { isBlocked: isOpen });
@@ -88,7 +93,7 @@ function render() {
     // A disabled button drops keyboard focus to <body>; hand it to Next so keyboard users keep their place.
     if (locked && document.activeElement === b) $("next").focus();
     s.replaceChildren();
-    P.forEach((p, i) => { const e = document.createElement("span"); e.className = "slot" + (isSolved(i) ? " on" : ""); e.textContent = isSolved(i) ? p.puzzle.digit : "•"; s.append(e) });
+    P.forEach((p, i) => { const d = revealedDigit(S, i), e = document.createElement("span"); e.className = "slot" + (d !== null ? " on" : ""); e.textContent = d ?? "•"; s.append(e) });
     s.style.display = dk ? "" : "none";
     $("prog").textContent = dk ? `${S.solved.size}/${n} solved` : `${S.viewed.size}/${n} artworks viewed`;
     const open = ph === "escaped"; corridor.setLockLabel(open ? "UNLOCKED" : "LOCKED"); corridor.setDoorOpenable(open)
@@ -116,7 +121,7 @@ function pick(i) {
         show(p.title, `${p.artist}, ${p.year}`, p.lesson, "Curator’s note: " + p.curatorNote, i, [["Medium", p.medium], ["Size", p.size], ["On view", wallFor(i)]], [closeBtn("Continue")], null, art); return
     }
     mode = "art";
-    if (isSolved(i)) { show(p.title, `${p.artist}, ${p.year}`, null, null, null, null, [closeBtn("Continue")], null, art); setStatus(`${pz.explanation} Digit ${pz.digit}.`, "ok"); return }
+    if (isSolved(i)) { show(p.title, `${p.artist}, ${p.year}`, null, null, null, null, [closeBtn("Continue")], null, art); setStatus(`${pz.explanation} Digit ${revealedDigit(S, i)}.`, "ok"); return }
     const handler = getHandler(pz.type), acts = [{ label: "Check", onClick: check }, { label: "Hint", ghost: true, onClick: hint }];
     show(p.title, `${p.artist}, ${p.year}`, null, null, null, null, acts, box => {
         const h = handler.render(box, pz, { idPrefix: `art${i}`, onSubmit: check }); getAns = h.getAnswer; return h
@@ -132,7 +137,7 @@ function openDoorDialog() {
 $("theme").onclick = () => {
     if (dark()) { if (S.phase === "escaped" && !busy) home(); return }
     mode = "enter"; show("Enter the escape room?", "There’s no going back", EX.messages.enterEscape, "Are you sure?", null, null,
-        [{ label: "Step inside", onClick: () => { closeDialog(); enterEscape(S); render() } }, { label: "Stay in the gallery", ghost: true, onClick: closeDialog }])
+        [{ label: "Step inside", onClick: () => { try { enterEscape(S, byteSource) } catch { setStatus(LOCK_FAILED_TEXT, "info"); return } closeDialog(); render() } }, { label: "Stay in the gallery", ghost: true, onClick: closeDialog }])
 };
 // Instant walk back: the world is re-rendered in the light theme, so easing across the corridor would show a lit, empty hall mid-flight.
 function home() { closeDialog(); returnToGallery(S); corridor.reset(); corridor.walkTo(0, { instant: true }); render() }
@@ -150,11 +155,11 @@ function check() {
             // Rebuild the dialog without the answer area, Check and Hint; the player dismisses it with Continue.
             const p = P[cur]; getAns = null;
             show(p.title, `${p.artist}, ${p.year}`, null, null, null, null, [closeBtn("Continue")]);
-            setStatus(`${pz.explanation} Digit ${pz.digit} revealed.`, "ok"); return
+            setStatus(`${pz.explanation} Digit ${revealedDigit(S, cur)} revealed.`, "ok"); return
         }
         setStatus(pz.nudge, "bad"); return
     }
-    const res = submitCode(S, typeof v === "string" ? v : "", CODE);
+    const res = submitCode(S, typeof v === "string" ? v : "");
     if (res === "unsolved") { setStatus(`${SOLVE_FIRST_TEXT} ${fillTemplate(m.digitsFound, { found: S.solved.size, total: n })}`, "bad"); return }
     if (res === "correct") {
         const reduced = prefersReducedMotion();
