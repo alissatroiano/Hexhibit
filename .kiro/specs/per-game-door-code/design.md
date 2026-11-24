@@ -216,14 +216,14 @@ Call-site changes (each is a read of the session code in place of a read from th
 | `pick()`, solved view | `` `... Digit ${pz.digit}.` `` | `` `... Digit ${revealedDigit(S, i)}.` `` |
 | `check()`, puzzle solved | `` `... Digit ${pz.digit} revealed.` `` | `` `... Digit ${revealedDigit(S, cur)} revealed.` `` (after `markSolved`) |
 | `check()`, door | `submitCode(S, input, CODE)` | `submitCode(S, input)` |
-| `$("theme").onclick`, "Step inside" | `closeDialog(); enterEscape(S); render()` | `try { enterEscape(S, byteSource) } catch { setStatus(LOCK_FAILED_TEXT, "bad"); return } closeDialog(); render()` |
+| `$("theme").onclick`, "Step inside" | `closeDialog(); enterEscape(S); render()` | `try { enterEscape(S, byteSource) } catch { setStatus(LOCK_FAILED_TEXT, "info"); return } closeDialog(); render()` |
 
 Leak rules for Requirement 2.8 and 3.4:
 
 - `main.js` never logs, never writes the code into an attribute, `data-*`, `aria-label`, `title` or the URL, and never calls `localStorage`/`sessionStorage`. The `catch` block binds no error and logs nothing.
 - The state object `S` is module-scoped (`let S` in an ES module), so it is not reachable as `window.S`.
 - The slot text and the dialog text receive only the return value of `revealedDigit`, which is `null` for unsolved artworks. An unsolved digit is never a string in any DOM-writing code path.
-- The `setStatus` call in the failure path sits inside the still-open confirm dialog, so the player can retry or choose "Stay in the gallery".
+- The `setStatus` call in the failure path uses the `"info"` kind, because the `"bad"` kind adds a "Not quite." prefix that would blame the player for a system fault. `modal.js` already supports `"info"` with an empty prefix. The call sits inside the still-open confirm dialog, so the player can retry or choose "Stay in the gallery".
 
 ### Schema and README changes (documentation only)
 
@@ -260,7 +260,7 @@ Six artworks. The three existing ones keep every field except `digit`, which is 
 
 Counts: 3 riddle, 3 choice (at least 2 of each). Ids are unique. No gore, no emoji. The three new artworks supply `artist`, `year`, `medium`, `size`, `curatorNote`, `lesson`, `hint`, `nudge`, `explanation` as placeholders. The existing wall alternation (`wallFor`) gives three paintings per wall. `computeLayout(6)` already reproduces the prototype geometry (stops 260 to 2510, door stop 2800, door z -3200), so no corridor code changes.
 
-### Ceiling and back-wall check (Requirements 6.7 and 6.8)
+### Ceiling and back-wall check (Requirements 6.7 to 6.9)
 
 This is a manual browser check, not an automated test. A DOM harness would need a new dependency.
 
@@ -273,7 +273,7 @@ Static reading of the current CSS (not a result):
 Procedure:
 
 1. Serve the repo with a static server (README command) and open `http://localhost:8080/` in Chrome.
-2. For each size 390x844, 768x1024, 1440x900 and each theme (light = gallery; dark = after pressing "Step inside"), 6 combinations in all:
+2. For each size 390x844 and 1440x900 and each theme (light = gallery; dark = after pressing "Step inside"), 4 combinations in all. At 768x1024 in both themes, check only that there is no horizontal scrollbar and no clipped control (Requirement 6.8); the slot, painting and surface checks are not required there:
    1. Confirm six slots (dark) and six paintings, no horizontal scrollbar, and no clipped control (nav, theme button, Back/Next, slots).
    2. Go to the first stop (press Next once) and then the door stop (press Next seven times in total).
    3. At each of the two positions, inspect the four surfaces. In DevTools, temporarily apply distinct backgrounds (floor, ceiling, left wall, right wall, back wall) to make gaps obvious. These edits are not saved and no repo file changes.
@@ -387,7 +387,7 @@ This also implements spec 1 criteria 9.2, 9.3, 9.6 and 9.7.
 | Code is all-identical | Retry up to 10 times, then fix-up. Never throws, always terminates, consumes at most `11 * N` accepted draws. |
 | `enterEscape` while phase is not `gallery` | Returns `false`; source not called; state unchanged. |
 | Generator throws inside `enterEscape` | Error propagates; `phase`, `doorCode`, `solved` unchanged. |
-| `window.crypto` missing or `getRandomValues` throws in the browser | `byteSource` throws, `enterEscape` throws, `main.js` catches without logging, keeps the confirm dialog open, and shows `LOCK_FAILED_TEXT` via `setStatus(..., "bad")`. The player can retry or stay in the gallery. No `Math.random` fallback. |
+| `window.crypto` missing or `getRandomValues` throws in the browser | `byteSource` throws, `enterEscape` throws, `main.js` catches without logging, keeps the confirm dialog open, and shows `LOCK_FAILED_TEXT` via `setStatus(..., "info")`. The `"info"` kind is already supported by `modal.js` (`STATUS_PREFIX.info` is `""`), so no "Not quite." prefix is added, no shake runs (only `bad` shakes), and the text uses the base `.fb` styling with no extra color rule. No `modal.js` or CSS change is needed. The player can retry or stay in the gallery. No `Math.random` fallback. |
 | `digit` present with any value | Ignored. No error, no warning. |
 | Spec 1 exhibition files that still contain `digit` | Load normally. |
 | Ceiling or other corridor surface fails the browser check | Recorded as a finding in `verification.md` and reported to the user. Not fixed under this spec. |
@@ -448,7 +448,7 @@ test/
 - Unsolved digits absent from the DOM: inspect `#slots` and the open dialog at several points; text shows only bullets and solved digits.
 - Console empty through a full loop; no storage entries created (Application tab).
 - Crypto failure path: with `window.crypto` stubbed, "Step inside" keeps the dialog open and shows the failure text.
-- The 6-combination size/theme check and the ceiling and back-wall check from Components and Interfaces.
+- The size/theme check (390 and 1440 in both themes in full; 768 only for horizontal scroll and clipping) and the ceiling and back-wall check from Components and Interfaces.
 - Spec 1 accessibility checks unchanged: focus trap, Escape, reduced motion, 44px targets, contrast (Requirement 8.14).
 
 ### Requirement 8 coverage
@@ -492,7 +492,7 @@ test/
 | 5.3 to 5.5, 5.7 | Components: `content.js`; Property 7 |
 | 5.6, 5.8 | Components: `content.js`; hygiene and content examples |
 | 6.1 to 6.6 | Default exhibition table; default-file examples |
-| 6.7, 6.8 | Ceiling and back-wall check; `verification.md` |
+| 6.7 to 6.9 | Ceiling and back-wall check; `verification.md` |
 | 7.1 to 7.4 | Schema and README changes |
 | 7.5, 7.6 | Requirements document (already in place); no design work |
 | 8.1 to 8.14 | Testing Strategy: Requirement 8 coverage |

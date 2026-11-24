@@ -26,8 +26,7 @@
         "answers": ["keyboard", "a keyboard"],
         "hint": "You are probably touching one right now.",
         "nudge": "Think about what sits under your hands as you type.",
-        "explanation": "A keyboard has keys, yet nothing for them to unlock.",
-        "digit": "7"
+        "explanation": "A keyboard has keys, yet nothing for them to unlock."
       }
     },
     {
@@ -47,8 +46,7 @@
         "correctIndex": 0,
         "hint": "It is the bright thing that watches the shore at night.",
         "nudge": "Look up at the night sky for your answer.",
-        "explanation": "The Moon's gravity pulls on the ocean and raises the tides.",
-        "digit": "3"
+        "explanation": "The Moon's gravity pulls on the ocean and raises the tides."
       }
     },
     {
@@ -67,8 +65,66 @@
         "answers": ["echo", "an echo"],
         "hint": "Try calling out in an empty stairwell.",
         "nudge": "Think of a sound that comes back to you.",
-        "explanation": "An echo is your own sound reflected back from a surface.",
-        "digit": "5"
+        "explanation": "An echo is your own sound reflected back from a surface."
+      }
+    },
+    {
+      "id": "the-cartographers-window",
+      "title": "The Cartographer's Window",
+      "artist": "R. Hale",
+      "year": "1889",
+      "medium": "Ink on vellum",
+      "size": "50 x 70 cm",
+      "curatorNote": "Placeholder note: the mapmaker painted the sunrise through his own window, always on the same side.",
+      "lesson": "Placeholder lesson: the Sun rises in the east and sets in the west, because Earth turns toward the east.",
+      "colors": ["#5e3a2b", "#150b07"],
+      "puzzle": {
+        "type": "choice",
+        "prompt": "In which direction does the Sun rise?",
+        "options": ["West", "North", "East", "South"],
+        "correctIndex": 2,
+        "hint": "Mapmakers mark it on the right-hand side of a standard map.",
+        "nudge": "Face the morning light and name the direction.",
+        "explanation": "Earth turns toward the east, so the Sun appears to rise there."
+      }
+    },
+    {
+      "id": "the-clock-without-hands",
+      "title": "The Clock Without Hands",
+      "artist": "Unknown",
+      "year": "c. 1902",
+      "medium": "Oil on panel",
+      "size": "64 x 64 cm",
+      "curatorNote": "Placeholder note: the face is complete, yet the hands were never painted.",
+      "lesson": "Placeholder lesson: a clock has hands that point to the hour and minute, though it cannot clap or wave.",
+      "colors": ["#3a3a4a", "#0c0c10"],
+      "puzzle": {
+        "type": "riddle",
+        "prompt": "I have hands but cannot clap. What am I?",
+        "answers": ["clock", "a clock"],
+        "hint": "You may glance at one on the wall before class.",
+        "nudge": "Think of something that tells you the time.",
+        "explanation": "A clock has hands that point to the time, but they cannot clap."
+      }
+    },
+    {
+      "id": "the-last-candle",
+      "title": "The Last Candle",
+      "artist": "S. Marrow",
+      "year": "1936",
+      "medium": "Gouache on board",
+      "size": "35 x 48 cm",
+      "curatorNote": "Placeholder note: a single candle is the only light in an otherwise empty hall.",
+      "lesson": "Placeholder lesson: a flame needs oxygen to keep burning, so a candle goes out when the air is cut off.",
+      "colors": ["#6b5a2e", "#100d05"],
+      "puzzle": {
+        "type": "choice",
+        "prompt": "What does a flame need to keep burning?",
+        "options": ["Nitrogen", "Oxygen", "Helium", "Carbon dioxide"],
+        "correctIndex": 1,
+        "hint": "It is the part of the air that you breathe in.",
+        "nudge": "A jar placed over a candle takes this away.",
+        "explanation": "Fire needs oxygen, so a flame goes out when the oxygen runs low."
       }
     }
   ]

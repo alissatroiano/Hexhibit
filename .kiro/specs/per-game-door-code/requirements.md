@@ -19,7 +19,7 @@ This spec also implements three spec 1 property-based tests that were never writ
 ### Assumptions
 
 - A. (Decided) One Door_Code per game, with one digit per artwork. The digit at index i belongs to the artwork at index i of the Exhibition. N equals the artwork count (3 to 6).
-- B. (Decided) A game starts when the player confirms "Step inside" and ends when the Phase becomes `escaped`. The Door_Code lives from the first moment to the return to the gallery, so that the escaped dialog and any reopened artwork stay consistent until the player leaves.
+- B. (Decided) A game starts when the player confirms "Enter Escape Room" and ends when the Phase becomes `escaped`. The Door_Code lives from the first moment to the return to the gallery, so that the escaped dialog and any reopened artwork stay consistent until the player leaves.
 - C. (Decided) The Door_Code is held only in the Game_State object in memory. It is never written to the URL, `localStorage`, the DOM (including attributes), the console, or the Exhibition.
 - D. (Decided) Digits are independent and uniform, but a Door_Code whose digits are all identical is never generated. The Code_Generator retries up to `MAX_ALL_SAME_RETRIES` (10) times, then fixes up the last digit, so it always terminates (Requirement 1.12). Repeated digits that are not all identical remain valid. Retrying slightly changes the distribution over codes (all-same codes are excluded), which is intended.
 - E. (Decided) The Random_Source is a caller-supplied function that returns one random byte (an integer from 0 to 255) per call. The Code_Generator maps bytes to digits by rejection sampling (bytes 250 to 255 are discarded and redrawn), which avoids modulo bias. The exact function signatures are left to design.
@@ -149,8 +149,9 @@ This spec also implements three spec 1 property-based tests that were never writ
 4. THE Default_Exhibition SHALL define all seven `messages` keys and SHALL contain no `digit` field.
 5. THE Default_Exhibition SHALL contain no gore and no emoji.
 6. WHEN the Default_Exhibition passes through the Exhibition_Loader, THE Exhibition_Loader SHALL accept it.
-7. WHEN the Default_Exhibition with 6 Artworks is viewed in a browser at 390px, 768px, and 1440px in both the light and dark themes, THE Hexhibit SHALL render six Slots and six paintings without horizontal scrolling or clipped controls, AND the floor, the ceiling, the left wall, and the right wall SHALL each be visible and SHALL each extend from the start of the corridor to the back wall that holds the door, with no gap between the end of any of them and the back wall, at the first stop and at the door stop.
-8. IF the ceiling is not visible as a ceiling, or does not extend to the back wall, in any of the six size and theme combinations of criterion 6.7, THEN THE verification report SHALL record it as a finding that names the combination and the cause, and SHALL NOT skip or omit the check.
+7. WHEN the Default_Exhibition with 6 Artworks is viewed in a browser at 390px and 1440px in both the light and dark themes, THE Hexhibit SHALL render six Slots and six paintings without horizontal scrolling or clipped controls, AND the floor, the ceiling, the left wall, and the right wall SHALL each be visible and SHALL each extend from the start of the corridor to the back wall that holds the door, with no gap between the end of any of them and the back wall, at the first stop and at the door stop.
+8. WHEN the Default_Exhibition is viewed in a browser at 768px in both the light and dark themes, THE Hexhibit SHALL show no horizontal scrolling and no clipped controls.
+9. IF the ceiling is not visible as a ceiling, or does not extend to the back wall, in any of the four size and theme combinations (390px and 1440px, light and dark) of criterion 6.7, THEN THE verification report SHALL record it as a finding that names the combination and the cause, and SHALL NOT skip or omit the check.
 
 ### Requirement 7: Documentation and superseded criteria
 
@@ -214,7 +215,7 @@ The spec 1 files stay as written, with one banner under each title (Assumption F
 
 ## Out of scope
 
-Letter or cipher codes, new puzzle types, real artwork images, saved codes or progress, shareable links that carry the code, scoring, any visual redesign, and fixing any corridor finding raised by Requirement 6.8 without a separate decision from the user.
+Letter or cipher codes, new puzzle types, real artwork images, saved codes or progress, shareable links that carry the code, scoring, any visual redesign, and fixing any corridor finding raised by Requirement 6.9 without a separate decision from the user.
 
 ## Open questions
 

@@ -2,9 +2,9 @@
 
 Hexhibit turns a classroom lesson into a haunted 3D museum escape room. It was built for Kiroween 2026 (Costume Contest category).
 
-By day (Daylight mode) the player walks a gallery corridor, inspects artworks and reads the plaques, which hold the lesson. After dark (After-Hours mode) the same room is sealed, and each painting opens a puzzle built from what the player just studied. Each solved puzzle reveals one digit of the door code. Enter the code to escape, then optionally return to the gallery. In Daylight mode the exit door stays closed, and its message (the `exitClosed` key under `messages`) tells the player to study the paintings first.
+By day (Daylight mode) the player walks a gallery corridor, inspects artworks and reads the plaques, which hold the lesson. After dark (After-Hours mode) the same room is sealed, and each painting opens a puzzle built from what the player just studied. Each solved puzzle reveals one digit of the door code, and the code is new for every game. Enter the code to escape, then optionally return to the gallery. In Daylight mode the exit door stays closed, and its message (the `exitClosed` key under `messages`) tells the player to study the paintings first.
 
-Everything runs in the browser from static files. There are no accounts, no backend and no build step. The corridor uses CSS 3D transforms.
+Reloading the page starts a fresh gallery, because there is no saved progress yet. Everything runs in the browser from static files. There are no accounts, no backend and no build step. The corridor uses CSS 3D transforms.
 
 ## Run it
 
@@ -25,7 +25,7 @@ npm install
 node --test
 ```
 
-`npm test` runs the same command. The tests cover the pure logic modules (exhibition validation, riddle answer normalization, state transitions and door code) and run in Node without a browser.
+`npm test` runs the same command. The tests cover the pure logic modules (exhibition validation, riddle answer normalization, state transitions and the door code generator) and run in Node without a browser.
 
 `fast-check` is a dev-only dependency used by the property-based tests. The browser app never loads it, and `node_modules` is not needed to run the app.
 
@@ -41,6 +41,7 @@ assets/
   js/
     main.js                   # boot and wiring
     state.js                  # game state and transitions
+    random.js                 # door code generator
     corridor.js               # 3D corridor, camera, stops
     modal.js                  # dialogs
     content.js                # exhibition loading and validation
@@ -53,7 +54,10 @@ content/
   default-exhibition.json     # the built-in lesson
   exhibition.schema.json      # documented exhibition schema
 test/
-  smoke.test.js               # Node tests
+  smoke.test.js               # smoke tests
+  random.test.js              # door code generator tests
+  state.test.js               # game state tests
+  helpers/                    # shared test sources and generators
 package.json                  # test script and dev dependency
 .kiro/                        # steering and specs
 ```
@@ -62,7 +66,9 @@ package.json                  # test script and dev dependency
 
 All lesson text, artworks, puzzles, hints and messages live in a JSON file. Start from `content/default-exhibition.json`. The format is described in [`content/exhibition.schema.json`](content/exhibition.schema.json).
 
-An exhibition needs a `title`, a `messages` object and 3 to 6 `artworks`. Each artwork has one `puzzle`, and each puzzle has a single-character `digit`. The door code is the digits in artwork order.
+An exhibition needs a `title`, a `messages` object and 3 to 6 `artworks`. Each artwork has one `puzzle`. The default exhibition has 6 artworks, and an exhibition may have 3 to 6.
+
+You do not author the door code. The game generates a new one each time the player steps inside, with one random digit per artwork (never all the same). The code is kept in memory only. It is not stored and it is not in the URL. A legacy `digit` field on a puzzle is optional, ignored if present, and never needs to be written.
 
 A `riddle` puzzle accepts a text answer and any listed variants:
 
@@ -83,8 +89,7 @@ A `riddle` puzzle accepts a text answer and any listed variants:
     "answers": ["echo", "an echo"],
     "hint": "Try calling out in an empty stairwell.",
     "nudge": "Think of a sound that comes back to you.",
-    "explanation": "An echo is your own sound reflected back from a surface.",
-    "digit": "5"
+    "explanation": "An echo is your own sound reflected back from a surface."
   }
 }
 ```
@@ -99,8 +104,7 @@ A `choice` puzzle lists `options` and the zero-based `correctIndex`:
   "correctIndex": 0,
   "hint": "It is the bright thing that watches the shore at night.",
   "nudge": "Look up at the night sky for your answer.",
-  "explanation": "The Moon's gravity pulls on the ocean and raises the tides.",
-  "digit": "3"
+  "explanation": "The Moon's gravity pulls on the ocean and raises the tides."
 }
 ```
 
