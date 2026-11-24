@@ -260,7 +260,7 @@ Six artworks. The three existing ones keep every field except `digit`, which is 
 
 Counts: 3 riddle, 3 choice (at least 2 of each). Ids are unique. No gore, no emoji. The three new artworks supply `artist`, `year`, `medium`, `size`, `curatorNote`, `lesson`, `hint`, `nudge`, `explanation` as placeholders. The existing wall alternation (`wallFor`) gives three paintings per wall. `computeLayout(6)` already reproduces the prototype geometry (stops 260 to 2510, door stop 2800, door z -3200), so no corridor code changes.
 
-### Ceiling and back-wall check (Requirements 6.7 and 6.8)
+### Ceiling and back-wall check (Requirements 6.7 to 6.9)
 
 This is a manual browser check, not an automated test. A DOM harness would need a new dependency.
 
@@ -273,7 +273,7 @@ Static reading of the current CSS (not a result):
 Procedure:
 
 1. Serve the repo with a static server (README command) and open `http://localhost:8080/` in Chrome.
-2. For each size 390x844, 768x1024, 1440x900 and each theme (light = gallery; dark = after pressing "Step inside"), 6 combinations in all:
+2. For each size 390x844 and 1440x900 and each theme (light = gallery; dark = after pressing "Step inside"), 4 combinations in all. At 768x1024 in both themes, check only that there is no horizontal scrollbar and no clipped control (Requirement 6.8); the slot, painting and surface checks are not required there:
    1. Confirm six slots (dark) and six paintings, no horizontal scrollbar, and no clipped control (nav, theme button, Back/Next, slots).
    2. Go to the first stop (press Next once) and then the door stop (press Next seven times in total).
    3. At each of the two positions, inspect the four surfaces. In DevTools, temporarily apply distinct backgrounds (floor, ceiling, left wall, right wall, back wall) to make gaps obvious. These edits are not saved and no repo file changes.
@@ -448,7 +448,7 @@ test/
 - Unsolved digits absent from the DOM: inspect `#slots` and the open dialog at several points; text shows only bullets and solved digits.
 - Console empty through a full loop; no storage entries created (Application tab).
 - Crypto failure path: with `window.crypto` stubbed, "Step inside" keeps the dialog open and shows the failure text.
-- The 6-combination size/theme check and the ceiling and back-wall check from Components and Interfaces.
+- The size/theme check (390 and 1440 in both themes in full; 768 only for horizontal scroll and clipping) and the ceiling and back-wall check from Components and Interfaces.
 - Spec 1 accessibility checks unchanged: focus trap, Escape, reduced motion, 44px targets, contrast (Requirement 8.14).
 
 ### Requirement 8 coverage
@@ -492,7 +492,7 @@ test/
 | 5.3 to 5.5, 5.7 | Components: `content.js`; Property 7 |
 | 5.6, 5.8 | Components: `content.js`; hygiene and content examples |
 | 6.1 to 6.6 | Default exhibition table; default-file examples |
-| 6.7, 6.8 | Ceiling and back-wall check; `verification.md` |
+| 6.7 to 6.9 | Ceiling and back-wall check; `verification.md` |
 | 7.1 to 7.4 | Schema and README changes |
 | 7.5, 7.6 | Requirements document (already in place); no design work |
 | 8.1 to 8.14 | Testing Strategy: Requirement 8 coverage |
