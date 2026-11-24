@@ -35,21 +35,20 @@ node --test
 index.html                    # page shell
 assets/
   css/style.css               # design tokens and all styles
-  js/script.js                # original prototype script
   images/hexhibit-logo.png    # wordmark
   images/favicon.png          # skull icon
   hexhibit.mp4                # demo video
+  js/
+    main.js                   # boot and wiring
+    state.js                  # game state and transitions
+    corridor.js               # 3D corridor, camera, stops
+    modal.js                  # dialogs
+    content.js                # exhibition loading and validation
+    puzzles/
+      index.js                # puzzle registry
+      riddle.js               # riddle puzzle
+      choice.js               # multiple choice puzzle
 advanced/landing.html         # separate landing page
-js/
-  main.js                     # boot and wiring
-  state.js                    # game state and transitions
-  corridor.js                 # 3D corridor, camera, stops
-  modal.js                    # dialogs
-  content.js                  # exhibition loading and validation
-  puzzles/
-    index.js                  # puzzle registry
-    riddle.js                 # riddle puzzle
-    choice.js                 # multiple choice puzzle
 content/
   default-exhibition.json     # the built-in lesson
   exhibition.schema.json      # documented exhibition schema

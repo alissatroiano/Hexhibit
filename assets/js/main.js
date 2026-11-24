@@ -13,7 +13,7 @@ const DOOR_SWING_DELAY_REDUCED = 150, ESCAPE_DIALOG_DELAY_REDUCED = 400;
 const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 // Shown when the code is entered before every puzzle is solved (no matching key in the exhibition messages).
 const SOLVE_FIRST_TEXT = "Solve every puzzle first.";
-// Corridor camera, paintings and door live in js/corridor.js; main.js owns state and dialogs.
+// Corridor camera, paintings and door live in assets/js/corridor.js; main.js owns state and dialogs.
 let EX = null, P = [], CODE = "", corridor = null;
 const $ = id => document.getElementById(id);
 // S is the single source of truth for phase, viewed and solved. Only render() writes the DOM that mirrors it.
@@ -93,7 +93,7 @@ function render() {
     $("prog").textContent = dk ? `${S.solved.size}/${n} solved` : `${S.viewed.size}/${n} artworks viewed`;
     const open = ph === "escaped"; corridor.setLockLabel(open ? "UNLOCKED" : "LOCKED"); corridor.setDoorOpenable(open)
 }
-// Modal (shell lives in js/modal.js)
+// Modal (shell lives in assets/js/modal.js)
 initModal($("modal"), { onClose: () => { mode = null; getAns = null } });
 let getAns = null;
 // Answer field builder for the door dialog.

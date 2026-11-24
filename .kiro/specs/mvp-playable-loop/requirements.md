@@ -13,7 +13,7 @@ These findings come from reading the prototype and the steering files, and they 
 **Layout discrepancies against the target layout in structure steering**
 
 - The prototype stylesheet lives at `assets/css/style.css`. The user decided it stays there for repo organization, so it differs from the flat `style.css` in the target layout on purpose. This spec does not move it, and `index.html` keeps linking to it.
-- The script lives at `assets/js/script.js` as one classic script, and the target is ES modules under `js/` (`main.js`, `state.js`, `corridor.js`, `puzzles/`, `modal.js`, `content.js`). Only the JavaScript moves into `js/`, and it moves only as individual tasks need it, with no big-bang refactor.
+- The script lives at `assets/js/script.js` as one classic script, and the target is ES modules under `assets/js/` (`main.js`, `state.js`, `corridor.js`, `puzzles/`, `modal.js`, `content.js`). Only the JavaScript moves into `assets/js/`, and it moves only as individual tasks need it, with no big-bang refactor.
 - `content/default-exhibition.json` and `content/exhibition.schema.json` do not exist.
 - `hexhibit-logo.png` and `favicon.png` were moved to `assets/images/hexhibit-logo.png` and `assets/images/favicon.png` by the user's decision. `assets/images/` is the home for images, and `index.html` now references them there.
 - `README.md` describes a different structure (`data/gallery-config.json`, `engine3d.js`, `audio.js`, `editor.js`, `storage.js`), five puzzle types, an educator studio, and share links. None of these exist or are in this spec, and the README does not match the structure steering.
@@ -40,7 +40,7 @@ These findings come from reading the prototype and the steering files, and they 
 - E. The "wall" shown on the plaque is derived from the side of the corridor (left is North Wall, right is South Wall), as in the prototype, and is not stored in the data.
 - F. Hints are free in this spec. Scoring is out of scope, so a hint has no point cost.
 - G. (Decided) The page always starts in Gallery_Mode on load. The prototype's `hx-theme` restore is removed, and no progress is saved. Progress restore is a later spec.
-- I. (Decided, final) The stylesheet stays at `assets/css/style.css` for repo organization and development best practice, and it is not moved to the repo root. Only the JavaScript moves into `js/` ES modules, incrementally, as tasks need it.
+- I. (Decided, final) The stylesheet stays at `assets/css/style.css` for repo organization and development best practice, and it is not moved to the repo root. Only the JavaScript moves into `assets/js/` ES modules, incrementally, as tasks need it.
 - J. (Decided) Pure logic (exhibition validation, riddle normalization, state transitions, door-code computation) is tested in Node with `node --test`. `fast-check` is the only added package, as a dev-only dependency in `package.json` that the browser never loads. The app keeps no build step.
 - H. Generic button labels such as "Check", "Hint", and "Continue" stay in the markup. Exhibition-specific copy lives in the JSON.
 
@@ -50,26 +50,26 @@ These findings come from reading the prototype and the steering files, and they 
 - **Exhibition**: A JSON document that holds the title, messages, artworks, puzzles, hints, explanations, and door-code digits for one playthrough.
 - **Default_Exhibition**: The file `content/default-exhibition.json`, which contains the placeholder content.
 - **Exhibition_Schema**: The documented description of the Exhibition format in `content/exhibition.schema.json`.
-- **Exhibition_Loader**: The module `js/content.js` that fetches, validates, and returns an Exhibition.
+- **Exhibition_Loader**: The module `assets/js/content.js` that fetches, validates, and returns an Exhibition.
 - **Artwork**: One framed painting entry in the Exhibition, with plaque details, a lesson, and one Puzzle.
 - **Plaque**: The Gallery_Mode dialog for an Artwork, showing title, artist, year, medium, size, wall, curator note, and lesson.
 - **Puzzle**: A question attached to an Artwork, with a `type`, a prompt, a hint, a nudge, an explanation, and a door-code digit.
-- **Puzzle_Registry**: The module `js/puzzles/index.js` that maps a Puzzle `type` string to a Puzzle_Handler.
-- **Puzzle_Handler**: A module under `js/puzzles/` that renders one Puzzle type and evaluates answers for that type.
+- **Puzzle_Registry**: The module `assets/js/puzzles/index.js` that maps a Puzzle `type` string to a Puzzle_Handler.
+- **Puzzle_Handler**: A module under `assets/js/puzzles/` that renders one Puzzle type and evaluates answers for that type.
 - **Riddle_Puzzle**: The Puzzle type `riddle`, which accepts a typed text answer.
 - **Choice_Puzzle**: The Puzzle type `choice`, which accepts one selected option from a list.
 - **Nudge**: The short helpful message shown after a wrong answer.
 - **Explanation**: The one-line statement of why the correct answer works, shown after a right answer.
 - **Hint**: The single piece of extra help attached to a Puzzle.
 - **Door_Code**: The string formed by concatenating the digits of all Puzzles in Artwork order.
-- **Game_State**: The single `state` object in `js/state.js` that holds the phase and all play progress.
+- **Game_State**: The single `state` object in `assets/js/state.js` that holds the phase and all play progress.
 - **Phase**: One of `gallery`, `escape`, `solved`, or `escaped`.
 - **Gallery_Mode**: The Daylight (light theme) mode in which the player studies Artworks. This is the `gallery` Phase.
 - **After_Hours_Mode**: The dark theme mode in which the player solves Puzzles. This covers the `escape` and `solved` Phases and the `escaped` Phase until the player returns.
 - **Corridor**: The CSS 3D world that holds the floor, ceiling, walls, framed Artworks, and the door.
 - **Stop**: A camera position in the Corridor beside one Artwork or at the door.
 - **Dialog**: The modal that shows Plaques, Puzzles, the door keypad, confirmations, and the escaped message.
-- **Pure_Logic_Module**: A module under `js/` that holds logic with no DOM or `localStorage` access at import time: exhibition validation, riddle normalization, state transitions, and Door_Code computation.
+- **Pure_Logic_Module**: A module under `assets/js/` that holds logic with no DOM or `localStorage` access at import time: exhibition validation, riddle normalization, state transitions, and Door_Code computation.
 - **Status_Region**: The element in the Dialog with `role="status"` that announces feedback.
 
 ## Requirements
@@ -80,8 +80,8 @@ These findings come from reading the prototype and the steering files, and they 
 
 #### Acceptance Criteria
 
-1. THE Hexhibit SHALL provide `index.html` at the repository root linking to the stylesheet at `assets/css/style.css`, and SHALL provide the ES modules `js/main.js`, `js/state.js`, `js/corridor.js`, `js/modal.js`, `js/content.js`, and `js/puzzles/index.js`.
-2. THE Hexhibit SHALL load `js/main.js` from `index.html` with `<script type="module">` and SHALL use no framework, bundler, build step, or runtime dependency. The only permitted added package is the dev-only test dependency in Requirement 15.
+1. THE Hexhibit SHALL provide `index.html` at the repository root linking to the stylesheet at `assets/css/style.css`, and SHALL provide the ES modules `assets/js/main.js`, `assets/js/state.js`, `assets/js/corridor.js`, `assets/js/modal.js`, `assets/js/content.js`, and `assets/js/puzzles/index.js`.
+2. THE Hexhibit SHALL load `assets/js/main.js` from `index.html` with `<script type="module">` and SHALL use no framework, bundler, build step, or runtime dependency. The only permitted added package is the dev-only test dependency in Requirement 15.
 3. THE Hexhibit SHALL keep the logo and favicon at `assets/images/hexhibit-logo.png` and `assets/images/favicon.png` with their current file names, and `index.html` SHALL reference them at those paths.
 4. THE Hexhibit SHALL reuse the existing CSS custom properties, fonts, and component styles from the prototype stylesheet without new colors, fonts, or component styles.
 5. WHEN a new CSS token is needed, THE Hexhibit SHALL define the token for both `light` and `dark` themes in `assets/css/style.css`.
@@ -89,8 +89,8 @@ These findings come from reading the prototype and the steering files, and they 
 7. WHEN the Exhibition_Loader returns an Exhibition, THE Hexhibit SHALL render the Corridor, Plaques, Puzzles, progress text, and Door_Code slots from that Exhibition, with no Artwork, puzzle, or answer text defined in any `.js` file.
 8. THE Hexhibit SHALL start in Gallery_Mode on every page load and SHALL NOT restore After_Hours_Mode from `localStorage`.
 9. THE Hexhibit SHALL function when `localStorage` is unavailable, and every `localStorage` access in the code SHALL sit inside a try/catch block.
-10. WHEN the JavaScript is moved into `js/` modules, THE Hexhibit SHALL render every screen with the same visuals as the prototype in both themes.
-11. THE Hexhibit SHALL move JavaScript from `assets/js/script.js` into `js/` ES modules incrementally, one task at a time, and SHALL remain playable after each task.
+10. WHEN the JavaScript is moved into `assets/js/` modules, THE Hexhibit SHALL render every screen with the same visuals as the prototype in both themes.
+11. THE Hexhibit SHALL move JavaScript from `assets/js/script.js` into `assets/js/` ES modules incrementally, one task at a time, and SHALL remain playable after each task.
 
 ### Requirement 2: Exhibition data file
 
@@ -196,7 +196,7 @@ These findings come from reading the prototype and the steering files, and they 
 2. THE Puzzle_Registry SHALL register the types `riddle` and `choice`.
 3. THE Puzzle_Handler contract SHALL define a render function that builds the answer area for a Puzzle and an evaluate function that returns a result of `correct` or `incorrect` for the player's input.
 4. WHEN a Puzzle Dialog is opened, THE Dialog SHALL obtain the Puzzle_Handler through the Puzzle_Registry using the Puzzle `type` and SHALL NOT branch on a specific type name.
-5. WHEN a new Puzzle_Handler file is added under `js/puzzles/` and registered in the Puzzle_Registry, THE Hexhibit SHALL support Puzzles of that type with no change to `js/corridor.js`.
+5. WHEN a new Puzzle_Handler file is added under `assets/js/puzzles/` and registered in the Puzzle_Registry, THE Hexhibit SHALL support Puzzles of that type with no change to `assets/js/corridor.js`.
 6. THE Puzzle_Registry SHALL expose a function that reports whether a type is registered, for use by the Exhibition_Loader.
 
 ### Requirement 9: Riddle puzzle

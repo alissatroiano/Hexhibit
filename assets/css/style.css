@@ -288,7 +288,7 @@ button {
     transform-style: preserve-3d
 }
 
-/* --len (plane length), --zc (plane centre z) and --door-z are set on .world by js/corridor.js.
+/* --len (plane length), --zc (plane centre z) and --door-z are set on .world by assets/js/corridor.js.
    Planes are centred on their own origin, so translating by --zc puts them where the corridor is.
    Fallbacks are the N=6 values. */
 .floor {

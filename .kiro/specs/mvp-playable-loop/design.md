@@ -9,7 +9,7 @@ What changes relative to the prototype:
 - All lesson content moves into `content/default-exhibition.json`, validated on load against rules documented in `content/exhibition.schema.json`. A bad exhibition falls back to the default with a visible banner.
 - The corridor is generated from the artwork count N (3 to 6). Corridor length, stop positions, door position, code length and counters all derive from N.
 - Game flow lives in one `state` object with four explicit transitions (`gallery → escape → solved → escaped`, then `escaped → gallery`).
-- Puzzles are plugged in through a registry. `riddle` and `choice` ship in this spec. Adding a type touches `js/puzzles/` only.
+- Puzzles are plugged in through a registry. `riddle` and `choice` ship in this spec. Adding a type touches `assets/js/puzzles/` only.
 - Logic that can be wrong without anyone noticing (validation, normalization, transitions, door code) is isolated in DOM-free modules and tested with `node --test` plus `fast-check` (dev-only).
 - Prototype defects called out in the requirements are fixed: no theme restore, no auto-close on a correct answer, `--bad` token instead of `#e5484d`, square image corners, focus trap and focus return, 44px tap targets, and camera easing under `prefers-reduced-motion`.
 
@@ -35,14 +35,14 @@ No web research was needed. The design rests on platform features already named 
 ```mermaid
 graph TD
   HTML[index.html] --> CSS[assets/css/style.css<br/>stays in place, not moved]
-  HTML --> MAIN[js/main.js]
-  MAIN --> CONTENT[js/content.js<br/>pure: validate, door code, path check]
-  MAIN --> STATE[js/state.js<br/>pure: state + transitions]
-  MAIN --> CORR[js/corridor.js<br/>DOM + 3D camera]
-  MAIN --> MODAL[js/modal.js<br/>DOM dialogs]
-  MAIN --> REG[js/puzzles/index.js<br/>registry]
-  REG --> RID[js/puzzles/riddle.js]
-  REG --> CHO[js/puzzles/choice.js]
+  HTML --> MAIN[assets/js/main.js]
+  MAIN --> CONTENT[assets/js/content.js<br/>pure: validate, door code, path check]
+  MAIN --> STATE[assets/js/state.js<br/>pure: state + transitions]
+  MAIN --> CORR[assets/js/corridor.js<br/>DOM + 3D camera]
+  MAIN --> MODAL[assets/js/modal.js<br/>DOM dialogs]
+  MAIN --> REG[assets/js/puzzles/index.js<br/>registry]
+  REG --> RID[assets/js/puzzles/riddle.js]
+  REG --> CHO[assets/js/puzzles/choice.js]
   MODAL --> REG
   CONTENT -. receives registry as argument .-> REG
   CONTENT --> JSON[(content/default-exhibition.json)]
@@ -104,7 +104,7 @@ sequenceDiagram
 
 ## Components and Interfaces
 
-### `js/content.js` (pure, except `loadExhibition`'s injected `fetch`)
+### `assets/js/content.js` (pure, except `loadExhibition`'s injected `fetch`)
 
 ```js
 export const DEFAULT_EXHIBITION_PATH = "content/default-exhibition.json";
@@ -158,7 +158,7 @@ Rules enforced, each reported with a field path such as `artworks[1].puzzle.digi
 
 A leading `/` (root-relative, same origin) is allowed; it is still same-site.
 
-### `js/state.js` (pure)
+### `assets/js/state.js` (pure)
 
 ```js
 export const PHASES = ["gallery","escape","solved","escaped"];
@@ -184,7 +184,7 @@ export function revealHint(state, id)           // escape or solved; id must be 
 
 `submitCode` compares `input.trim()` to `doorCode` exactly. The keypad input is `inputmode="numeric"` text, so leading zeros survive.
 
-### `js/puzzles/index.js` (registry)
+### `assets/js/puzzles/index.js` (registry)
 
 ```js
 import * as riddle from "./riddle.js";
@@ -201,7 +201,7 @@ export const registry = {                // shape expected by content.js
 
 `hasType` uses `Object.hasOwn`, so `"constructor"` and `"__proto__"` are not accepted as types.
 
-**Handler contract** (each file under `js/puzzles/` exports these):
+**Handler contract** (each file under `assets/js/puzzles/` exports these):
 
 ```js
 export const type = "riddle";
@@ -217,7 +217,7 @@ export function render(root, puzzle, ctx)   // builds answer area in `root`
 - `choice.js` `evaluate` returns `"correct"` iff `Number.isInteger(answer) && answer === puzzle.correctIndex`. `validate` requires `options` to be an array of 2 to 6 non-empty strings and `correctIndex` an integer in `[0, options.length)`.
 - `choice.render` builds a `<fieldset>` with `<legend>` and one native `<input type="radio">` inside a `<label>` per option, in order. Native radios give arrow-key navigation, and the checked dot plus a 2px border on the selected label means selection is not color-only (Requirement 10.6). `getAnswer()` returns the selected index or `null`.
 
-### `js/modal.js` (DOM)
+### `assets/js/modal.js` (DOM)
 
 One dialog shell, as in the prototype (`#modal`, `.card`, `.x`), driven by builders:
 
@@ -245,7 +245,7 @@ Scenes built on `openDialog` in `main.js`/`modal.js`: **plaque** (gallery), **pu
 
 In the `escaped` phase, activating the door opens the `doorUnlocked` message with "Return to the gallery" and "Stay a moment", the same buttons as the escaped dialog. The requirements define the `doorUnlocked` key but not this scene, so this is a design assumption (see Open points).
 
-### `js/corridor.js` (DOM + 3D)
+### `assets/js/corridor.js` (DOM + 3D)
 
 ```js
 export const STOP_SPACING = 450;      // z distance between paintings (matches prototype)
@@ -284,7 +284,7 @@ export function buildCorridor(exhibition, hooks, opts) -> corridor
 - Reduced motion: when `matchMedia("(prefers-reduced-motion: reduce)")` matches, the loop sets `d = td`, `yaw = ty`, `pitch = tp`, `fy = target` directly. The listener is live, so toggling the OS setting takes effect without reload.
 - `buildCorridor` removes previously created artwork elements first, so a fallback load after a failed one cannot duplicate paintings.
 
-### `js/main.js`
+### `assets/js/main.js`
 
 - Boots as in the sequence diagram, then wires: theme button, nav buttons, slots and counters, banner, and the scenes.
 - `render()` is the only function that writes chrome from state: theme attribute, theme button label and `disabled`, progress text (`<viewed>/<N> artworks viewed` or `<solved>/<N> solved`), slots (N slots; solved ones show the digit), and the lock label.
@@ -293,7 +293,7 @@ export function buildCorridor(exhibition, hooks, opts) -> corridor
 
 ### Markup and CSS changes
 
-`index.html`: the stylesheet link keeps pointing at `assets/css/style.css` (unchanged); `<script type="module" src="js/main.js">`; the hard-coded `0/6 solved` becomes empty text filled by `render()`; a `#banner` element (`role="status"`) and a `#fatal` container are added; the dialog card gets `aria-labelledby` and `#fb` keeps `role="status"`.
+`index.html`: the stylesheet link keeps pointing at `assets/css/style.css` (unchanged); `<script type="module" src="assets/js/main.js">`; the hard-coded `0/6 solved` becomes empty text filled by `render()`; a `#banner` element (`role="status"`) and a `#fatal` container are added; the dialog card gets `aria-labelledby` and `#fb` keeps `role="status"`.
 
 `assets/css/style.css` (edited in place, not moved to the repo root):
 
@@ -455,7 +455,7 @@ Pure logic gets unit and property tests in Node. Rendering, 3D and dialogs are U
 - Shared arbitraries in `test/helpers/arbitraries.js`:
   - `validExhibition`: N from 3 to 6; ids from `fc.uniqueArray`; seven message strings; colors from three hex-pair draws; puzzle either riddle (answers whose normalized form is non-empty) or choice (2 to 6 options and an in-range `correctIndex`); digit from `"0"` to `"9"`. Unknown optional fields use keys prefixed `x_` with string or integer values only, so `JSON.stringify` cannot change them (`-0`, `NaN` and `undefined` do not survive JSON).
   - `opSequence(ids)`: arrays of operation descriptors mixing valid ids, random ids, right and wrong codes.
-- Tests use the real registry from `js/puzzles/index.js`. That import is safe in Node because handlers touch `document` only inside `render`.
+- Tests use the real registry from `assets/js/puzzles/index.js`. That import is safe in Node because handlers touch `document` only inside `render`.
 
 ### Example-based tests (Requirement 15.6 and others)
 

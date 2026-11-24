@@ -1,6 +1,6 @@
 // Puzzle registry: maps a puzzle `type` string to its handler module.
 //
-// Handler contract. Each file under js/puzzles/ exports:
+// Handler contract. Each file under assets/js/puzzles/ exports:
 //   type                        string, the value used in exhibition JSON
 //   validate(puzzle, path)      returns an array of error message strings
 //                               (empty when valid); no DOM access

@@ -10,7 +10,7 @@ Ground rules for every task:
 
 - The app stays runnable after each task. Serve it with a static server from the repo root (for example `npx serve .` or `python -m http.server`), because ES modules and `fetch` of JSON do not work from `file://`.
 - Pure-logic tasks are checked with `node --test`. UI tasks are checked in a browser at 390px, 768px and 1440px wide, in both themes, with the console open (steering: "verify in a browser at desktop and phone widths before marking it done").
-- Until task 10.1, the prototype script `assets/js/script.js` keeps running unchanged. New modules under `js/` are added without being imported by the page until a task wires them in.
+- Until task 10.1, the prototype script `assets/js/script.js` keeps running unchanged. New modules under `assets/js/` are added without being imported by the page until a task wires them in.
 - Do not rename or move `assets/images/hexhibit-logo.png` or `assets/images/favicon.png`.
 
 ## Tasks
@@ -35,7 +35,7 @@ Ground rules for every task:
     - Verify the file parses as JSON.
     - _Requirements: 2.3, 2.4, 2.5, 2.6, 2.9, 3.12_
 
-- [x] 3. Implement the exhibition loader (`js/content.js`)
+- [x] 3. Implement the exhibition loader (`assets/js/content.js`)
   - [x] 3.1 Implement validation helpers
     - Export `DEFAULT_EXHIBITION_PATH`, `MIN_ARTWORKS`, `MAX_ARTWORKS`, `REQUIRED_MESSAGE_KEYS`, `validateExhibition(data, registry)`, `computeDoorCode`, `fillTemplate` and `wallFor`.
     - `validateExhibition` never throws, returns the input object untouched plus `doorCode`, and reports every problem with a field path (for example `artworks[1].puzzle.digit`). Enforce the rules in the design: root types, seven message keys, 3 to 6 artworks, unique non-empty ids, string fields, `colors` as two `#rrggbb` strings, `digit` matching `^[0-9]$`, `registry.has(type)`, and type-specific errors from `registry.validate`.
@@ -69,7 +69,7 @@ Ground rules for every task:
 - [x] 4. Checkpoint - Ensure all tests pass
   - Run `node --test`. Ensure all tests pass, ask the user if questions arise.
 
-- [x] 5. Implement game state (`js/state.js`)
+- [x] 5. Implement game state (`assets/js/state.js`)
   - [x] 5.1 Implement the state module
     - Export `PHASES`, `createState(artworkIds)`, `themeFor(phase)`, `enterEscape`, `markSolved`, `submitCode`, `returnToGallery`, `markViewed` and `revealHint`, as specified in the design. Transitions mutate the single state object and return a boolean, except `submitCode`, which returns `"unsolved"`, `"wrong"` or `"correct"`.
     - Refuse transitions from the wrong phase with no change. `markSolved` rejects ids not in `artworkIds` and moves to `solved` when all are solved. `submitCode` returns `"unsolved"` in `escape` even for the right code, compares `input.trim()` exactly, and moves `solved → escaped` only on a match. `returnToGallery` clears all three sets and resets `currentIndex`. `revealHint` is idempotent.
@@ -90,16 +90,16 @@ Ground rules for every task:
     - In `test/state.test.js`, cover each transition, refusals from the wrong phase, `themeFor`, a foreign id passed to `markSolved`, leading-zero door codes, and the `escape → solved` step on the last solved puzzle.
     - _Requirements: 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9_
 
-- [x] 6. Create the puzzle registry skeleton (`js/puzzles/index.js`)
+- [x] 6. Create the puzzle registry skeleton (`assets/js/puzzles/index.js`)
   - Export `hasType(type)` using `Object.hasOwn`, `getHandler(type)`, and `registry` (`{has, validate}`) over an initially empty `HANDLERS` map.
   - Document the handler contract in a comment: each file exports `type`, `validate(puzzle, path)`, `evaluate(puzzle, answer)` and `render(root, puzzle, ctx)`, and touches `document` only inside `render`.
   - Check in Node that `hasType("constructor")` and `hasType("__proto__")` are `false`.
   - _Requirements: 8.1, 8.3, 8.6_
 
 - [x] 7. Implement the riddle puzzle type
-  - [x] 7.1 Create `js/puzzles/riddle.js` and register it
+  - [x] 7.1 Create `assets/js/puzzles/riddle.js` and register it
     - Export `type`, `normalize(s)` (trim, collapse whitespace, lower-case), `validate` (non-empty `answers` array whose entries are non-empty after normalization), `evaluate` (`"correct"` when the normalized answer equals a normalized accepted answer, otherwise `"incorrect"`, including empty input), and `render` (labeled `<input type="text" autocomplete="off">`, Enter calls `ctx.onSubmit`, returns `{getAnswer, focus}`).
-    - Import it into `js/puzzles/index.js` and add it to `HANDLERS`.
+    - Import it into `assets/js/puzzles/index.js` and add it to `HANDLERS`.
     - Check in Node that `evaluate` and `validate` import and run without a browser.
     - _Requirements: 8.2, 9.1, 9.2, 9.3, 9.4, 9.5, 9.6_
 
@@ -113,9 +113,9 @@ Ground rules for every task:
     - _Requirements: 9.2, 9.3, 9.4, 9.6_
 
 - [x] 8. Implement the choice puzzle type
-  - [x] 8.1 Create `js/puzzles/choice.js`, register it, and add its styles
+  - [x] 8.1 Create `assets/js/puzzles/choice.js`, register it, and add its styles
     - Export `type`, `validate` (2 to 6 non-empty string `options`, integer `correctIndex` in range), `evaluate` (`"correct"` only when `Number.isInteger(answer) && answer === correctIndex`), and `render` (a `<fieldset>` with `<legend>` and one native radio per option inside a `<label class="opt">`, in order; `getAnswer()` returns the selected index or `null`).
-    - Register it in `js/puzzles/index.js`.
+    - Register it in `assets/js/puzzles/index.js`.
     - Add `.opt` styles to `assets/css/style.css` using existing tokens only: 1px `--line` border, square corners, `min-height:44px`, `accent-color:var(--accent)`, and `.opt:has(input:checked)` with a 2px `--ink` border so selection is not color-only.
     - _Requirements: 8.2, 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 1.4, 1.5_
 
@@ -132,12 +132,12 @@ Ground rules for every task:
   - Run `node --test`. Ensure all tests pass, ask the user if questions arise.
 
 - [x] 10. Move the app into ES modules and load the exhibition
-  - [x] 10.1 Convert the prototype script into `js/main.js`
-    - Move the contents of `assets/js/script.js` into `js/main.js` with no behavior change, load it with `<script type="module" src="js/main.js">`, and delete `assets/js/script.js` and the empty `assets/js/` folder. Fix any globals the module scope breaks.
+  - [x] 10.1 Convert the prototype script into `assets/js/main.js`
+    - Move the contents of `assets/js/script.js` into `assets/js/main.js` with no behavior change, load it with `<script type="module" src="assets/js/main.js">`, and delete `assets/js/script.js` and the empty `assets/js/` folder. Fix any globals the module scope breaks.
     - Verify in a browser (static server) at desktop and phone widths that the prototype still plays end to end and the console is clean.
     - _Requirements: 1.1, 1.2, 1.3, 1.6, 1.10, 1.11_
 
-  - [x] 10.2 Extract the dialog into `js/modal.js`
+  - [x] 10.2 Extract the dialog into `assets/js/modal.js`
     - Implement `initModal`, `openDialog(spec)`, `closeDialog`, `setStatus(text, kind)` and `isOpen`, and use them from `main.js` for the existing prototype dialogs.
     - Write all text with `textContent` and build the image as a square-cornered gradient `div`. Set `aria-modal="true"` and `aria-labelledby` to the heading. On open, save the opener, set `inert` on `.top`, `.viewport` and `.bar`, and focus the first interactive control. Wrap Tab and Shift+Tab inside the card as a fallback. Escape and a backdrop click close it. On close, remove `inert` and return focus to the opener (fallback `#next`).
     - Keep `#fb` as a permanent `role="status"` element. `setStatus` prefixes plain-text labels ("Not quite.", "Correct.", "Hint:") and shakes only for `bad` when reduced motion is off.
@@ -154,7 +154,7 @@ Ground rules for every task:
     - _Requirements: 1.7, 3.4, 3.5, 3.9, 3.10, 3.11, 2.8_
 
 - [x] 11. Generate the corridor from the artwork count
-  - [x] 11.1 Create `js/corridor.js` with layout and gradient helpers
+  - [x] 11.1 Create `assets/js/corridor.js` with layout and gradient helpers
     - Export the named constants (`STOP_SPACING`, `STOP_OFFSET`, `DOOR_GAP`, `DOOR_VIEW_DIST`, `EXIT_OVERSHOOT`, assist window, speeds, `WALL_X`, `TURN_DEG`), `computeLayout(n)` (pure) and `artGradient(colors)`. `computeLayout(6)` must give stops `[260, 710, 1160, 1610, 2060, 2510]`, door stop 2800, exit stop 2950, door z `-3200`.
     - Comment the reason for each 3D value.
     - Check with `node -e` that `computeLayout(6)` matches the prototype numbers and `computeLayout(3)` is shorter.
