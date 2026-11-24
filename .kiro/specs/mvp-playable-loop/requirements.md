@@ -1,5 +1,7 @@
 # Requirements Document
 
+> Digits and the door code are superseded by per-game-door-code; see its Superseded criteria table.
+
 ## Introduction
 
 This spec defines the minimum playable version of Hexhibit: one complete playthrough that runs end to end. The player studies the gallery in Daylight Mode, switches one-way to After-Hours Mode, solves every puzzle, enters the door code, and escapes.

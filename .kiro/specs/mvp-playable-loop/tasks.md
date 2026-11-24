@@ -1,5 +1,7 @@
 # Implementation Plan: mvp-playable-loop
 
+> Digits and the door code are superseded by per-game-door-code; see its Superseded criteria table.
+
 ## Overview
 
 The plan turns the single-file prototype into the data-driven playable loop in small steps. The order is: test tooling, exhibition data and loader, game state, puzzle registry, the `riddle` and `choice` puzzle types, then the remaining module extraction and gallery/door/escape wiring, and finally tests, accessibility checks and the README.

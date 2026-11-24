@@ -1,5 +1,7 @@
 # Design Document: mvp-playable-loop
 
+> Digits and the door code are superseded by per-game-door-code; see its Superseded criteria table.
+
 ## Overview
 
 This design turns the single-file prototype (`index.html`, `assets/css/style.css`, `assets/js/script.js`) into the first complete, data-driven Hexhibit playthrough: study in Daylight Mode, confirm the one-way switch, solve every puzzle in After-Hours Mode, enter the door code, escape, and return to the gallery.
