@@ -216,14 +216,14 @@ Call-site changes (each is a read of the session code in place of a read from th
 | `pick()`, solved view | `` `... Digit ${pz.digit}.` `` | `` `... Digit ${revealedDigit(S, i)}.` `` |
 | `check()`, puzzle solved | `` `... Digit ${pz.digit} revealed.` `` | `` `... Digit ${revealedDigit(S, cur)} revealed.` `` (after `markSolved`) |
 | `check()`, door | `submitCode(S, input, CODE)` | `submitCode(S, input)` |
-| `$("theme").onclick`, "Step inside" | `closeDialog(); enterEscape(S); render()` | `try { enterEscape(S, byteSource) } catch { setStatus(LOCK_FAILED_TEXT, "bad"); return } closeDialog(); render()` |
+| `$("theme").onclick`, "Step inside" | `closeDialog(); enterEscape(S); render()` | `try { enterEscape(S, byteSource) } catch { setStatus(LOCK_FAILED_TEXT, "info"); return } closeDialog(); render()` |
 
 Leak rules for Requirement 2.8 and 3.4:
 
 - `main.js` never logs, never writes the code into an attribute, `data-*`, `aria-label`, `title` or the URL, and never calls `localStorage`/`sessionStorage`. The `catch` block binds no error and logs nothing.
 - The state object `S` is module-scoped (`let S` in an ES module), so it is not reachable as `window.S`.
 - The slot text and the dialog text receive only the return value of `revealedDigit`, which is `null` for unsolved artworks. An unsolved digit is never a string in any DOM-writing code path.
-- The `setStatus` call in the failure path sits inside the still-open confirm dialog, so the player can retry or choose "Stay in the gallery".
+- The `setStatus` call in the failure path uses the `"info"` kind, because the `"bad"` kind adds a "Not quite." prefix that would blame the player for a system fault. `modal.js` already supports `"info"` with an empty prefix. The call sits inside the still-open confirm dialog, so the player can retry or choose "Stay in the gallery".
 
 ### Schema and README changes (documentation only)
 
@@ -387,7 +387,7 @@ This also implements spec 1 criteria 9.2, 9.3, 9.6 and 9.7.
 | Code is all-identical | Retry up to 10 times, then fix-up. Never throws, always terminates, consumes at most `11 * N` accepted draws. |
 | `enterEscape` while phase is not `gallery` | Returns `false`; source not called; state unchanged. |
 | Generator throws inside `enterEscape` | Error propagates; `phase`, `doorCode`, `solved` unchanged. |
-| `window.crypto` missing or `getRandomValues` throws in the browser | `byteSource` throws, `enterEscape` throws, `main.js` catches without logging, keeps the confirm dialog open, and shows `LOCK_FAILED_TEXT` via `setStatus(..., "bad")`. The player can retry or stay in the gallery. No `Math.random` fallback. |
+| `window.crypto` missing or `getRandomValues` throws in the browser | `byteSource` throws, `enterEscape` throws, `main.js` catches without logging, keeps the confirm dialog open, and shows `LOCK_FAILED_TEXT` via `setStatus(..., "info")`. The `"info"` kind is already supported by `modal.js` (`STATUS_PREFIX.info` is `""`), so no "Not quite." prefix is added, no shake runs (only `bad` shakes), and the text uses the base `.fb` styling with no extra color rule. No `modal.js` or CSS change is needed. The player can retry or stay in the gallery. No `Math.random` fallback. |
 | `digit` present with any value | Ignored. No error, no warning. |
 | Spec 1 exhibition files that still contain `digit` | Load normally. |
 | Ceiling or other corridor surface fails the browser check | Recorded as a finding in `verification.md` and reported to the user. Not fixed under this spec. |
