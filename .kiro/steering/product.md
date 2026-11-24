@@ -17,16 +17,16 @@ Hexhibit turns any classroom lesson into a haunted 3D museum escape room. Anyone
 ## Learning principles
 - Active recall over passive viewing: puzzles ask students to *apply* what they studied.
 - Teach, don't punish: wrong answers get a short nudge or explanation, never just "no".
-- Hints cost points but never block progress.
+- Hints cost points but never block progress. (Scoring is not built yet.)
 - Every correct answer shows a one-line "why it works".
-- The end screen shows a "what you learned" recap of every concept.
+- (Not built yet.) The end screen shows a "what you learned" recap of every concept.
 - Support different learners: visual, logic and reading puzzles; a no-timer "take your time" option.
 
 ## Tone
 Spooky but friendly. Theatrical museum voice ("The corridor remembers…"). Never frightening for young learners: no gore, no jump scares.
 
 ## Scope tiers (build in this order)
-1. **Must:** a complete playthrough driven by a JSON exhibition file (gallery → escape → code door → results).
+1. **Must:** a complete playthrough driven by a JSON exhibition file (gallery → escape → code door → exit). Scoring and the results screen are not built yet.
 2. **Should:** a shareable `#room=` link that loads an exhibition from the URL.
 3. **Stretch (only if ahead of schedule):** a minimal Educator Studio (5 rows, "Generate link", "Test it").
 - Not in scope: accounts, backend, multiplayer, leaderboards.

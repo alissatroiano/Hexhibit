@@ -125,9 +125,9 @@ function pick(i) {
 function openDoorDialog() {
     const m = EX.messages, n = P.length, found = fillTemplate(m.digitsFound, { found: S.solved.size, total: n });
     if (busy) return;
-    if (!dark()) { mode = "info"; show("The Archive", "Staff only", m.staffOnly, null, null, null, [closeBtn("Continue")]); return }
+    if (!dark()) { mode = "info"; show("The Exit", "", m.exitClosed, null, null, null, [closeBtn("Continue")]); return }
     if (S.phase === "escaped") { showEscaped(m.doorUnlocked); return }
-    mode = "door"; show("The Archive Door", `Sealed with a ${n}-digit lock`, [m.doorLocked, found], `Enter the ${n}-digit code.`, null, null, [{ label: "Check", onClick: check }], inputBody("•".repeat(n), "numeric"))
+    mode = "door"; show("The Exit Door", `Sealed with a ${n}-digit lock`, [m.doorLocked, found], `Enter the ${n}-digit code.`, null, null, [{ label: "Check", onClick: check }], inputBody("•".repeat(n), "numeric"))
 }
 $("theme").onclick = () => {
     if (dark()) { if (S.phase === "escaped" && !busy) home(); return }

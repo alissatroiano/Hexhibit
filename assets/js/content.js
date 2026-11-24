@@ -8,7 +8,7 @@ export const REQUIRED_MESSAGE_KEYS = [
   "enterEscape",
   "doorLocked",
   "doorUnlocked",
-  "staffOnly",
+  "exitClosed",
   "escaped",
   "doorNudge",
   "digitsFound",

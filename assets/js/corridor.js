@@ -195,7 +195,7 @@ export function buildCorridor(exhibition, hooks = {}, opts = {}) {
 
   doorEl.tabIndex = 0;
   doorEl.setAttribute("role", "button");
-  doorEl.setAttribute("aria-label", "Archive door");
+  doorEl.setAttribute("aria-label", "Exit door");
   listen(doorEl, "focus", () => revealForKeyboard(doorEl, doorStop));
   listen(doorEl, "click", () => activateDoor());
   listen(doorEl, "keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activateDoor(); } });

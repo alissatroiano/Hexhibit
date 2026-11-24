@@ -13,7 +13,7 @@
 - Share links use the URL **hash**: `#room=<base64url of compressed JSON>`. No server. Keep links reasonably short; images are referenced by URL or generated gradient, never embedded.
 
 ## Persistence
-- `localStorage` for progress and best results, always inside try/catch, and the app must work when storage is unavailable.
+- `localStorage` for progress and best results (not built yet), always inside try/catch, and the app must work when storage is unavailable.
 - Never store personal data. No accounts, no analytics, no tracking.
 
 ## Quality bar

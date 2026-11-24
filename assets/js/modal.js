@@ -91,7 +91,7 @@ export function openDialog(spec) {
         const b = el("button", a.ghost ? "btn ghost" : "btn", a.label);
         b.type = "button"; b.addEventListener("click", a.onClick); row.append(b);
     });
-    dynEl.append(row);
+    dynEl.append(fbEl, row);
     fbEl.className = "fb"; fbEl.textContent = spec.statusText || "";
 
     open = true;

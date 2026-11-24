@@ -4,7 +4,7 @@
     "enterEscape": "The lights will dim and the doors will seal behind you. Everything you studied in the gallery will help you find your way out. Step inside?",
     "doorLocked": "The lock is cold and patient. Solve each painting's puzzle to uncover the digits of the code.",
     "doorUnlocked": "The door stands open. The corridor remembers you fondly.",
-    "staffOnly": "The permanent archive is closed to visitors. Gallery hours: 10am to 6pm daily.",
+    "exitClosed": "The exit stays closed during gallery hours. Study the paintings. You will need what they teach you.",
     "escaped": "The door swings wide and the evening air feels wonderful. The corridor will remember what you learned.",
     "doorNudge": "The lock does not stir. Check the digits and their order.",
     "digitsFound": "You have found {found} of {total} digits."
