@@ -4,17 +4,20 @@
 - Plain HTML, CSS and JavaScript (ES modules). **No framework, no bundler, no build step.**
 - The 3D corridor is **CSS 3D transforms** (perspective + translateZ/rotateY). Do not introduce WebGL or three.js.
 - Runs entirely in the browser and deploys as static files (GitHub Pages or any static host).
-- Do not add dependencies without asking first. Prefer the platform: `CompressionStream`, `URLSearchParams`, `localStorage`, `structuredClone`.
+- Do not add dependencies without asking first. Prefer the platform: `URLSearchParams`, `structuredClone`, `localStorage`.
+- Tests run with `node --test`. `fast-check` is a dev-only dependency and the browser app never loads it.
 
 ## Data and content
 - All lessons, artworks, puzzles, hints and explanations live in an **exhibition JSON file**, never hard-coded in JS.
-- Validate exhibition data against a documented schema on load. Show a friendly error for a bad exhibition and fall back to the built-in default.
+- Validate exhibition data against `content/exhibition.schema.json` on load. Show a friendly error for a bad exhibition and fall back to the built-in default.
 - Puzzle logic is data-driven: each puzzle has a `type` and a small handler. Adding a puzzle type should not require touching the corridor code.
-- Share links use the URL **hash**: `#room=<base64url of compressed JSON>`. No server. Keep links reasonably short; images are referenced by URL or generated gradient, never embedded.
+- `?exhibition=<relative path>` loads a same-site exhibition file for testing. It is not a sharing feature, and unsafe paths fall back to the default.
+- Artworks are currently generated gradients. Planned real images must be public-domain, hosted under `assets/images/`, and credited in the exhibition JSON. No AI-generated or commissioned art.
 
-## Persistence
-- `localStorage` for progress and best results (not built yet), always inside try/catch, and the app must work when storage is unavailable.
-- Never store personal data. No accounts, no analytics, no tracking.
+## Persistence and privacy
+- Nothing is saved yet. The door code is kept in memory only and is never stored or put in the URL.
+- When save-and-resume is added, use `localStorage` inside try/catch, and the app must work when storage is unavailable.
+- Never store personal data. No accounts, no backend, no analytics, no tracking.
 
 ## Quality bar
 - Fully keyboard playable. Puzzle modals trap focus, close on Escape, and announce feedback via `role="status"`.
