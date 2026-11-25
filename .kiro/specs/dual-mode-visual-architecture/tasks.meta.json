@@ -1,0 +1,116 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Add shared test arbitraries": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647583490
+      }
+    ],
+    "2.1 Create `assets/js/image.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647583641
+      }
+    ],
+    "3.1 Extend `assets/js/content.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647583793
+      }
+    ],
+    "3.2 Update `content/exhibition.schema.json` and `content/default-exhibition.json`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647583986
+      }
+    ],
+    "4.1 Add `createRestoredState` to `assets/js/state.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584112
+      }
+    ],
+    "4.2 Create `assets/js/session.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584245
+      }
+    ],
+    "5.1 Create `assets/js/gallery.js` with the pure helpers": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584384
+      }
+    ],
+    "6. Checkpoint - Pure modules": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584507
+      }
+    ],
+    "7.1 Update `play.html`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584630
+      }
+    ],
+    "7.2 Add Daylight Gallery styles to `assets/css/style.css`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584756
+      }
+    ],
+    "7.3 Add Stage, flashlight, and responsive styles to `assets/css/style.css`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584877
+      }
+    ],
+    "8.1 Add the DOM image-fill helper to `assets/js/image.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584997
+      }
+    ],
+    "8.2 Implement `buildGallery` in `assets/js/gallery.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647585133
+      }
+    ],
+    "8.3 Create `assets/js/flashlight.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647585283
+      }
+    ],
+    "8.4 Extend `assets/js/corridor.js` with the entrance pose and image fallback": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647585450
+      }
+    ],
+    "8.5 Add the image fallback to `assets/js/modal.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647585578
+      }
+    ],
+    
