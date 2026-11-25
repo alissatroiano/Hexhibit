@@ -12,11 +12,11 @@
 - Validate exhibition data against `content/exhibition.schema.json` on load. Show a friendly error for a bad exhibition and fall back to the built-in default.
 - Puzzle logic is data-driven: each puzzle has a `type` and a small handler. Adding a puzzle type should not require touching the corridor code.
 - `?exhibition=<relative path>` loads a same-site exhibition file for testing. It is not a sharing feature, and unsafe paths fall back to the default.
-- Artworks are currently generated gradients. Planned real images must be public-domain, hosted under `assets/images/`, and credited in the exhibition JSON. No AI-generated or commissioned art.
+- Artworks are currently generated gradients. Day images must be public-domain works, hosted under `assets/images/art/`, and credited in the exhibition JSON. Haunted night variants are original composites made by the author from those images. No commissioned art. Any AI-assisted editing must be disclosed in the credits.
 
 ## Persistence and privacy
-- Nothing is saved yet. The door code is kept in memory only and is never stored or put in the URL.
-- When save-and-resume is added, use `localStorage` inside try/catch, and the app must work when storage is unavailable.
+- Nothing is saved yet. The door code is kept in memory only and is never put in the URL. Until save-and-resume exists it is not stored anywhere.
+- Save-and-resume (planned) will deliberately store the in-progress game, including the door code, in `localStorage` inside try/catch. This supersedes the "never stored" rule for that feature only. The saved game is cleared when the game ends or the player starts over. The app must work when storage is unavailable.
 - Never store personal data. No accounts, no backend, no analytics, no tracking.
 
 ## Quality bar

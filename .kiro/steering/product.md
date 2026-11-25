@@ -33,7 +33,7 @@ People give a masterpiece very little time. Smith & Smith (2001, Metropolitan Mu
 Spooky but friendly. Theatrical museum voice ("The corridor remembers…"). No gore and no jump scares.
 
 ## Art sourcing
-Use **public-domain artworks only**, with credits. No AI-generated art and no commissioned art.
+Day images are **public-domain works**, with credits. Haunted night variants are original composites made by the author from those images. No commissioned art. Any AI-assisted editing must be disclosed in the credits.
 
 ## What is built now
 - A complete playthrough driven by a JSON exhibition file: gallery, escape, code door, exit.
@@ -43,6 +43,7 @@ Use **public-domain artworks only**, with credits. No AI-generated art and no co
 
 ## Planned (not built yet)
 - Real public-domain artwork images with credits.
+- Haunted night variants of each artwork, and a "what changed?" puzzle.
 - Hotspot and UV-lantern puzzles.
 - Chronological ordering puzzles.
 - Save-and-resume.

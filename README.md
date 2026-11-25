@@ -139,4 +139,4 @@ Ideas from earlier plans that are not current scope: classroom use (for example 
 
 ## License
 
-Released under the [MIT License](LICENSE).
+Released under the [GNU License](LICENSE).
