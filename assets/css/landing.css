@@ -273,18 +273,6 @@ span.hex {
     }
 }
 
-
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: .01s !important;
-        animation-delay: 0s !important;
-        transition: none !important;
-    }
-}
-
 .video-intro-wrapper {
     position: fixed;
     width: 100vw;
@@ -308,14 +296,6 @@ span.hex {
     display: block;
 }
 
-.video-click-layer {
-    position: fixed;
-    inset: 0;
-    z-index: 10000;
-    display: none;
-    cursor: pointer;
-}
-
 .skip-intro-btn {
     position: fixed;
     bottom: 24px;
@@ -333,4 +313,50 @@ span.hex {
 .skip-intro-btn:hover {
     color: #fff;
     border-color: #fff;
+}
+
+/* Sits at the opposite bottom corner from the skip button so the two
+   controls never overlap on narrow screens. Same colors as .skip-intro-btn. */
+.mute-toggle-btn {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 10001;
+    min-width: 44px;
+    min-height: 44px;
+    background: rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 16px;
+    font-family: "Antonio", sans-serif;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    cursor: pointer;
+}
+
+.mute-toggle-btn:hover {
+    color: #fff;
+    border-color: #fff;
+}
+
+/* Keyboard focus rings. These controls sit on dark surfaces (the 0.625-0.75
+   black overlay on the jumbotron and the video), so a solid #fff outline gives
+   well over the 3:1 non-text contrast WCAG AA requires. The thin dark
+   box-shadow keeps the ring visible if the backdrop is ever light. */
+.mute-toggle-btn:focus-visible,
+.skip-intro-btn:focus-visible,
+a.cta-btn:focus-visible,
+.open-btn:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.6);
+}
+
+/* .open-btn is a <label> for a hidden checkbox, so focus lands on the label's
+   wrapping link instead. Mirror the ring when that link is focused. */
+a.instructions:focus-visible .open-btn {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.6);
 }

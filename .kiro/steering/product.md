@@ -1,35 +1,52 @@
 # Product: Hexhibit
 
-Hexhibit turns any classroom lesson into a haunted 3D museum escape room. Anyone can play from a shared link. There are no accounts, no setup and no backend.
+Hexhibit is a haunted art-history mystery that builds visual literacy. Players study real artworks and their plaques in a 3D museum corridor, then use those same details to escape. There are no accounts, no backend and no tracking.
 
 **Hackathon context:** Kiroween, "Costume Contest" category. The interface must be haunting, polished and unforgettable, and the spooky design must *enhance the function* rather than decorate it.
 
+## Problem
+People give a masterpiece very little time. Smith & Smith (2001, Metropolitan Museum of Art) measured a mean of 27.2 seconds and a median of 17 seconds. Smith, Smith & Tinio (2017, Art Institute of Chicago) measured a median of 21 seconds. About 20 seconds is not enough to notice the details that carry an artwork's meaning.
+
+## Solution
+- **Daylight Mode:** players study artworks and plaques at their own pace.
+- **After-Hours Mode:** the same details become escape-room puzzles, so players must have looked closely to get out.
+
 ## Audience
-- Students (grades 6–12 by default) on school Chromebooks, tablets and phones.
-- Teachers who want to drop a link into Google Classroom or Canvas.
-- Hackathon judges who will spend about 2 minutes with the demo.
+- Primary: art-history learners (AP Art History, intro college courses).
+- Also: curious museum visitors.
+- Hackathon judges, who will spend about 2 minutes with the demo.
+- Devices: school and personal Chromebooks, laptops, tablets and phones.
 
 ## The two modes (the core idea)
-1. **Daylight Mode (light theme, "metro art gallery").** Study. The player walks the corridor at their own pace, inspects artworks, and reads plaques (artist, medium, curator notes, and the lesson). No timer, no pressure.
-2. **After-Hours Mode (dark theme, "spooky escape room").** Apply. The same room becomes a low-stakes formative assessment. Each painting opens a puzzle built from what the student just studied. Solving puzzles reveals the digits of the door code.
-- Switching to After-Hours is **one-way** and requires confirmation. The player can only return to the gallery after escaping.
+1. **Daylight Mode (light theme, "metro art gallery").** Study. The player walks the corridor at their own pace, inspects artworks, and reads plaques (artist, year, medium, curator notes, and the lesson). No timer, no pressure.
+2. **After-Hours Mode (dark theme, "spooky escape room").** Apply. The same room becomes a low-stakes check of what the player just studied. Each painting opens a puzzle built from its plaque. Solving puzzles reveals the digits of the door code.
+- Switching to After-Hours is **one-way** and requires confirmation. The player can return to the gallery only after escaping.
 
 ## Learning principles
-- Active recall over passive viewing: puzzles ask students to *apply* what they studied.
+- Active recall over passive viewing: puzzles ask players to *apply* what they studied.
 - Teach, don't punish: wrong answers get a short nudge or explanation, never just "no".
-- Hints cost points but never block progress. (Scoring is not built yet.)
+- Hints never block progress.
 - Every correct answer shows a one-line "why it works".
-- (Not built yet.) The end screen shows a "what you learned" recap of every concept.
-- Support different learners: visual, logic and reading puzzles; a no-timer "take your time" option.
+- Support different learners with different puzzle styles and a no-timer pace.
 
 ## Tone
-Spooky but friendly. Theatrical museum voice ("The corridor remembers…"). Never frightening for young learners: no gore, no jump scares.
+Spooky but friendly. Theatrical museum voice ("The corridor remembers…"). No gore and no jump scares.
 
-## Scope tiers (build in this order)
-1. **Must:** a complete playthrough driven by a JSON exhibition file (gallery → escape → code door → exit). Scoring and the results screen are not built yet.
-2. **Should:** a shareable `#room=` link that loads an exhibition from the URL.
-3. **Stretch (only if ahead of schedule):** a minimal Educator Studio (5 rows, "Generate link", "Test it").
-- Not in scope: accounts, backend, multiplayer, leaderboards.
+## Art sourcing
+Day images are **public-domain works**, with credits. Haunted night variants are original composites made by the author from those images. No commissioned art. Any AI-assisted editing must be disclosed in the credits.
 
-## Puzzle types for v1
-Chronological sorting, riddle plaque (text answer with accepted variants), multiple choice, and the UV lantern reveal. Dial alignment and audio sequences are later ideas. Audio never autoplays.
+## What is built now
+- A complete playthrough driven by a JSON exhibition file: gallery, escape, code door, exit.
+- Puzzle types: riddle plaque (text answer with accepted variants) and multiple choice.
+- A new random door code for every game, kept in memory only.
+- Artworks are currently shown as generated gradients, not real images.
+
+## Planned (not built yet)
+- Real public-domain artwork images with credits.
+- Haunted night variants of each artwork, and a "what changed?" puzzle.
+- Hotspot and UV-lantern puzzles.
+- Chronological ordering puzzles.
+- Save-and-resume.
+
+## Out of scope
+Accounts, backend, multiplayer, leaderboards, analytics.

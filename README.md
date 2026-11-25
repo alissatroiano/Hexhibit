@@ -1,10 +1,8 @@
 # Hexhibit
-
-Hexhibit turns a classroom lesson into a haunted 3D museum escape room. It was built for Kiroween 2026 (Costume Contest category).
-
-By day (Daylight mode) the player walks a gallery corridor, inspects artworks and reads the plaques, which hold the lesson. After dark (After-Hours mode) the same room is sealed, and each painting opens a puzzle built from what the player just studied. Each solved puzzle reveals one digit of the door code, and the code is new for every game. Enter the code to escape, then optionally return to the gallery. In Daylight mode the exit door stays closed, and its message (the `exitClosed` key under `messages`) tells the player to study the paintings first.
-
-Reloading the page starts a fresh gallery, because there is no saved progress yet. Everything runs in the browser from static files. There are no accounts, no backend and no build step. The corridor uses CSS 3D transforms.
+Hexhibit is a haunted art-history mystery that builds visual literacy. It was built for Kiroween 2026 (Costume Contest category). It is made for art-history learners (AP Art History, intro college) and curious museum visitors.
+People give a masterpiece about 20 seconds. Smith & Smith (2001) measured a mean of 27.2 seconds and a median of 17 seconds at the Met. Smith, Smith & Tinio (2017) measured a median of 21 seconds at the Art Institute of Chicago.
+Hexhibit slows that down. By day (Daylight mode) the player walks a 3D gallery corridor, inspects artworks and reads the plaques at their own pace. After dark (After-Hours mode) the same room is sealed, and each painting opens a puzzle built from the details on its plaque. Each solved puzzle reveals one digit of the door code, and the code is new for every game. Enter the code to escape, then optionally return to the gallery. In Daylight mode the exit door stays closed, and its message (the `exitClosed` key under `messages`) tells the player to study the paintings first.
+Reloading the page starts a fresh gallery, because there is no saved progress yet. Everything runs in the browser from static files. There are no accounts, no backend, no tracking and no build step. The corridor uses CSS 3D transforms.
 
 ## Run it
 
@@ -14,9 +12,15 @@ Serve the repository folder with any static server and open the printed address:
 python -m http.server 8080
 ```
 
-Then open `http://localhost:8080/`. Any other static server works too (for example VS Code Live Server).
+Then open `http://localhost:8080/` for the landing page, or go straight to the game at `http://localhost:8080/play.html`. Any other static server works too (for example VS Code Live Server).
 
-Opening `index.html` by double-click (`file://`) is not supported. The app loads its ES modules and the exhibition JSON with `fetch`, and browsers block both for `file://` pages.
+Opening `index.html` or `play.html` by double-click (`file://`) is not supported. The app loads its ES modules and the exhibition JSON with `fetch`, and browsers block both for `file://` pages.
+
+## Landing page and game
+
+- **Landing page (`index.html`).** The first page visitors see. An intro video plays over the page, then fades away to reveal the landing content. Its styles are in `assets/css/landing.css` and its intro logic is in `assets/js/landing.js`.
+- **Game (`play.html`).** The playable gallery and escape room. The "Enter Hexhibit" button on the landing page opens it in a new tab. `play.html` is the game entry point, so `index.html` is not the game.
+- **Intro-video mute control.** The video starts muted so it can autoplay. The MUTE / UNMUTE button in the corner of the intro turns the sound on and off without restarting the video. The button reads UNMUTE while the video is muted and MUTE while sound is on. The Skip Intro button ends the intro right away and shows the landing content.
 
 ## Tests
 
@@ -32,14 +36,17 @@ node --test
 ## Repository layout
 
 ```text
-index.html                    # page shell
+index.html                    # landing page (intro video, "Enter Hexhibit")
+play.html                     # the game page
 assets/
-  css/style.css               # design tokens and all styles
+  css/style.css               # game design tokens and styles
+  css/landing.css             # landing page styles
   images/hexhibit-logo.png    # wordmark
   images/favicon.png          # skull icon
-  videos/hexhibit.mp4         # demo video
+  videos/hexhibit.mp4         # intro video
   js/
-    main.js                   # boot and wiring
+    landing.js                # landing page intro video, mute and skip
+    main.js                   # game boot and wiring
     state.js                  # game state and transitions
     random.js                 # door code generator
     corridor.js               # 3D corridor, camera, stops
@@ -49,7 +56,7 @@ assets/
       index.js                # puzzle registry
       riddle.js               # riddle puzzle
       choice.js               # multiple choice puzzle
-advanced/landing.html         # separate landing page
+advanced/landing.html         # separate advanced landing page
 content/
   default-exhibition.json     # the built-in lesson
   exhibition.schema.json      # documented exhibition schema
@@ -112,7 +119,7 @@ The `choice` object goes in an artwork's `puzzle` field, the same way as in the 
 
 ### Testing a different exhibition: `?exhibition=`
 
-To try your own file without editing the default, add `?exhibition=<relative path>` to the page address, for example `http://localhost:8080/?exhibition=content/my-lesson.json`.
+To try your own file without editing the default, add `?exhibition=<relative path>` to the game page address, for example `http://localhost:8080/play.html?exhibition=content/my-lesson.json`.
 
 This is a testing aid, not a share link. It only loads files from the same site, so it does not let you send a lesson to someone else. The path is rejected, and the built-in lesson loads instead, if it:
 
@@ -126,16 +133,14 @@ This is a testing aid, not a share link. It only loads files from the same site,
 
 If the path is valid but the file does not exist, the app falls back to the built-in lesson, and the browser console and network panel show a failed request for that file. This is expected.
 
-## Planned, not built yet
-
+## Planned
 These ideas are not part of the current version:
-
-- Scoring (hint costs, points) and the results screen with a "what you learned" recap
-- More puzzle types (chronological sorting, UV lantern reveal, dial alignment)
-- Educator Studio for editing a lesson in the browser
-- Shareable `#room=` links
-- Audio puzzles and sound
-
+- Real public-domain artwork images with credits (artworks are generated gradients today). Only public-domain art will be used, with no AI-generated or commissioned art.
+- Hotspot and UV-lantern puzzles
+- Chronological ordering puzzles
+- Save-and-resume
+## Roadmap
+Ideas from earlier plans that are not current scope: classroom use (for example Google Classroom or Canvas links), shareable `#room=` links, an Educator Studio for editing a lesson in the browser, scoring with a results recap, and audio puzzles.
 ## Built with Kiro
 
 - Steering files in `.kiro/steering/` set the product goals, the tech rules (plain HTML, CSS and ES modules, no framework or build step), the repository structure and the design system. Every change followed them.
@@ -143,4 +148,4 @@ These ideas are not part of the current version:
 
 ## License
 
-Released under the [MIT License](LICENSE).
+Released under the [GNU License](LICENSE).
