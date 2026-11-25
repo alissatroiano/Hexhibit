@@ -10,60 +10,92 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="landing.css">
-    <!-- <link rel="stylesheet" href="style.css"> -->
+  <!-- <link rel="stylesheet" href="style.css"> -->
   <title>Hexhibit</title>
 </head>
 
 <body>
 
 
-<header class="nav">
-  <a class="logo" href="#">Hex<strong>hibit</strong></a>
-  <nav class="links">
-  </nav>
-  <div class="nav-r">
-       <a class="instructions" href="#"><label for="modal-toggle" class="open-btn">How to Play </label></a>
+  <header class="nav">
+    <a class="logo" href="#">Hex<strong>hibit</strong></a>
+    <nav class="links">
+    </nav>
+    <div class="nav-r">
+      <a class="instructions" href="#"><label for="modal-toggle" class="open-btn">How to Play </label></a>
 
-<input type="checkbox" id="modal-toggle" class="modal-toggle" hidden>
+      <input type="checkbox" id="modal-toggle" class="modal-toggle" hidden>
 
-<div class="modal-backdrop">
-  <div class="modal-box">
-    <label for="modal-toggle" class="close-btn" aria-label="Close modal">&times;</label>
-    <h2>Hexhibit</h2>
-    <p>Hexhibit is an interactive, zero-dependency 3D web application designed for educators, students, and team facilitators. By day (Light Mode), it is a bright, peaceful art museum where visitors walk the corridor and study curated artworks. Flip the After-Hours (Dark Mode) switch, and the entire 3D gallery puts on a haunted costume—transforming into a locked Escape Room where every painting hides an interactive puzzle needed to shatter the chains sealing the exit door.
-</p>
-  </div>
-</div>
-  </div>
-</header>
-
-
-<section class="jumbotron">
-<div class="hero">
-  <h1 class="headline">
-    <span class="line">
-      <span class="hex">
-     Hex</span>
-       <em>hibit</em>
-      </span>
-  </h1>
-  <h2 class="subtitle">Art Gallery Escape Room</h2>
-</div>
-  <div class="row">
-    <a href="../index.html" target="_blank" class="cta-btn">Enter Hexhibit ></a>
+      <div class="modal-backdrop">
+        <div class="modal-box">
+          <label for="modal-toggle" class="close-btn" aria-label="Close modal">&times;</label>
+          <h2>Hexhibit</h2>
+          <p>Hexhibit is an interactive, zero-dependency 3D web application designed for educators, students, and team
+            facilitators. By day (Light Mode), it is a bright, peaceful art museum where visitors walk the corridor and
+            study curated artworks. Flip the After-Hours (Dark Mode) switch, and the entire 3D gallery puts on a haunted
+            costume—transforming into a locked Escape Room where every painting hides an interactive puzzle needed to
+            shatter the chains sealing the exit door.
+          </p>
+        </div>
+      </div>
     </div>
-</section>
+  </header>
 
 
-<section class="reveal">
-  <div id="videoIntroWrapper" class="video-intro-wrapper">
-    <video id="introVideo" class="bg-video" autoplay playsinline>
-      <source src="../assets/videos/hexhibit.mp4" type="video/mp4">
-    </video>
-    <div id="videoClickLayer" class="video-click-layer"></div>
-    <button id="skipIntroBtn" class="skip-intro-btn">Skip Intro</button>
-  </div>
-</section>
+  <section class="jumbotron">
+    <div class="hero">
+      <h1 class="headline">
+        <span class="line">
+          <span class="hex">
+            Hex</span>
+          <em>hibit</em>
+        </span>
+      </h1>
+      <h2 class="subtitle">Art Gallery Escape Room</h2>
+    </div>
+    <div class="row">
+      <a href="../index.html" target="_blank" class="cta-btn">Enter Hexhibit ></a>
+    </div>
+  </section>
+
+
+  <section class="reveal">
+    <div id="videoIntroWrapper" class="video-intro-wrapper">
+      <video id="introVideo" class="bg-video" autoplay playsinline>
+        <source src="../assets/videos/hexhibit.mp4" type="video/mp4">
+      </video>
+      <div id="videoClickLayer" class="video-click-layer"></div>
+      <button id="skipIntroBtn" class="skip-intro-btn">Skip Intro</button>
+    </div>
+  </section>
+
+    <script>
+    const wrapper = document.getElementById('videoIntroWrapper');
+    const video = document.getElementById('introVideo');
+    const clickLayer = document.getElementById('videoClickLayer');
+    const skipBtn = document.getElementById('skipIntroBtn');
+
+    let hasPausedAtPrompt = false;
+
+    function revealHexhibit() {
+      video.pause();
+      wrapper.classList.add('fade-out');
+      setTimeout(() => wrapper.remove(), 850);
+    }
+
+    // Play the glitch outro with audio when clicked
+    clickLayer.addEventListener('click', () => {
+      clickLayer.style.display = 'none';
+      video.muted = false;
+      video.play();
+    });
+
+    // Smoothly reveal your Hexhibit landing page & Instructions when finished
+    video.addEventListener('ended', revealHexhibit);
+    skipBtn.addEventListener('click', revealHexhibit);
+
+  </script>
+
 
   <script>
     // Scroll-driven image expansion + magnetic button.
@@ -116,33 +148,5 @@
     });
   </script>
 
-  <script>
-    const wrapper = document.getElementById('videoIntroWrapper');
-    const video = document.getElementById('introVideo');
-    const clickLayer = document.getElementById('videoClickLayer');
-    const skipBtn = document.getElementById('skipIntroBtn');
-
-    let hasPausedAtPrompt = false;
-
-    function revealHexhibit() {
-      video.pause();
-      wrapper.classList.add('fade-out');
-      setTimeout(() => wrapper.remove(), 850);
-    }
-
-    // Play the glitch outro with audio when clicked
-    clickLayer.addEventListener('click', () => {
-      clickLayer.style.display = 'none';
-      video.muted = false;
-      video.play();
-    });
-
-    // Smoothly reveal your Hexhibit landing page & Instructions when finished
-    video.addEventListener('ended', revealHexhibit);
-    skipBtn.addEventListener('click', revealHexhibit);
-
-  </script>
-
 </body>
-
 </html>
