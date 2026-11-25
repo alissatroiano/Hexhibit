@@ -1,0 +1,210 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Implement `prefersReducedMotion`, `toggleMute`, `createReveal` and `initLandingIntro`": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795637294158
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795637299302
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638095859
+      }
+    ],
+    "2.1 Fix markup and add the mute button": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795637294495
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638100361
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638120524
+      }
+    ],
+    "2.2 Replace both inline scripts with the module": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795637294701
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638129661
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638354401
+      }
+    ],
+    "3.1 Clean up rules and add the mute button styles": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795637294895
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795637299961
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638095411
+      }
+    ],
+    "3.2 Add `:focus-visible` outlines": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795637295065
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638100768
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638120952
+      }
+    ],
+    "4. Checkpoint - Verify the landing page": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795637295235
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638361227
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638676740
+      }
+    ],
+    "5.1 Update `.kiro/steering/structure.md`": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795637295420
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638678749
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638711045
+      }
+    ],
+    "5.2 Update `README.md`": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795637295600
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638679329
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638710780
+      }
+    ],
+    "6.1 Audit existing tests for `index.html` game references": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795637295760
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638679919
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638709962
+      }
+    ],
+    "7. Final checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795637295965
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638712893
+      },
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638784229
+      }
+    ],
+    "1. Create the intro module `assets/js/landing.js`": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638096019
+      }
+    ],
+    "3. Update `assets/css/landing.css`": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638121115
+      }
+    ],
+    "2. Update `index.html`": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638354770
+      }
+    ],
+    "6. Add landing tests and fix existing tests": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638710397
+      }
+    ],
+    "5. Update docs": [
+      {
+        "executionId": "ab2fe847-ccee-45b4-9a61-d9cf7b8ba6c3",
+        "chatSessionId": "sess_49a440ce-976d-4751-8a15-95da2c4cb019",
+        "timestamp": 1795638711204
+      }
+    ]
+  }
+}

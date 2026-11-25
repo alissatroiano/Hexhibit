@@ -4,15 +4,18 @@ The app is split into ES modules. Scripts live under `assets/js/`, styles under 
 
 ## Layout (what exists now)
 ```
-index.html
+index.html                 # landing page (hero video, mute toggle, link to the game)
+play.html                  # game page
 assets/
-  css/style.css            # tokens + all styles (split later only if needed)
+  css/style.css            # tokens + all game styles (split later only if needed)
+  css/landing.css          # landing page styles
   images/hexhibit-logo.png
   images/favicon.png
   images/art/              # planned: day and haunted files, named by artwork id
   videos/hexhibit.mp4      # demo video
   js/
-    main.js                # boot, wiring
+    landing.js             # landing page behavior (video mute toggle)
+    main.js                # game boot, wiring (play.html)
     state.js               # game state machine
     random.js              # door code generator
     corridor.js            # 3D world, camera, stops, painting focus
@@ -25,7 +28,6 @@ assets/
 content/
   default-exhibition.json  # shipped lesson
   exhibition.schema.json   # documented schema
-advanced/landing.html      # separate landing page
 test/                      # node --test suites and helpers
 .kiro/
   steering/                # these files

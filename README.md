@@ -12,9 +12,15 @@ Serve the repository folder with any static server and open the printed address:
 python -m http.server 8080
 ```
 
-Then open `http://localhost:8080/`. Any other static server works too (for example VS Code Live Server).
+Then open `http://localhost:8080/` for the landing page, or go straight to the game at `http://localhost:8080/play.html`. Any other static server works too (for example VS Code Live Server).
 
-Opening `index.html` by double-click (`file://`) is not supported. The app loads its ES modules and the exhibition JSON with `fetch`, and browsers block both for `file://` pages.
+Opening `index.html` or `play.html` by double-click (`file://`) is not supported. The app loads its ES modules and the exhibition JSON with `fetch`, and browsers block both for `file://` pages.
+
+## Landing page and game
+
+- **Landing page (`index.html`).** The first page visitors see. An intro video plays over the page, then fades away to reveal the landing content. Its styles are in `assets/css/landing.css` and its intro logic is in `assets/js/landing.js`.
+- **Game (`play.html`).** The playable gallery and escape room. The "Enter Hexhibit" button on the landing page opens it in a new tab. `play.html` is the game entry point, so `index.html` is not the game.
+- **Intro-video mute control.** The video starts muted so it can autoplay. The MUTE / UNMUTE button in the corner of the intro turns the sound on and off without restarting the video. The button reads UNMUTE while the video is muted and MUTE while sound is on. The Skip Intro button ends the intro right away and shows the landing content.
 
 ## Tests
 
@@ -30,14 +36,17 @@ node --test
 ## Repository layout
 
 ```text
-index.html                    # page shell
+index.html                    # landing page (intro video, "Enter Hexhibit")
+play.html                     # the game page
 assets/
-  css/style.css               # design tokens and all styles
+  css/style.css               # game design tokens and styles
+  css/landing.css             # landing page styles
   images/hexhibit-logo.png    # wordmark
   images/favicon.png          # skull icon
-  videos/hexhibit.mp4         # demo video
+  videos/hexhibit.mp4         # intro video
   js/
-    main.js                   # boot and wiring
+    landing.js                # landing page intro video, mute and skip
+    main.js                   # game boot and wiring
     state.js                  # game state and transitions
     random.js                 # door code generator
     corridor.js               # 3D corridor, camera, stops
@@ -47,7 +56,7 @@ assets/
       index.js                # puzzle registry
       riddle.js               # riddle puzzle
       choice.js               # multiple choice puzzle
-advanced/landing.html         # separate landing page
+advanced/landing.html         # separate advanced landing page
 content/
   default-exhibition.json     # the built-in lesson
   exhibition.schema.json      # documented exhibition schema
@@ -110,7 +119,7 @@ The `choice` object goes in an artwork's `puzzle` field, the same way as in the 
 
 ### Testing a different exhibition: `?exhibition=`
 
-To try your own file without editing the default, add `?exhibition=<relative path>` to the page address, for example `http://localhost:8080/?exhibition=content/my-lesson.json`.
+To try your own file without editing the default, add `?exhibition=<relative path>` to the game page address, for example `http://localhost:8080/play.html?exhibition=content/my-lesson.json`.
 
 This is a testing aid, not a share link. It only loads files from the same site, so it does not let you send a lesson to someone else. The path is rejected, and the built-in lesson loads instead, if it:
 
