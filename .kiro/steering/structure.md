@@ -11,7 +11,7 @@ assets/
   css/landing.css          # landing page styles
   images/hexhibit-logo.png
   images/favicon.png
-  images/art/              # planned: day and haunted files, named by artwork id
+  images/art/              # created with the first image: day and haunted files, named by artwork id
   videos/hexhibit.mp4      # demo video
   js/
     landing.js             # landing page behavior (video mute toggle)
@@ -19,6 +19,10 @@ assets/
     state.js               # game state machine
     random.js              # door code generator
     corridor.js            # 3D world, camera, stops, painting focus
+    gallery.js             # Daylight Gallery: isometric corner gallery, frame placement, scene sizing
+    session.js             # sessionStorage lock-in (save, read, validate, clear)
+    flashlight.js          # After-Hours pointer-tracked flashlight beam
+    image.js               # shared artwork image-then-gradient rule and image path validation
     modal.js               # inspect / puzzle / door dialogs
     content.js             # load + validate exhibitions
     puzzles/
@@ -38,5 +42,5 @@ test/                      # node --test suites and helpers
 - UI strings and lesson text live in content files, not in logic code.
 - New puzzle types are added under `assets/js/puzzles/` and registered, never special-cased in the corridor.
 - Do not rename or move `assets/images/hexhibit-logo.png` or `assets/images/favicon.png`; the nav and tab icon depend on them.
-- Artwork images go under `assets/images/art/`, as a day file and a haunted file named by artwork id. Credits live in the exhibition JSON.
+- Artwork images go under `assets/images/art/`, as a day file and a haunted file named by artwork id. Credits live in the exhibition JSON. The `assets/images/art/` folder does not exist yet and is created when the first image is added.
 - Keep `README.md` current: what it is, how to run it, how to author an exhibition, the roadmap, and a short "Built with Kiro" section describing how specs and steering were used.

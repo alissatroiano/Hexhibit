@@ -31,6 +31,7 @@ Sleek, atmospheric, theatrical. A luminous, airy metro art gallery by day and a 
 - **Buttons:** Uppercase Antonio with `0.16em` letter-spacing. Primary is filled with `--accent`; secondary is ghost or frosted glass with a `--line` border.
 - **Door code slots (`#slots`):** Etched glass cells; locked slots display `•` in `--muted`, and solved slots illuminate with `--accent` and `--glow`.
 - **Top navigation:** Frosted translucent panel with blur and a bottom border. The favicon skull sits next to the wordmark image.
+- **Daylight Gallery (`#daylight-gallery`):** An isometric corner gallery built with CSS 3D transforms only: one `preserve-3d` scene with a floor, a left wall and a right wall, wall sconces, a spotlight around each framed painting, and a faint ground reflection. It uses the existing tokens and fonts, sizes itself from `--base-width` and `--base-height`, and has a flat keyboard-reachable list fallback. Spotlights never drop caption contrast below 4.5:1. Viewed frames carry a text or shape cue, not color alone.
 - **No emoji in the UI.** Use crisp text labels (`LOCKED` / `UNLOCKED`, `"Enter escape room →"`, `"Inspect"`) or custom SVG/CSS icons.
 
 ## Logo handling
@@ -42,6 +43,7 @@ Sleek, atmospheric, theatrical. A luminous, airy metro art gallery by day and a 
 
 ## Interaction
 - Paintings glow when clickable. The camera turns to face the painting you stop at, with a "CLICK TO INSPECT" cue. Keep the generous invisible hit area around paintings.
+- **Flashlight (After-Hours):** `.vig` draws a radial beam centered on `--mx` and `--my`, set from the pointer at most once per animation frame, with the outside darkened. It never intercepts pointer events and never darkens dialogs. With no pointer, or under reduced motion, it stays centered at 50% 50%. Focusing a painting or the door centers the beam on it. It is a visual aid only: every painting and the door stay reachable and named for keyboard and screen readers.
 - Tactile puzzles (UV reveal, drag-to-uncover) should feel physical and responsive across mouse and touch (`pointerdown`, `pointermove`, `pointerup`), with clear visual affordances and keyboard accessibility.
 - Feedback is calm and atmospheric: a short shake for wrong answers and an accent-colored confirmation for right ones. No harsh flashing.
 

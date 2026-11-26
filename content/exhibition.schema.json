@@ -53,6 +53,49 @@
         }
       }
     },
+    "ui": {
+      "type": "object",
+      "description": "Optional interface strings. Every key is an optional string. Missing keys fall back to the Default Exhibition at runtime.",
+      "properties": {
+        "escapeCta": {
+          "type": "string",
+          "description": "Label of the Daylight Gallery button that starts the escape room."
+        },
+        "afterHoursHint": {
+          "type": "string",
+          "description": "Hint shown when After-Hours starts. Should cover both pointer and keyboard use."
+        },
+        "solvedMarker": {
+          "type": "string",
+          "description": "Text marker shown on a solved painting."
+        },
+        "viewedMarker": {
+          "type": "string",
+          "description": "Text marker shown on a gallery frame the player has inspected."
+        },
+        "lockedLabel": {
+          "type": "string",
+          "description": "Door state label while the door is locked."
+        },
+        "unlockedLabel": {
+          "type": "string",
+          "description": "Door state label once the door is unlocked."
+        },
+        "galleryProgress": {
+          "type": "string",
+          "description": "Gallery progress text. May contain the placeholders {viewed} and {total}."
+        },
+        "modeAnnouncement": {
+          "type": "string",
+          "description": "Screen reader announcement made when After-Hours begins."
+        },
+        "sessionResumed": {
+          "type": "string",
+          "description": "Screen reader announcement made when a saved escape room session is restored."
+        }
+      },
+      "additionalProperties": true
+    },
     "artworks": {
       "type": "array",
       "description": "3 to 6 artworks. Corridor length, code length and counters follow from the count. Ids must be unique (enforced at runtime).",
@@ -104,7 +147,29 @@
             "pattern": "^#[0-9a-fA-F]{6}$"
           }
         },
+        "image": {
+          "type": "string",
+          "description": "Optional day image. A relative path under assets/images/art/ ending in .jpg, .jpeg, .png or .webp. No scheme, leading slash, backslash, \"..\" segment, query or fragment. When absent or failing to load, the gradient from colors is shown. Requires credit.",
+          "pattern": "^assets/images/art/[^?#\\\\:]*\\.(jpg|jpeg|png|webp)$"
+        },
+        "hauntedImage": {
+          "type": "string",
+          "description": "Optional haunted night variant. Same path rule as image. Requires image to also be set.",
+          "pattern": "^assets/images/art/[^?#\\\\:]*\\.(jpg|jpeg|png|webp)$"
+        },
+        "alt": {
+          "type": "string",
+          "description": "Optional accessible description of the image. Defaults to the title."
+        },
+        "credit": {
+          "type": "string",
+          "description": "Credit line for the image. Required whenever image is set."
+        },
         "puzzle": { "$ref": "#/$defs/puzzle" }
+      },
+      "dependentRequired": {
+        "hauntedImage": ["image"],
+        "image": ["credit"]
       },
       "additionalProperties": true
     },

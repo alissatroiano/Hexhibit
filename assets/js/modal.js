@@ -1,6 +1,9 @@
 // Hexhibit dialog shell. One #modal, one .card; content is rebuilt per openDialog call.
 // All text is written with textContent so exhibition data can never inject markup.
 
+import { applyArtworkFill, resolveArtworkImage } from "./image.js";
+import { artGradient } from "./corridor.js";
+
 const INERT_SELECTOR = ".top, .viewport, .bar";
 const FOCUSABLE = 'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
 const FALLBACK_FOCUS_ID = "next";
@@ -18,11 +21,6 @@ function el(tag, className, text) {
     if (className) n.className = className;
     if (text != null) n.textContent = text;
     return n;
-}
-
-// Same gradient construction as the prototype. Colors are validated #rrggbb upstream.
-function gradientFor(colors) {
-    return `radial-gradient(circle at 50% 40%,${colors[0]},transparent 55%),linear-gradient(160deg,${colors[0]}55,${colors[1]})`;
 }
 
 function setInert(on) {
@@ -61,7 +59,7 @@ export function initModal(modalEl, { onClose } = {}) {
 export function isOpen() { return open; }
 
 /**
- * spec: { title, meta?, image?:{colors}, lines?:string[], callout?:string, plaque?:[label,value][],
+ * spec: { title, meta?, image?:{colors, artwork?}, lines?:string[], callout?:string, plaque?:[label,value][],
  *         body?:(container)=>{focus?():void}, actions:[{label, ghost?, onClick}],
  *         statusText?, returnFocusTo?:HTMLElement }
  */
@@ -69,9 +67,19 @@ export function openDialog(spec) {
     if (!open) opener = spec.returnFocusTo || document.activeElement;
     dynEl.replaceChildren();
     if (spec.image) {
-        const img = el("div", "art");
-        img.style.background = gradientFor(spec.image.colors);
-        dynEl.append(img);
+        const box = el("div", "art");
+        // Plaque always shows the day variant; falls back to the gradient if there is no usable image.
+        const art = spec.image.artwork || { colors: spec.image.colors };
+        const img = applyArtworkFill(box, art, { haunted: false }, artGradient);
+        dynEl.append(box);
+        if (img) {
+            const resolved = resolveArtworkImage(art, { haunted: false });
+            const credit = resolved && resolved.credit ? el("p", "art-credit", resolved.credit) : null;
+            if (credit) {
+                img.addEventListener("error", () => credit.remove(), { once: true });
+                dynEl.append(credit);
+            }
+        }
     }
     const h = el("h2", null, spec.title); h.id = HEADING_ID;
     dynEl.append(h);

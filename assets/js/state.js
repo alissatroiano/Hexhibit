@@ -74,6 +74,27 @@ export function revealHint(state, id) {
   return true;
 }
 
+// Rebuild an in-progress game (escape or solved). Never yields gallery or escaped.
+// Throws on input that cannot describe an in-progress game, like generateDoorCode does.
+export function createRestoredState(artworkIds, { doorCode, solved = [], hints = [] } = {}) {
+  const ids = [...artworkIds];
+  if (ids.length === 0) throw new RangeError("createRestoredState needs at least one artwork");
+  if (typeof doorCode !== "string" || doorCode.length !== ids.length || !/^\d+$/.test(doorCode)) {
+    throw new TypeError("doorCode must be a digit string with one digit per artwork");
+  }
+  const solvedIds = [...solved];
+  const hintIds = [...hints];
+  if (![...solvedIds, ...hintIds].every((id) => ids.includes(id))) {
+    throw new RangeError("solved and hints must contain only artwork ids");
+  }
+  const s = createState(ids);
+  s.doorCode = doorCode;
+  for (const id of solvedIds) s.solved.add(id);
+  for (const id of hintIds) s.hints.add(id);
+  s.phase = ids.every((id) => s.solved.has(id)) ? "solved" : "escape";
+  return s;
+}
+
 // The only read path for a code digit: null until that artwork is solved.
 export function revealedDigit(state, index) {
   if (state.doorCode === null || !Number.isInteger(index) || index < 0 || index >= state.artworkIds.length) return null;

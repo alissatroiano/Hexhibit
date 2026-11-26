@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -14,6 +14,7 @@
 <body>
 <div class="vig"></div>
 <div class="banner" id="banner" role="status" hidden></div>
+<p class="sr-only" id="mode-status" role="status" aria-live="polite"></p>
 <div class="fatal" id="fatal" role="alert" hidden></div>
 <header class="top">
   <a class="brand" href="./" aria-label="Hexhibit home">
@@ -21,13 +22,19 @@
     <img class="wordmark" src="assets/images/hexhibit-logo.png" alt="Hexhibit">
   </a>
   <div class="status"><span id="prog"></span><div class="slots" id="slots" aria-label="Door code"></div></div>
-  <button class="tog" id="theme" aria-label="Toggle theme"></button>
 </header>
+<section id="daylight-gallery" aria-label="Daylight gallery">
+  <div id="gallery-scene-mount"></div>
+  <p class="gallery-progress" id="gallery-progress"></p>
+  <button class="btn escape-cta" id="escape-cta" type="button">Enter escape room &rarr;</button>
+</section>
+<div id="stage" hidden inert>
 <div class="viewport"><div class="world" id="world">
   <div class="floor"></div><div class="ceiling"></div><div class="wall wall-left"></div><div class="wall wall-right"></div>
   <div class="wall wall-back"><div class="door-frame"><div class="door-void">THE NIGHT AIR</div>
     <div class="door" id="door"><div class="door-panel"></div><div class="door-panel"></div><span class="lock" id="lock">LOCKED</span></div></div></div>
 </div></div>
+</div>
 <div class="bar">
   <button class="btn ghost" id="prev" aria-label="Previous stop">Back</button>
   <span class="pill hint">W/S or scroll to walk · Use your finger or mouse to look around · Click a painting when you're beside it</span>

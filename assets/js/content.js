@@ -1,6 +1,8 @@
 // Exhibition content helpers. Pure: no document, window or localStorage access.
 // The puzzle registry is passed in so this module never imports puzzle handlers.
 
+import { isSafeArtworkImagePath, ART_IMAGE_DIR } from "./image.js";
+
 export const DEFAULT_EXHIBITION_PATH = "content/default-exhibition.json";
 export const MIN_ARTWORKS = 3;
 export const MAX_ARTWORKS = 6;
@@ -12,6 +14,18 @@ export const REQUIRED_MESSAGE_KEYS = [
   "escaped",
   "doorNudge",
   "digitsFound",
+];
+
+export const UI_STRING_FIELDS = [
+  "escapeCta",
+  "afterHoursHint",
+  "solvedMarker",
+  "viewedMarker",
+  "lockedLabel",
+  "unlockedLabel",
+  "galleryProgress",
+  "modeAnnouncement",
+  "sessionResumed",
 ];
 
 const ARTWORK_STRING_FIELDS = [
@@ -69,6 +83,26 @@ function validatePuzzle(puzzle, path, registry, errors) {
   }
 }
 
+function validateArtworkImageFields(art, path, errors) {
+  ["image", "hauntedImage"].forEach((k) => {
+    if (art[k] === undefined) return;
+    if (!isSafeArtworkImagePath(art[k])) {
+      errors.push({ path: `${path}.${k}`, message: `must be a safe relative path under ${ART_IMAGE_DIR} ending in an allowed image extension` });
+    }
+  });
+  ["alt", "credit"].forEach((k) => {
+    if (art[k] !== undefined && typeof art[k] !== "string") {
+      errors.push({ path: `${path}.${k}`, message: `must be a string, got ${describe(art[k])}` });
+    }
+  });
+  if (art.hauntedImage !== undefined && art.image === undefined) {
+    errors.push({ path: `${path}.hauntedImage`, message: "requires image to also be set" });
+  }
+  if (art.image !== undefined && art.credit === undefined) {
+    errors.push({ path: `${path}.credit`, message: "is required when image is set" });
+  }
+}
+
 function validateArtwork(art, i, seenIds, registry, errors) {
   const path = `artworks[${i}]`;
   if (!isPlainObject(art)) {
@@ -84,6 +118,7 @@ function validateArtwork(art, i, seenIds, registry, errors) {
   }
   ARTWORK_STRING_FIELDS.forEach((k) => checkString(art, k, path, errors));
   validateColors(art.colors, `${path}.colors`, errors);
+  validateArtworkImageFields(art, path, errors);
   validatePuzzle(art.puzzle, `${path}.puzzle`, registry, errors);
 }
 
@@ -110,6 +145,18 @@ export function validateExhibition(data, registry) {
           errors.push({ path: `messages.${k}`, message: "is required and must be a string" });
         }
       });
+    }
+
+    if (data.ui !== undefined) {
+      if (!isPlainObject(data.ui)) {
+        errors.push({ path: "ui", message: `must be an object, got ${describe(data.ui)}` });
+      } else {
+        UI_STRING_FIELDS.forEach((k) => {
+          if (data.ui[k] !== undefined && typeof data.ui[k] !== "string") {
+            errors.push({ path: `ui.${k}`, message: `must be a string, got ${describe(data.ui[k])}` });
+          }
+        });
+      }
     }
 
     if (!Array.isArray(data.artworks)) {
@@ -181,6 +228,29 @@ export async function loadExhibition(path, fetchFn, registry) {
     return fail(`could not load or parse ${path}: ${err && err.message}`);
   }
   return validateExhibition(data, registry);
+}
+
+/**
+ * Return the exhibition with any missing ui keys filled from the default.
+ * Does not mutate its inputs.
+ */
+export function applyUiDefaults(exhibition, defaultExhibition) {
+  const defaults = (defaultExhibition && isPlainObject(defaultExhibition.ui)) ? defaultExhibition.ui : {};
+  const own = isPlainObject(exhibition && exhibition.ui) ? exhibition.ui : {};
+  const ui = { ...own };
+  UI_STRING_FIELDS.forEach((k) => {
+    if (typeof ui[k] !== "string" && typeof defaults[k] === "string") ui[k] = defaults[k];
+  });
+  return { ...exhibition, ui };
+}
+
+/** ?mode=afterhours is the only accepted value; anything else is null. Pure. */
+export function resolveModeParameter(search) {
+  try {
+    return new URLSearchParams(search || "").get("mode") === "afterhours" ? "afterhours" : null;
+  } catch (err) {
+    return null;
+  }
 }
 
 /** Replace {found} and {total} placeholders. */
