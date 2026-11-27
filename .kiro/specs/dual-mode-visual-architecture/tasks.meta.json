@@ -1,0 +1,493 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Add shared test arbitraries": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647583490
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647590201
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647765911
+      }
+    ],
+    "2.1 Create `assets/js/image.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647583641
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647767835
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649071794
+      }
+    ],
+    "3.1 Extend `assets/js/content.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647583793
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649074708
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649115330
+      }
+    ],
+    "3.2 Update `content/exhibition.schema.json` and `content/default-exhibition.json`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647583986
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649117031
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649193821
+      }
+    ],
+    "4.1 Add `createRestoredState` to `assets/js/state.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584112
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647768661
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649070319
+      }
+    ],
+    "4.2 Create `assets/js/session.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584245
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649074876
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649114560
+      }
+    ],
+    "5.1 Create `assets/js/gallery.js` with the pure helpers": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584384
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647769214
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649070996
+      }
+    ],
+    "6. Checkpoint - Pure modules": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584507
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649199089
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649239639
+      }
+    ],
+    "7.1 Update `play.html`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584630
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649242511
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795652393180
+      }
+    ],
+    "7.2 Add Daylight Gallery styles to `assets/css/style.css`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584756
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649242628
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795652393703
+      }
+    ],
+    "7.3 Add Stage, flashlight, and responsive styles to `assets/css/style.css`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584877
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795652396869
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795652430140
+      }
+    ],
+    "8.1 Add the DOM image-fill helper to `assets/js/image.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647584997
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795652432149
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795652476950
+      }
+    ],
+    "8.2 Implement `buildGallery` in `assets/js/gallery.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647585133
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795652480629
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795653120021
+      }
+    ],
+    "8.3 Create `assets/js/flashlight.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647585283
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795652432921
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795652477218
+      }
+    ],
+    "8.4 Extend `assets/js/corridor.js` with the entrance pose and image fallback": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647585450
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795652481403
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795653120800
+      }
+    ],
+    "8.5 Add the image fallback to `assets/js/modal.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647585578
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795652482072
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795653121874
+      }
+    ],
+    "9.1 Render phase to view": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647585714
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795653124932
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795654792966
+      }
+    ],
+    "9.2 Session restore and Direct_Entry at boot": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647585859
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795654793416
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655111208
+      }
+    ],
+    "9.3 Session writes, synchronous clear, and `home()`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647585977
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655111779
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655500564
+      }
+    ],
+    "9.4 Announcements and UI strings": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647586218
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655500078
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655756182
+      }
+    ],
+    "10. Checkpoint - Wiring complete": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647586372
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655760189
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655806044
+      }
+    ],
+    "11.1 Update `.kiro/steering/` files": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647586652
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655808231
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655846401
+      }
+    ],
+    "11.2 Update `README.md`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647586833
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655808944
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655847199
+      }
+    ],
+    "12.1 Verify both modes at 390px, 768px, and 1440px in both themes": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647587015
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655849818
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795657225240
+      }
+    ],
+    "13. Final checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795647587186
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795657227374
+      },
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795657237914
+      }
+    ],
+    "5. Implement pure gallery helpers (`assets/js/gallery.js`)": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649071098
+      }
+    ],
+    "2. Implement the shared artwork image rules (`assets/js/image.js`)": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649071893
+      }
+    ],
+    "4. Implement state restore and the session store": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649114725
+      }
+    ],
+    "3. Extend content loading, schema, and default exhibition": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795649193957
+      }
+    ],
+    "7. Add HTML structure and CSS for both views": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795652430400
+      }
+    ],
+    "8. Implement the DOM modules": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795653122035
+      }
+    ],
+    "9. Wire everything in `assets/js/main.js`": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655756380
+      }
+    ],
+    "11. Update steering files and README": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795655847345
+      }
+    ],
+    "12. Manual verification in a browser": [
+      {
+        "executionId": "ef0f8a35-7abb-4280-bd7a-4c1bb41d10cd",
+        "chatSessionId": "sess_c8d5a579-7e4c-4c69-864d-68b811720645",
+        "timestamp": 1795657225412
+      }
+    ]
+  }
+}

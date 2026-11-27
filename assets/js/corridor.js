@@ -17,6 +17,8 @@ export const ASSIST_BEHIND = 330;
 export const ASSIST_AHEAD = 90;
 // Within this distance of a stop the painting shows its focus glow and "click to inspect" cue.
 export const FOCUS_RADIUS = 60;
+// The camera counts as settled (the beam stops following a focused element) within these margins of its target.
+const SETTLE_EPSILON_PX = 0.5, SETTLE_EPSILON_DEG = 0.05;
 // After scrolling or walking ends, a target within this distance snaps to the nearest stop.
 export const SNAP_RADIUS = 110;
 // Within this distance of the door stop the door is considered reachable (door "near").
@@ -54,6 +56,20 @@ export function computeLayout(n) {
   // The door sits on the back wall, DOOR_VIEW_DIST beyond the door stop (negative z = away from camera).
   const doorZ = -(doorStop + DOOR_VIEW_DIST);
   return { stops, doorStop, exitStop, doorZ, length: Math.abs(doorZ) + LENGTH_MARGIN };
+}
+
+// Camera pose at the corridor entrance: not walked, no look offset, no turn toward a painting.
+export const ENTRANCE_POSE = Object.freeze({ d: 0, td: 0, yaw: 0, ty: 0, pit: 0, tp: 0, fy: 0 });
+
+/**
+ * Zero the camera pose in place with no easing, so the next frame renders the entrance exactly.
+ * Only the pose fields are touched (held keys and other state are left alone).
+ * @param {object} pose object with d, td, yaw, ty, pit, tp, fy
+ * @returns {object} the same object
+ */
+export function resetPose(pose) {
+  for (const key of Object.keys(ENTRANCE_POSE)) pose[key] = ENTRANCE_POSE[key];
+  return pose;
 }
 
 const HEX = /^#[0-9a-fA-F]{6}$/;
@@ -135,6 +151,11 @@ export function buildCorridor(exhibition, hooks = {}, opts = {}) {
   const isBlocked = opts.isBlocked || (() => false);
   const onArtwork = hooks.onArtwork || (() => {});
   const onDoor = hooks.onDoor || (() => {});
+  const onFocusElement = hooks.onFocusElement || (() => {});
+  const ui = exhibition.ui || {};
+  const solvedText = ui.solvedMarker || "SOLVED";
+  const lockedText = ui.lockedLabel || "LOCKED";
+  const unlockedText = ui.unlockedLabel || "UNLOCKED";
 
   const artworks = exhibition.artworks;
   const n = artworks.length;
@@ -159,6 +180,10 @@ export function buildCorridor(exhibition, hooks = {}, opts = {}) {
   let lastMove = 0;
   let raf = 0;
   let destroyed = false;
+  // Element the flashlight follows after keyboard focus. Focus starts a camera walk, so a rect taken
+  // at focus time points where the painting was, not where it ends up. tick() re-centers the beam on
+  // it every frame until the camera settles, then lets go.
+  let beamTarget = null;
   const cleanups = [];
   // Live query: a change in the OS setting applies on the next frame because tick reads reduced.matches.
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -188,7 +213,8 @@ export function buildCorridor(exhibition, hooks = {}, opts = {}) {
     f.append(art, cap);
     f.addEventListener("click", () => activateArtwork(i));
     f.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); activateArtwork(i); } });
-    f.addEventListener("focus", () => revealForKeyboard(f, stops[i]));
+    f.addEventListener("focus", () => { revealForKeyboard(f, stops[i]); trackBeam(f); });
+    f.addEventListener("blur", () => untrackBeam(f));
     world.appendChild(f);
     return f;
   });
@@ -196,7 +222,13 @@ export function buildCorridor(exhibition, hooks = {}, opts = {}) {
   doorEl.tabIndex = 0;
   doorEl.setAttribute("role", "button");
   doorEl.setAttribute("aria-label", "Exit door");
-  listen(doorEl, "focus", () => revealForKeyboard(doorEl, doorStop));
+  // Text door state so locked/unlocked is never conveyed by colour alone.
+  const doorState = document.createElement("span");
+  doorState.className = "door-state";
+  doorState.textContent = lockedText;
+  doorEl.appendChild(doorState);
+  listen(doorEl, "focus", () => { revealForKeyboard(doorEl, doorStop); trackBeam(doorEl); });
+  listen(doorEl, "blur", () => untrackBeam(doorEl));
   listen(doorEl, "click", () => activateDoor());
   listen(doorEl, "keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activateDoor(); } });
 
@@ -210,6 +242,9 @@ export function buildCorridor(exhibition, hooks = {}, opts = {}) {
     const vp = world.parentElement;
     if (vp) { vp.scrollLeft = 0; vp.scrollTop = 0; }
   }
+
+  function trackBeam(el) { beamTarget = el; onFocusElement(el.getBoundingClientRect()); }
+  function untrackBeam(el) { if (beamTarget === el) beamTarget = null; }
 
   // Open now if close enough, otherwise walk to the stop and open on arrival (see tick).
   function activateArtwork(i) {
@@ -240,6 +275,7 @@ export function buildCorridor(exhibition, hooks = {}, opts = {}) {
   listen(window, "keydown", e => { if (e.key === "Escape" || isBlocked()) return; S.k[e.key.toLowerCase()] = 1; });
   listen(window, "keyup", e => { S.k[e.key.toLowerCase()] = 0; });
   listen(window, "mousemove", e => {
+    beamTarget = null; // the pointer owns the beam again
     if (isBlocked()) return;
     if (e.target.closest && e.target.closest(".artwork")) return; // do not swing the view while aiming at a painting
     S.ty = (e.clientX / innerWidth * 2 - 1) * LOOK_YAW_DEG;
@@ -303,21 +339,39 @@ export function buildCorridor(exhibition, hooks = {}, opts = {}) {
       a.classList.toggle("focus", Math.abs(S.d - stops[i]) < FOCUS_RADIUS);
     });
     doorEl.classList.toggle("near", !doorOpenable && doorNear());
+    if (beamTarget) {
+      onFocusElement(beamTarget.getBoundingClientRect());
+      if (Math.abs(S.td - S.d) < SETTLE_EPSILON_PX && Math.abs(turnTarget - S.fy) < SETTLE_EPSILON_DEG) beamTarget = null;
+    }
     raf = requestAnimationFrame(tick);
   }
 
   const corridor = {
     /** Mark painting i as done (shows the tick on its caption). */
-    markDone(i) { if (arts[i]) arts[i].classList.add("done"); },
+    markDone(i) {
+      const a = arts[i];
+      if (!a) return;
+      a.classList.add("done");
+      if (!a.querySelector(".solved-marker")) {
+        const m = document.createElement("span");
+        m.className = "solved-marker";
+        m.textContent = solvedText;
+        (a.querySelector("figcaption") || a).appendChild(m);
+      }
+    },
     /** Clear marks, close the door, restore the lock label and block the exit. Does not move the camera. */
     reset() {
-      arts.forEach(a => a.classList.remove("done"));
+      arts.forEach(a => { a.classList.remove("done"); a.querySelectorAll(".solved-marker").forEach(m => m.remove()); });
       doorOpenable = false; pending = null;
       doorEl.classList.remove("open");
       if (lockEl) lockEl.textContent = defaultLock;
     },
     /** Allow (or forbid) walking on to the exit stop and stop the door glow. */
-    setDoorOpenable(v) { doorOpenable = !!v; },
+    setDoorOpenable(v) { doorOpenable = !!v; doorState.textContent = doorOpenable ? unlockedText : lockedText; },
+    /** Jump to the entrance with no easing (used when After-Hours begins). */
+    goToEntrance() { resetPose(S); pending = null; },
+    /** Copy of the current camera pose, for tests. */
+    getPose() { const { d, td, yaw, ty, pit, tp, fy } = S; return { d, td, yaw, ty, pit, tp, fy }; },
     setLockLabel(text) { if (lockEl) lockEl.textContent = text; },
     /** Walk (or jump, with {instant:true}) to a camera distance. Clears any pending open. */
     walkTo(distance, { instant = false } = {}) {

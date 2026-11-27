@@ -121,3 +121,84 @@ export const validExhibition = fc
     },
     artworks: arts.map(([body, x], i) => ({ ...x, id: `art-${i}`, ...body })),
   }));
+
+// ---- dual-mode-visual-architecture arbitraries ----
+
+// Viewport: topBarHeight never exceeds the viewport height.
+export const viewportArb = fc
+  .tuple(fc.integer({ min: 360, max: 1920 }), fc.integer({ min: 640, max: 1080 }))
+  .chain(([width, height]) =>
+    fc.record({
+      width: fc.constant(width),
+      height: fc.constant(height),
+      topBarHeight: fc.integer({ min: 0, max: height }),
+    })
+  );
+
+const IMAGE_EXTS = [".jpg", ".jpeg", ".png", ".webp"];
+const segment = fc.constantFrom("lantern", "echo", "tide", "candle", "window", "stair");
+const safeImagePath = fc
+  .tuple(
+    fc.array(segment, { maxLength: 2 }),
+    segment,
+    fc.constantFrom(...IMAGE_EXTS)
+  )
+  .map(([dirs, name, ext]) => ["assets/images/art", ...dirs, name].join("/") + ext);
+
+// Each unsafe path breaks exactly one rule of isSafeArtworkImagePath.
+const unsafeImagePath = fc
+  .tuple(safeImagePath, fc.constantFrom("scheme", "slash", "doubleSlash", "backslash", "dotdot", "query", "fragment", "prefix", "ext", "empty"))
+  .map(([p, kind]) => {
+    switch (kind) {
+      case "scheme": return "https://example.com/" + p;
+      case "slash": return "/" + p;
+      case "doubleSlash": return "//" + p;
+      case "backslash": return p.replace("art/", "art\\");
+      case "dotdot": return p.replace("art/", "art/../");
+      case "query": return p + "?x=1";
+      case "fragment": return p + "#x";
+      case "prefix": return p.replace("assets/images/art/", "assets/other/");
+      case "ext": return p.replace(/\.[a-z]+$/, ".gif");
+      default: return "";
+    }
+  });
+
+// Safe and unsafe paths, plus arbitrary strings.
+export const artworkImagePathArb = fc.oneof(
+  safeImagePath,
+  unsafeImagePath,
+  fc.string({ maxLength: 40 })
+);
+
+// Saved game: doorCode has one digit per artwork id; solved and hintsUsed are
+// subsets of the ids (hintsUsed matches the Game_State `hints` set).
+export const savedGameArb = n.chain((count) => {
+  const artworkIds = Array.from({ length: count }, (_, i) => `art-${i}`);
+  return fc.record({
+    v: fc.constant(1),
+    artworkIds: fc.constant(artworkIds),
+    doorCode: fc
+      .array(fc.integer({ min: 0, max: 9 }), { minLength: count, maxLength: count })
+      .map((d) => d.join("")),
+    solved: fc.subarray(artworkIds),
+    hintsUsed: fc.subarray(artworkIds),
+  });
+});
+
+export const UI_KEYS = [
+  "escapeCta",
+  "afterHoursHint",
+  "solvedMarker",
+  "viewedMarker",
+  "lockedLabel",
+  "unlockedLabel",
+  "modeAnnouncement",
+  "sessionResumed",
+];
+
+// Random subset of the seven ui keys, each with a string value.
+export const uiSubsetArb = fc
+  .subarray(UI_KEYS)
+  .chain((keys) =>
+    fc.record(Object.fromEntries(keys.map((k) => [k, text])))
+  );

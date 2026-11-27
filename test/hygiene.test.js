@@ -154,7 +154,9 @@ test("main.js has no code reads, no logging, no storage, no URL writes", () => {
   assert.ok(!/\bconsole\s*\./.test(c), "console.*");
   assert.ok(!/\b(localStorage|sessionStorage)\b/.test(c), "storage");
   assert.ok(!/\blocation\s*\.\s*hash\b/.test(c), "location.hash");
-  assert.ok(!/\bhistory\s*\./.test(c), "history.*");
+  // The only URL write is one history.replaceState that strips ?mode= (Requirement 4.14); doorCode is banned above.
+  assert.ok(!/\bhistory\s*\.\s*(?!replaceState\b)\w+/.test(c), "history.* other than replaceState");
+  assert.ok((c.match(/\bhistory\s*\.\s*replaceState\b/g) ?? []).length <= 1, "more than one history.replaceState");
   assert.ok(!/%\s*10\b/.test(c), "% 10");
   // location is only read (search, href); it is never assigned or navigated.
   assert.ok(!/\blocation\s*(\.\s*\w+)?\s*=(?!=)/.test(c), "location assignment");

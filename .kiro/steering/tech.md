@@ -12,10 +12,15 @@
 - Validate exhibition data against `content/exhibition.schema.json` on load. Show a friendly error for a bad exhibition and fall back to the built-in default.
 - Puzzle logic is data-driven: each puzzle has a `type` and a small handler. Adding a puzzle type should not require touching the corridor code.
 - `?exhibition=<relative path>` loads a same-site exhibition file for testing. It is not a sharing feature, and unsafe paths fall back to the default.
-- Artworks are currently generated gradients. Day images must be public-domain works, hosted under `assets/images/art/`, and credited in the exhibition JSON. Haunted night variants are original composites made by the author from those images. No commissioned art. Any AI-assisted editing must be disclosed in the credits.
+- `?mode=afterhours` (next to `?exhibition=`) starts the game directly in After-Hours Mode and skips the confirmation dialog, because the explicit URL is the player's consent. Any other `mode` value is ignored. It can be combined with `?exhibition=`. The `mode` parameter is removed from the address bar after entry. The door code is never placed in the URL.
+- Artworks render with an image-then-gradient rule: the optional `image` (day) and `hauntedImage` (night, only allowed with `image`) are drawn when present and loaded, and the generated `colors` gradient is the fallback when an image is absent or fails to load. Haunted paintings use `hauntedImage`, then `image`, then the gradient. One shared function applies this rule everywhere.
+- Image paths must be same-site relative paths under `assets/images/art/` ending in `.jpg`, `.jpeg`, `.png` or `.webp`. Unsafe paths (scheme or host, leading `/` or `//`, `..`, backslash, query, fragment) are rejected, and the exhibition falls back to the default. An `image` requires a `credit` in the exhibition JSON.
+- Day images must be public-domain works, hosted under `assets/images/art/`, and credited in the exhibition JSON. Haunted night variants are original composites made by the author from those images. No commissioned art. Any AI-assisted editing must be disclosed in the credits.
 
 ## Persistence and privacy
-- Nothing is saved yet. The door code is kept in memory only and is never put in the URL. Until save-and-resume exists it is not stored anywhere.
+- Exception: the in-progress After-Hours game (door code, `solved`, `hintsUsed`, plus a version and the artwork id list used to validate it) is stored in `sessionStorage` under `hexhibit.session.v1`, inside try/catch, so a reload keeps the player in After-Hours Mode. This is a deliberate exception to the "door code is never stored" rule.
+- The saved game is cleared when the game ends (the moment the correct door code is accepted) and when the player starts over. An invalid or mismatched saved game is discarded. The app must work when storage is unavailable, with no console error. The door code is never placed in the URL, `localStorage`, cookies or the DOM.
+- This `sessionStorage` lock-in is separate from the planned save-and-resume feature below. Game state logic in `state.js` stays free of storage access.
 - Save-and-resume (planned) will deliberately store the in-progress game, including the door code, in `localStorage` inside try/catch. This supersedes the "never stored" rule for that feature only. The saved game is cleared when the game ends or the player starts over. The app must work when storage is unavailable.
 - Never store personal data. No accounts, no backend, no analytics, no tracking.
 

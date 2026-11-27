@@ -21,7 +21,9 @@
     --bad: #c4222d;
     --void-ink: #ff5a5f;
     --font: Inter, system-ui, sans-serif;
-    --display: Antonio, "Bebas Neue", Impact, "Arial Narrow", sans-serif
+    --display: Antonio, "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+    /* Top-bar offset for full-height layers under the header (Daylight Gallery). Matches the rendered header height (one row; two rows on phones), so the gallery starts right under it. */
+    --topbar-h: 3.6rem
 }
 
 :root[data-theme=dark] {
@@ -474,9 +476,15 @@ button {
     text-align: center
 }
 
-.artwork.done figcaption::after {
-    content: " ✓";
-    color: var(--ink)
+/* SOLVED marker: a text label (never color or a glyph alone). The text is ui.solvedMarker,
+   added as a span by corridor.markDone; the separator is decoration only. */
+.artwork .solved-marker {
+    color: var(--ink);
+    font-weight: 700
+}
+
+.artwork .solved-marker::before {
+    content: " \00B7  "
 }
 
 /* Modal */
@@ -658,6 +666,21 @@ dl.plaque {
     height: 170px;
     margin-bottom: 1rem;
     border-radius: 0
+}
+
+/* Real artwork image fills its container; the gradient shows through if it fails. */
+.art-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+}
+
+.art-credit {
+    margin: -.6rem 0 1rem;
+    font-size: .72rem;
+    line-height: 1.4;
+    color: var(--muted)
 }
 
 /* Leave room so the title never runs under the 44px close button. */
@@ -854,4 +877,140 @@ dl.plaque {
     .banner {
         top: 6.6rem
     }
+}
+
+/* ==========================================================================
+   Dual-mode: Stage, flashlight, utilities, responsive layout
+   ========================================================================== */
+
+/* Visually hidden, still announced by screen readers (#mode-status). */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0
+}
+
+/* After-Hours Stage wraps the corridor viewport. Same layer as the gallery; only one is ever shown.
+   hidden + inert (set by main.js) removes it from sight, the tab order and hit testing. */
+#stage {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden
+}
+
+#stage[hidden] {
+    display: none
+}
+
+#stage[inert] {
+    pointer-events: none;
+    visibility: hidden
+}
+
+/* Flashlight beam. --mx/--my are written by flashlight.js; 50% centers it before any pointer input.
+   z-index 5 keeps it above the Stage (1) and below the bar/top (10) and the modal (20), so dialogs are never darkened. */
+.vig {
+    --mx: 50%;
+    --my: 50%;
+    pointer-events: none;
+    z-index: 5
+}
+
+/* Calm, non-flashing ring that holds at least 3:1 on the dark surfaces (ink #ece8e0 on #0c0b0e is about 15:1). */
+[data-theme=dark] :focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px var(--bg)
+}
+
+/* LOCKED / UNLOCKED label on the door: text, letterspaced, readable on the dark door face. */
+.lock {
+    text-shadow: 0 1px 2px var(--shadow)
+}
+
+/* Hint bar sits at the bottom, never over the top bar. */
+.bar .pill.hint {
+    flex: 1 1 auto;
+    min-width: 0
+}
+
+/* Phone portrait (390px class): two-row top bar, hint text hidden, Back/Next carry navigation. */
+@media(max-width:640px) {
+    :root {
+        --topbar-h: 4.2rem
+    }
+
+    .top {
+        flex-wrap: wrap;
+        justify-content: space-between
+    }
+
+    .bar {
+        left: .75rem;
+        right: .75rem;
+        transform: none;
+        max-width: none;
+        justify-content: space-between
+    }
+
+    .bar .btn {
+        flex: 1 1 0;
+        min-height: 44px;
+        margin-bottom: 0
+    }
+
+    .bar .pill.hint {
+        display: none
+    }
+}
+
+/* Tablet (768px class). */
+@media(min-width:641px) and (max-width:1024px) {
+    :root {
+        --topbar-h: 3.6rem
+    }
+
+    .bar .pill.hint {
+        min-width: 0;
+        font-size: .66rem
+    }
+
+    .bar {
+        max-width: calc(100vw - 2rem)
+    }
+}
+
+/* Desktop (1440px class). */
+@media(min-width:1025px) {
+    .bar {
+        max-width: min(960px, calc(100vw - 3rem))
+    }
+
+    .top {
+        padding-left: 2rem;
+        padding-right: 2rem
+    }
+}
+
+/* Beam follows the pointer instantly, and nothing eases or flickers. */
+@media(prefers-reduced-motion:reduce) {
+    .vig,
+    [data-theme=dark] .vig,
+    #stage {
+        transition: none !important;
+        animation: none !important
+    }
+}
+
+/* The walk bar (Back / Next / hint) drives the corridor only; in the gallery it would cover the Escape CTA. */
+body:has(#daylight-gallery:not([hidden])) .bar {
+    display: none
 }

@@ -18,9 +18,9 @@ People give a masterpiece very little time. Smith & Smith (2001, Metropolitan Mu
 - Devices: school and personal Chromebooks, laptops, tablets and phones.
 
 ## The two modes (the core idea)
-1. **Daylight Mode (light theme, "metro art gallery").** Study. The player walks the corridor at their own pace, inspects artworks, and reads plaques (artist, year, medium, curator notes, and the lesson). No timer, no pressure.
+1. **Daylight Mode (light theme, "metro art gallery").** Study. The player explores the Daylight Gallery at their own pace, inspects artworks, and reads plaques (artist, year, medium, curator notes, and the lesson). No timer, no pressure.
 2. **After-Hours Mode (dark theme, "spooky escape room").** Apply. The same room becomes a low-stakes check of what the player just studied. Each painting opens a puzzle built from its plaque. Solving puzzles reveals the digits of the door code.
-- Switching to After-Hours is **one-way** and requires confirmation. The player can return to the gallery only after escaping.
+- Switching to After-Hours is **one-way** and requires confirmation. The only exception is the explicit `?mode=afterhours` demo URL (Direct_Entry), where the URL is the player's consent. The player can return to the gallery only after escaping. The saved game is cleared the moment the correct door code is accepted, so a reload after that starts in Daylight Mode.
 
 ## Learning principles
 - Active recall over passive viewing: puzzles ask players to *apply* what they studied.
@@ -38,8 +38,12 @@ Day images are **public-domain works**, with credits. Haunted night variants are
 ## What is built now
 - A complete playthrough driven by a JSON exhibition file: gallery, escape, code door, exit.
 - Puzzle types: riddle plaque (text answer with accepted variants) and multiple choice.
-- A new random door code for every game, kept in memory only.
-- Artworks are currently shown as generated gradients, not real images.
+- A new random door code for every game. It lives in memory and, during an After-Hours game, in `sessionStorage` only. It is never put in the URL.
+- A Daylight Gallery: an isometric corner gallery (floor, two walls, sconces, spotlights) with one framed painting per artwork. Players click a frame to read its plaque, and an "Enter After-Hours Escape →" button starts the escape room.
+- After-Hours Mode is a first-person 3D corridor lit by a pointer-tracked flashlight, always starting at the entrance. Everything stays reachable by keyboard without the flashlight.
+- A reload keeps the player in After-Hours Mode (the in-progress game is held in `sessionStorage` for the tab session). The saved game is cleared the moment the correct door code is accepted, and when the player starts over.
+- Artworks render as images when the exhibition provides them and as generated gradients otherwise.
+- `play.html?mode=afterhours` opens the game directly in After-Hours Mode for demos.
 
 ## Planned (not built yet)
 - Real public-domain artwork images with credits.

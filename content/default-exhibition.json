@@ -9,6 +9,16 @@
     "doorNudge": "The lock does not stir. Check the digits and their order.",
     "digitsFound": "You have found {found} of {total} digits."
   },
+  "ui": {
+    "escapeCta": "Enter After-Hours Escape →",
+    "afterHoursHint": "Move your pointer to steer the lantern beam, or use Tab and the arrow keys to move between paintings. Press Enter or Space to inspect.",
+    "solvedMarker": "SOLVED",
+    "viewedMarker": "VIEWED",
+    "lockedLabel": "LOCKED",
+    "unlockedLabel": "UNLOCKED",
+    "modeAnnouncement": "After-Hours has begun. The doors are locked.",
+    "sessionResumed": "Your escape room session was resumed."
+  },
   "artworks": [
     {
       "id": "the-patient-watcher",

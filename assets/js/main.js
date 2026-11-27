@@ -3,8 +3,11 @@
 import { initModal, openDialog, closeDialog, setStatus, isOpen } from "./modal.js";
 import { registry, getHandler } from "./puzzles/index.js";
 import { buildCorridor } from "./corridor.js";
+import { buildGallery } from "./gallery.js";
+import { initFlashlight } from "./flashlight.js";
 import { createState, themeFor, enterEscape, markSolved, submitCode, returnToGallery, markViewed, revealHint, revealedDigit } from "./state.js";
-import { DEFAULT_EXHIBITION_PATH, resolveExhibitionPath, loadExhibition, fillTemplate, wallFor } from "./content.js";
+import { DEFAULT_EXHIBITION_PATH, resolveExhibitionPath, resolveModeParameter, loadExhibition, applyUiDefaults, fillTemplate, wallFor } from "./content.js";
+import { readSavedGame, restoreGameState, writeSavedGame, clearSavedGame } from "./session.js";
 
 // Door swing starts once the camera has walked to the exit stop; the escaped dialog follows the swing (~1.4s).
 const DOOR_SWING_DELAY = 1600, ESCAPE_DIALOG_DELAY = 4200;
@@ -19,23 +22,25 @@ const LOCK_FAILED_TEXT = "The lock would not set. Please try again.";
 // if crypto is missing, enterEscape throws and the player stays in the gallery.
 const byteSource = () => { const b = new Uint8Array(1); window.crypto.getRandomValues(b); return b[0] };
 // Corridor camera, paintings and door live in assets/js/corridor.js; main.js owns state and dialogs.
-let EX = null, P = [], corridor = null;
+let EX = null, P = [], corridor = null, gallery = null, flashlight = null;
 const $ = id => document.getElementById(id);
 // S is the single source of truth for phase, viewed and solved. Only render() writes the DOM that mirrors it.
 let S = null, busy = false, mode = null, cur = 0;
+// lastPhase lets render() detect the gallery -> after-hours change; resumed marks a restored saved game.
+let lastPhase = "gallery", resumed = false, galleryHint = null;
 const root = document.documentElement, dark = () => themeFor(S.phase) === "dark";
 const isSolved = i => S.solved.has(P[i].id);
 // ---- Boot: resolve and load the exhibition, fall back to the default, never log to console.error ----
 const fetchJson = path => fetch(path);
 
-function showBanner(errors) {
+function showBanner(errors, headText = "That exhibition could not be loaded, so the default exhibition is showing.") {
     const b = $("banner"); b.replaceChildren();
     const head = document.createElement("p"); head.className = "banner-text";
-    head.textContent = "That exhibition could not be loaded, so the default exhibition is showing.";
+    head.textContent = headText;
     const list = errors.map(e => `${e.path}: ${e.message}`);
     const ul = document.createElement("ul"); ul.className = "banner-list";
     list.slice(0, 3).forEach(t => { const li = document.createElement("li"); li.textContent = t; ul.append(li) });
-    const body = document.createElement("div"); body.className = "banner-body"; body.append(head, ul);
+    const body = document.createElement("div"); body.className = "banner-body"; body.append(head); if (list.length) body.append(ul);
     if (list.length > 3) {
         const d = document.createElement("details"), s = document.createElement("summary"), rest = document.createElement("ul");
         s.textContent = `Show all (${list.length})`; rest.className = "banner-list";
@@ -60,12 +65,14 @@ function showFatal(errors) {
 async function loadExhibitionOrDefault() {
     const r = resolveExhibitionPath(location.search, location.href);
     let bannerErrors = null;
+    const def = await loadExhibition(DEFAULT_EXHIBITION_PATH, fetchJson, registry);
+    // Every exhibition gets a complete ui object: missing keys come from the default exhibition.
+    const complete = res => ({ ok: true, exhibition: applyUiDefaults(res.exhibition, def.ok ? def.exhibition : null) });
     if (r.ok && r.path) {
         const res = await loadExhibition(r.path, fetchJson, registry);
-        if (res.ok) return { res }; bannerErrors = res.errors
+        if (res.ok) return { res: complete(res) }; bannerErrors = res.errors
     } else if (!r.ok) bannerErrors = [{ path: "?exhibition", message: r.reason }];
-    const def = await loadExhibition(DEFAULT_EXHIBITION_PATH, fetchJson, registry);
-    return def.ok ? { res: def, bannerErrors } : { fatal: def.errors, bannerErrors }
+    return def.ok ? { res: complete(def), bannerErrors } : { fatal: def.errors, bannerErrors }
 }
 
 async function boot() {
@@ -76,27 +83,69 @@ async function boot() {
         EX = out.res.exhibition; P = EX.artworks;
         document.title = `Hexhibit — ${EX.title}`;
         S = createState(P.map(a => a.id));
-        corridor = buildCorridor(EX, { onArtwork: pick, onDoor: openDoorDialog }, { isBlocked: isOpen });
+        const entered = applySavedOrDirectEntry();
+        flashlight = initFlashlight(document.querySelector(".vig"), { reducedMotion: prefersReducedMotion });
+        corridor = buildCorridor(EX, { onArtwork: pick, onDoor: openDoorDialog, onFocusElement: rect => flashlight.centerOn(rect) }, { isBlocked: isOpen });
+        makeGallery();
         render();
+        // A restored game brings its solved set; show those SOLVED markers on the corridor paintings.
+        if (entered) { P.forEach((p, i) => { if (isSolved(i)) corridor.markDone(i) }); corridor.goToEntrance(); stripModeParam() }
     } catch (err) {
         showFatal([{ path: "(boot)", message: String(err && err.message || err) }]);
     }
 }
 
-// The one place that writes state-derived DOM: theme, theme button, progress, door-code slots, lock label.
+// Restore a saved in-progress game, else honour ?mode=afterhours (Direct_Entry). Returns true when the phase left gallery.
+// Runs against the exhibition the loader returned, so a default fallback for a bad ?exhibition= is covered too.
+function applySavedOrDirectEntry() {
+    const ids = P.map(a => a.id), saved = readSavedGame(ids), restored = saved ? restoreGameState(saved, ids) : null;
+    if (restored) { S = restored; resumed = true; return true }
+    if (resolveModeParameter(location.search) !== "afterhours") return false;
+    try { enterEscape(S, byteSource) } catch { showBanner([], LOCK_FAILED_TEXT); return false }
+    writeSavedGame(S); return true
+}
+// Remove only the mode parameter; the door code is never placed in the URL.
+function stripModeParam() {
+    try {
+        const u = new URL(location.href); u.searchParams.delete("mode");
+        history.replaceState(null, "", u.pathname + u.search + u.hash)
+    } catch { /* URL cleanup is cosmetic */ }
+}
+
+// Daylight Gallery: Frame activation opens the plaque, the Escape_CTA opens the confirmation dialog.
+function makeGallery() {
+    if (gallery) gallery.destroy();
+    gallery = buildGallery(EX, { onArtwork: pick, onEscape: confirmEscape }, { viewed: [...S.viewed].map(id => P.findIndex(a => a.id === id)).filter(i => i >= 0) });
+}
+// Hint bar: ui.afterHoursHint while After-Hours runs, the original (HTML) hint in the gallery.
+function syncHint(inGallery) {
+    const h = document.querySelector(".bar .hint"); if (!h) return;
+    if (galleryHint === null) galleryHint = h.textContent;
+    h.textContent = inGallery ? galleryHint : (EX.ui.afterHoursHint || galleryHint)
+}
+// Announce on every gallery -> after-hours change (confirmation, direct entry, restore); a restore also says it was resumed.
+function announceModeChange(inGallery) {
+    const was = lastPhase; lastPhase = S.phase;
+    if (was !== "gallery" || inGallery) return;
+    const parts = [EX.ui.modeAnnouncement]; if (resumed) parts.push(EX.ui.sessionResumed);
+    resumed = false; $("mode-status").replaceChildren(parts.filter(Boolean).join(" "));
+}
+// The one place that writes state-derived DOM: theme, view visibility, flashlight, progress, door-code slots, lock label.
 function render() {
     const n = P.length, ph = S.phase, dk = themeFor(ph) === "dark", s = $("slots");
     root.dataset.theme = themeFor(ph);
-    const b = $("theme"), locked = ph === "escape" || ph === "solved" || busy;
-    b.textContent = ph === "gallery" ? "Enter escape room →" : ph === "escaped" ? "Back to gallery" : "Locked in";
-    b.disabled = locked; b.style.opacity = locked ? .6 : 1;
-    // A disabled button drops keyboard focus to <body>; hand it to Next so keyboard users keep their place.
-    if (locked && document.activeElement === b) $("next").focus();
+    const inGallery = ph === "gallery", stage = $("stage");
+    gallery.setVisible(inGallery);
+    stage.hidden = inGallery; stage.inert = inGallery;
+    flashlight.setActive(dk);
+    syncHint(inGallery); announceModeChange(inGallery);
+    // Hiding the gallery drops keyboard focus to <body>; hand it to Next so keyboard users keep their place.
+    if (!inGallery && $("daylight-gallery").contains(document.activeElement)) $("next").focus();
     s.replaceChildren();
     P.forEach((p, i) => { const d = revealedDigit(S, i), e = document.createElement("span"); e.className = "slot" + (d !== null ? " on" : ""); e.textContent = d ?? "•"; s.append(e) });
     s.style.display = dk ? "" : "none";
     $("prog").textContent = dk ? `${S.solved.size}/${n} solved` : `${S.viewed.size}/${n} artworks viewed`;
-    const open = ph === "escaped"; corridor.setLockLabel(open ? "UNLOCKED" : "LOCKED"); corridor.setDoorOpenable(open)
+    const open = ph === "escaped"; corridor.setLockLabel(open ? EX.ui.unlockedLabel : EX.ui.lockedLabel); corridor.setDoorOpenable(open)
 }
 // Modal (shell lives in assets/js/modal.js)
 initModal($("modal"), { onClose: () => { mode = null; getAns = null } });
@@ -109,15 +158,16 @@ const inputBody = (placeholder, inputMode) => box => {
     box.append(inp); getAns = () => inp.value; return { focus: () => inp.focus() }
 };
 function show(t, a, l, q, img, pl, actions, body, returnFocusTo) {
-    openDialog({ returnFocusTo, title: t, meta: a, image: img != null ? { colors: P[img].colors } : null, lines: l ? [].concat(l) : [], callout: q, plaque: pl, body, actions })
+    openDialog({ returnFocusTo, title: t, meta: a, image: img != null ? { colors: P[img].colors, artwork: P[img] } : null, lines: l ? [].concat(l) : [], callout: q, plaque: pl, body, actions })
 }
 const closeBtn = label => ({ label, onClick: closeDialog });
 function pick(i) {
     cur = i; const p = P[i], pz = p.puzzle;
     // Return focus to the painting even when the dialog opened after a camera walk (focus may be elsewhere then).
-    const art = document.querySelectorAll(".artwork")[i];
+    const art = document.querySelectorAll(dark() ? ".artwork" : "#daylight-gallery .frame")[i];
     if (!dark()) {
-        mode = "info"; markViewed(S, p.id); corridor.markDone(i); render();
+        // Viewing is a gallery-only mark; corridor.markDone means SOLVED and is set only by puzzles.
+        mode = "info"; markViewed(S, p.id); gallery.markViewed(i); render();
         show(p.title, `${p.artist}, ${p.year}`, p.lesson, "Curator’s note: " + p.curatorNote, i, [["Medium", p.medium], ["Size", p.size], ["On view", wallFor(i)]], [closeBtn("Continue")], null, art); return
     }
     mode = "art";
@@ -134,13 +184,14 @@ function openDoorDialog() {
     if (S.phase === "escaped") { showEscaped(m.doorUnlocked); return }
     mode = "door"; show("The Exit Door", `Sealed with a ${n}-digit lock`, [m.doorLocked, found], `Enter the ${n}-digit code.`, null, null, [{ label: "Check", onClick: check }], inputBody("•".repeat(n), "numeric"))
 }
-$("theme").onclick = () => {
-    if (dark()) { if (S.phase === "escaped" && !busy) home(); return }
+// Escape_CTA handler (gallery phase only; the gallery is hidden and inert otherwise).
+function confirmEscape() {
+    if (dark()) return;
     mode = "enter"; show("Enter the escape room?", "There’s no going back", EX.messages.enterEscape, "Are you sure?", null, null,
-        [{ label: "Step inside", onClick: () => { try { enterEscape(S, byteSource) } catch { setStatus(LOCK_FAILED_TEXT, "info"); return } closeDialog(); render() } }, { label: "Stay in the gallery", ghost: true, onClick: closeDialog }])
-};
+        [{ label: "Step inside", onClick: () => { try { enterEscape(S, byteSource) } catch { setStatus(LOCK_FAILED_TEXT, "info"); return } writeSavedGame(S); closeDialog(); render() } }, { label: "Stay in the gallery", ghost: true, onClick: closeDialog }])
+}
 // Instant walk back: the world is re-rendered in the light theme, so easing across the corridor would show a lit, empty hall mid-flight.
-function home() { closeDialog(); returnToGallery(S); corridor.reset(); corridor.walkTo(0, { instant: true }); render() }
+function home() { closeDialog(); clearSavedGame(); returnToGallery(S); makeGallery(); corridor.reset(); corridor.goToEntrance(); render() }
 // Escaped dialog, shared by the escape sequence and the unlocked door. "Stay a moment" leaves the phase escaped.
 function showEscaped(text) {
     mode = "escaped"; show("You escaped!", "Hexhibit — Escape complete", text, "Return to the gallery, or stay a moment in the corridor.", null, null, [{ label: "Return to the gallery", onClick: home }, { label: "Stay a moment", ghost: true, onClick: closeDialog }])
@@ -151,7 +202,7 @@ function check() {
         const pz = P[cur].puzzle;
         if (isSolved(cur)) return closeDialog();
         if (getHandler(pz.type).evaluate(pz, v) === "correct") {
-            markSolved(S, P[cur].id); corridor.markDone(cur); render();
+            markSolved(S, P[cur].id); writeSavedGame(S); corridor.markDone(cur); render();
             // Rebuild the dialog without the answer area, Check and Hint; the player dismisses it with Continue.
             const p = P[cur]; getAns = null;
             show(p.title, `${p.artist}, ${p.year}`, null, null, null, null, [closeBtn("Continue")]);
@@ -162,6 +213,7 @@ function check() {
     const res = submitCode(S, typeof v === "string" ? v : "");
     if (res === "unsolved") { setStatus(`${SOLVE_FIRST_TEXT} ${fillTemplate(m.digitsFound, { found: S.solved.size, total: n })}`, "bad"); return }
     if (res === "correct") {
+        clearSavedGame(); // synchronous and first: a reload during the door swing must not restore the finished game
         const reduced = prefersReducedMotion();
         busy = true; render(); closeDialog(); corridor.walkTo(Infinity); setTimeout(() => corridor.openDoor(), reduced ? DOOR_SWING_DELAY_REDUCED : DOOR_SWING_DELAY);
         setTimeout(() => { busy = false; render(); showEscaped(m.escaped) }, reduced ? ESCAPE_DIALOG_DELAY_REDUCED : ESCAPE_DIALOG_DELAY); return
@@ -169,5 +221,5 @@ function check() {
     setStatus(m.doorNudge, "bad")
 }
 // One hint per puzzle: revealHint is idempotent (a Set), so pressing again re-shows the text with no state change.
-function hint() { const p = P[cur]; revealHint(S, p.id); setStatus(p.puzzle.hint, "hint") }
+function hint() { const p = P[cur]; revealHint(S, p.id); writeSavedGame(S); setStatus(p.puzzle.hint, "hint") }
 boot();

@@ -2,7 +2,30 @@
 Hexhibit is a haunted art-history mystery that builds visual literacy. It was built for Kiroween 2026 (Costume Contest category). It is made for art-history learners (AP Art History, intro college) and curious museum visitors.
 People give a masterpiece about 20 seconds. Smith & Smith (2001) measured a mean of 27.2 seconds and a median of 17 seconds at the Met. Smith, Smith & Tinio (2017) measured a median of 21 seconds at the Art Institute of Chicago.
 Hexhibit slows that down. By day (Daylight mode) the player walks a 3D gallery corridor, inspects artworks and reads the plaques at their own pace. After dark (After-Hours mode) the same room is sealed, and each painting opens a puzzle built from the details on its plaque. Each solved puzzle reveals one digit of the door code, and the code is new for every game. Enter the code to escape, then optionally return to the gallery. In Daylight mode the exit door stays closed, and its message (the `exitClosed` key under `messages`) tells the player to study the paintings first.
-Reloading the page starts a fresh gallery, because there is no saved progress yet. Everything runs in the browser from static files. There are no accounts, no backend, no tracking and no build step. The corridor uses CSS 3D transforms.
+Everything runs in the browser from static files. There are no accounts, no backend, no tracking and no build step. The corridor uses CSS 3D transforms.
+
+## Two visual architectures
+
+The two modes are two different views, not one view with a color swap.
+
+- **Daylight mode** (`data-theme="light"`) is a bright isometric corner gallery (`#daylight-gallery`) with a floor, two walls, wall sconces, spotlights and one framed painting per artwork. Select a frame to read its plaque and study it.
+- **After-Hours mode** (`data-theme="dark"`) is the first-person 3D corridor (`#stage`). The camera always starts at the entrance, and the paintings are the haunted versions of the same artworks.
+
+Switching to After-Hours is one-way. The "Enter After-Hours Escape →" button asks for confirmation first. The player can return to the gallery only after escaping.
+
+### Flashlight
+
+In After-Hours mode the corridor is dark, and a flashlight beam follows the pointer to light what is under it. The beam is a visual aid only. Every painting and the door stay in the page and reachable by keyboard and screen reader, whether or not the beam is over them.
+
+Keyboard alternative: press Tab to move focus to a painting or the door. The camera walks to it and the beam centers on the focused element, so keyboard players see it lit. With `prefers-reduced-motion` the beam's easing is removed, but focus still lights the element.
+
+### Session lock-in
+
+While a player is in After-Hours mode, the in-progress game (door code, solved puzzles and hints used) is kept in `sessionStorage`. Reloading the tab keeps the player in After-Hours instead of releasing them to the gallery. The saved game is used only if its artwork ids match the loaded exhibition. It is removed as soon as the player escapes, and it goes away when the tab closes. It is never put in the URL, and the app works when storage is unavailable.
+
+### Judge demo link
+
+`play.html?mode=afterhours` starts straight in After-Hours mode. This link skips the confirmation dialog, because opening the explicit URL counts as the player's consent. The "Enter Hexhibit" link on the landing page still opens the game in Daylight mode. Locally: `http://localhost:8080/play.html?mode=afterhours`.
 
 ## Run it
 
@@ -115,7 +138,25 @@ A `choice` puzzle lists `options` and the zero-based `correctIndex`:
 }
 ```
 
-The `choice` object goes in an artwork's `puzzle` field, the same way as in the riddle example. If an exhibition fails validation, Hexhibit shows a friendly message and falls back to the built-in lesson.
+The `choice` object goes in an artwork's `puzzle` field, the same way as in the riddle example. ### Artwork images (optional)
+
+An artwork can carry these optional fields. `colors` stays required, so existing exhibitions remain valid, and the generated gradient is used whenever an image is missing or fails to load.
+
+- `image`: a same-site relative path to the day image under `assets/images/art/`. Use public-domain works only.
+- `hauntedImage`: the night variant for After-Hours mode, with the same path rules. It is allowed only when `image` is also set.
+- `alt`: a text alternative describing the artwork.
+- `credit`: the source and rights line shown on the plaque. **Required whenever `image` is set.** An exhibition with an `image` and no `credit` fails validation. Disclose any AI-assisted editing in the credit.
+
+```json
+{
+  "image": "assets/images/art/the-quiet-staircase.jpg",
+  "hauntedImage": "assets/images/art/the-quiet-staircase-haunted.jpg",
+  "alt": "A charcoal drawing of a staircase that darkens with each step.",
+  "credit": "E. Vance, 1907. Public domain. Source: Example Museum Open Access."
+}
+```
+
+If an exhibition fails validation, Hexhibit shows a friendly message and falls back to the built-in lesson.
 
 ### Testing a different exhibition: `?exhibition=`
 
@@ -135,16 +176,18 @@ If the path is valid but the file does not exist, the app falls back to the buil
 
 ## Planned
 These ideas are not part of the current version:
-- Real public-domain artwork images with credits (artworks are generated gradients today). Only public-domain art will be used, with no AI-generated or commissioned art.
+- Shipping real public-domain artwork images in the default exhibition (the image fields are supported, but the default artworks are still generated gradients). No AI-generated or commissioned art.
+- A "what changed?" puzzle comparing day and haunted images
 - Hotspot and UV-lantern puzzles
 - Chronological ordering puzzles
-- Save-and-resume
+- Save-and-resume across browser sessions (today only the per-tab `sessionStorage` lock-in exists)
 ## Roadmap
 Ideas from earlier plans that are not current scope: classroom use (for example Google Classroom or Canvas links), shareable `#room=` links, an Educator Studio for editing a lesson in the browser, scoring with a results recap, and audio puzzles.
 ## Built with Kiro
 
 - Steering files in `.kiro/steering/` set the product goals, the tech rules (plain HTML, CSS and ES modules, no framework or build step), the repository structure and the design system. Every change followed them.
 - Specs in `.kiro/specs/` hold the requirements, design and task list for the playable loop. Work proceeded task by task from the spec, and the tests check the pure logic against its acceptance criteria.
+- The `dual-mode-visual-architecture` spec (`.kiro/specs/dual-mode-visual-architecture/`) drove the split into the Daylight gallery and the After-Hours corridor, the flashlight and its keyboard alternative, the `sessionStorage` lock-in, the optional artwork image fields with the credit rule, and the `?mode=afterhours` judge link. Its requirements, design and tasks were implemented task by task, with property-based tests for the pure logic.
 
 ## License
 
