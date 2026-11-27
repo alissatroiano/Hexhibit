@@ -89,7 +89,13 @@ test/
   state.test.js               # game state tests
   helpers/                    # shared test sources and generators
 package.json                  # test script and dev dependency
-.kiro/                        # steering and specs
+scripts/fetch-artworks.mjs    # downloads public-domain paintings and prints their metadata
+.kiro/
+  steering/                   # product, tech, structure and design rules
+  specs/                      # requirements, design and tasks
+  agents/museum-curator.json  # custom Kiro CLI agent that writes exhibitions
+  hooks/validate-exhibition.kiro.hook  # runs the tests when content/*.json is saved
+  settings/mcp.json           # fetch MCP server used by the agent
 ```
 
 ## Author an exhibition
@@ -138,7 +144,9 @@ A `choice` puzzle lists `options` and the zero-based `correctIndex`:
 }
 ```
 
-The `choice` object goes in an artwork's `puzzle` field, the same way as in the riddle example. ### Artwork images (optional)
+The `choice` object goes in an artwork's `puzzle` field, the same way as in the riddle example.
+
+### Artwork images (optional)
 
 An artwork can carry these optional fields. `colors` stays required, so existing exhibitions remain valid, and the generated gradient is used whenever an image is missing or fails to load.
 
@@ -174,9 +182,44 @@ This is a testing aid, not a share link. It only loads files from the same site,
 
 If the path is valid but the file does not exist, the app falls back to the built-in lesson, and the browser console and network panel show a failed request for that file. This is expected.
 
+## Curate with the museum-curator agent
+
+`museum-curator` is a custom Kiro agent that acts as Hexhibit's Head Curator. It writes atmospheric Daylight plaques that plant the clues its After-Hours puzzles later ask about, so a player who read closely can solve them.
+
+### How it was made
+
+- **Agent definition.** `.kiro/agents/museum-curator.json` holds the name, description and system prompt. The prompt sets the theatrical, spooky-but-friendly voice and the hard rules: obey `content/exhibition.schema.json`, use local `assets/images/art/` paths only, never write door digits (the game generates the code), and use no emoji.
+- **Context.** The agent loads `.kiro/steering/product.md`, `structure.md`, `tech.md`, `content/exhibition.schema.json` and `content/default-exhibition.json` as resources, so it starts every chat knowing the product rules and the data format.
+- **Tools.** It can read files, write files (limited to `content/**` and `assets/images/art/**`) and run shell commands such as `node --test`.
+- **Validation hook.** `.kiro/hooks/validate-exhibition.kiro.hook` runs `node --test` whenever a `content/*.json` file is saved. `test/exhibition-files.test.js` checks each exhibition for schema compliance, local image files that exist and carry credits, puzzle solvability, no `digit` or `doorCode` fields and no emoji.
+- **Art sourcing.** `scripts/fetch-artworks.mjs` is a zero-dependency Node script. It searches the [Art Institute of Chicago API](https://api.artic.edu/docs/) for public-domain paintings, downloads six into `assets/images/art/`, re-checks each record, and prints metadata (title, artist, year, medium, size, credit) as JSON. Curator fields, puzzles and gradient colors are left as `TODO` placeholders for the curator to fill in.
+- **Web access.** `.kiro/settings/mcp.json` configures the `fetch` MCP server (`uvx mcp-server-fetch`) so the agent can check facts on the web.
+
+### Use it (other developers)
+
+The agent, hook and MCP config are committed to the repository, so cloning it is enough. There is nothing to publish.
+
+1. Install [Kiro CLI](https://kiro.dev/docs/cli/). On Windows, run `irm 'https://cli.kiro.dev/install.ps1' | iex` in PowerShell.
+2. Install [`uv`](https://docs.astral.sh/uv/getting-started/installation/) so `uvx` can start the fetch server.
+3. Install the test dependencies with `npm install`.
+4. From the repository root, start the agent:
+
+   ```bash
+   kiro-cli chat --agent museum-curator
+   ```
+
+   Inside an existing chat, `/agent swap museum-curator` switches to it.
+5. Sign in when the browser prompt opens on first run.
+
+Example request: "Rewrite `content/default-exhibition.json` using the images in `assets/images/art/`, write new plaques and puzzles, then run `node --test`."
+
+To fetch different paintings, run `node scripts/fetch-artworks.mjs lantern fog` with your own search terms (needs Node 18 or later and network access). Paste the printed JSON into the chat for the curator to build from. Do not save it as a file under `content/`, because the validation hook and tests treat every `content/*.json` as an exhibition.
+
+The Kiro IDE may not list custom agents from `.kiro/agents/`. If it doesn't, use the CLI.
+
 ## Planned
 These ideas are not part of the current version:
-- Shipping real public-domain artwork images in the default exhibition (the image fields are supported, but the default artworks are still generated gradients). No AI-generated or commissioned art.
+- Haunted night variants of the default artworks (the default exhibition now ships real public-domain day images, so After-Hours currently shows those). No AI-generated or commissioned art.
 - A "what changed?" puzzle comparing day and haunted images
 - Hotspot and UV-lantern puzzles
 - Chronological ordering puzzles
@@ -185,6 +228,7 @@ These ideas are not part of the current version:
 Ideas from earlier plans that are not current scope: classroom use (for example Google Classroom or Canvas links), shareable `#room=` links, an Educator Studio for editing a lesson in the browser, scoring with a results recap, and audio puzzles.
 ## Built with Kiro
 
+- The `museum-curator` custom agent, the exhibition validation hook and the fetch MCP server turn exhibition writing into a checked workflow. See [Curate with the museum-curator agent](#curate-with-the-museum-curator-agent).
 - Steering files in `.kiro/steering/` set the product goals, the tech rules (plain HTML, CSS and ES modules, no framework or build step), the repository structure and the design system. Every change followed them.
 - Specs in `.kiro/specs/` hold the requirements, design and task list for the playable loop. Work proceeded task by task from the spec, and the tests check the pure logic against its acceptance criteria.
 - The `dual-mode-visual-architecture` spec (`.kiro/specs/dual-mode-visual-architecture/`) drove the split into the Daylight gallery and the After-Hours corridor, the flashlight and its keyboard alternative, the `sessionStorage` lock-in, the optional artwork image fields with the credit rule, and the `?mode=afterhours` judge link. Its requirements, design and tasks were implemented task by task, with property-based tests for the pure logic.
