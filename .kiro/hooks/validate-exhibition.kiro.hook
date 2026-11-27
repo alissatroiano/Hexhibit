@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "name": "Validate Exhibition",
+  "description": "Runs the test suite when an exhibition JSON file is saved, checking schema compliance, local image paths and puzzle solvability.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["content/*.json"]
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "node --test"
+  }
+}

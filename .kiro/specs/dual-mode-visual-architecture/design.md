@@ -246,8 +246,7 @@ No other field is persisted (Assumption B). `phase` is intentionally omitted and
   solvedMarker?: string,         // e.g. "SOLVED"
   viewedMarker?: string,         // e.g. "VIEWED"
   lockedLabel?: string,          // "LOCKED"
-  unlockedLabel?: string,        // "UNLOCKED"
-  galleryProgress?: string       // template with {viewed}/{total}, mirrors `digitsFound`'s {found}/{total} style
+  unlockedLabel?: string        // "UNLOCKED"
 }
 ```
 
