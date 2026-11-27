@@ -66,10 +66,6 @@ export function supports3d(win = window) {
   }
 }
 
-function fillTemplate(text, values) {
-  return String(text).replace(/\{(\w+)\}/g, (m, key) => (key in values ? String(values[key]) : m));
-}
-
 /**
  * Builds the Daylight Gallery into #gallery-scene-mount.
  * @param exhibition validated exhibition ({ artworks, ui })
@@ -83,7 +79,6 @@ export function buildGallery(exhibition, hooks = {}, opts = {}) {
   const doc = document;
   const root = doc.getElementById("daylight-gallery");
   const mount = doc.getElementById("gallery-scene-mount");
-  const progress = doc.getElementById("gallery-progress");
   const cta = doc.getElementById("escape-cta");
   const ui = exhibition?.ui ?? {};
   const artworks = Array.isArray(exhibition?.artworks) ? exhibition.artworks : [];
@@ -107,6 +102,7 @@ export function buildGallery(exhibition, hooks = {}, opts = {}) {
     btn.style.setProperty("--slot", String(Math.floor(place.index / 2)));
     btn.setAttribute("aria-label", frameLabel(ui, artwork, place.index, count));
     btn.append(el(doc, "span", "spotlight", { "aria-hidden": "true" }));
+    btn.append(el(doc, "span", "picture-light", { "aria-hidden": "true" }));
     const art = el(doc, "span", "frame-art");
     applyArtworkFill(art, artwork, { haunted: false }, artGradient);
     btn.append(art);
@@ -129,8 +125,9 @@ export function buildGallery(exhibition, hooks = {}, opts = {}) {
     mount.append(list);
   } else {
     const scene = el(doc, "div", "gallery-scene");
-    scene.append(el(doc, "div", "base"), el(doc, "div", "ground", { "aria-hidden": "true" }));
-    scene.append(el(doc, "div", "leftside"), el(doc, "div", "rightside"));
+    // Architecture first (back to front): ceiling, floor and its reflections, the dark alcove, then the two walls.
+    for (const cls of ["ceiling", "base", "ground", "alcove"]) scene.append(el(doc, "div", cls, { "aria-hidden": "true" }));
+    scene.append(el(doc, "div", "leftside", { "aria-hidden": "true" }), el(doc, "div", "rightside", { "aria-hidden": "true" }));
     for (const side of ["left", "right"]) {
       for (let i = 0; i < SCONCES_PER_WALL; i++) {
         scene.append(el(doc, "div", "walllight", { "data-side": side, "aria-hidden": "true" }));
@@ -138,13 +135,6 @@ export function buildGallery(exhibition, hooks = {}, opts = {}) {
     }
     placements.forEach((place) => scene.append(makeFrame(artworks[place.index], place)));
     mount.append(scene);
-  }
-
-  function updateProgress() {
-    if (!progress) return;
-    progress.textContent = ui.galleryProgress
-      ? fillTemplate(ui.galleryProgress, { viewed: viewed.size, total: count })
-      : "";
   }
 
   function applyViewed(index) {
@@ -160,7 +150,6 @@ export function buildGallery(exhibition, hooks = {}, opts = {}) {
     if (!Number.isInteger(index) || index < 0 || index >= count) return;
     viewed.add(index);
     applyViewed(index);
-    updateProgress();
   }
 
   function updateSize() {
@@ -174,7 +163,6 @@ export function buildGallery(exhibition, hooks = {}, opts = {}) {
   }
 
   viewed.forEach(applyViewed);
-  updateProgress();
   updateSize();
   listen(window, RESIZE_EVENT, updateSize);
 

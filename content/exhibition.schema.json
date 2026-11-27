@@ -81,10 +81,6 @@
           "type": "string",
           "description": "Door state label once the door is unlocked."
         },
-        "galleryProgress": {
-          "type": "string",
-          "description": "Gallery progress text. May contain the placeholders {viewed} and {total}."
-        },
         "modeAnnouncement": {
           "type": "string",
           "description": "Screen reader announcement made when After-Hours begins."

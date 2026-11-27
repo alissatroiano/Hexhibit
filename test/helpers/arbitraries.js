@@ -192,7 +192,6 @@ export const UI_KEYS = [
   "viewedMarker",
   "lockedLabel",
   "unlockedLabel",
-  "galleryProgress",
   "modeAnnouncement",
   "sessionResumed",
 ];

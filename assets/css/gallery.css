@@ -1,0 +1,543 @@
+/* ==========================================================================
+   Daylight Gallery (#daylight-gallery)
+   Full-bleed walkthrough gallery built from CSS 3D transforms only.
+
+   assets/js/gallery.js sets --base-width / --base-height from computeBaseSize(); the
+   scene box (.gallery-scene) is that size and centred in the layer. The architecture
+   (ceiling, floor, outer walls, alcove) is much larger than the scene box and simply
+   bleeds past the layer edges, where #daylight-gallery clips it (overflow: hidden), so
+   the page never gets a horizontal scrollbar. Frames, captions and picture lights are
+   laid out inside the scene box so they stay in the visible safe area.
+
+   Tokens come from style.css. Only the metal and pool tokens below are new, and both
+   themes define them. Light effects are color-mix() of tokens with transparent.
+
+   Markup contract with gallery.js (children of .gallery-scene, back to front):
+     .ceiling .base .ground .alcove .leftside .rightside
+     .walllight[data-side=left|right]
+     button.frame[data-side=left|right][style="--slot:N"]
+       .spotlight .picture-light .frame-art .frame-caption .viewed-marker (marker added when viewed)
+     ul.gallery-flat  (flat fallback, replaces .gallery-scene)
+   ========================================================================== */
+
+:root {
+    /* Brushed metal for the picture-light bars, and the light pool thrown on the wall. */
+    --metal-hi: #f3f1ec;
+    --metal-mid: #aeaaa1;
+    --metal-lo: #5f5c57;
+    --pool: rgba(255, 255, 255, .62)
+}
+
+:root[data-theme=dark] {
+    --metal-hi: #a5a1aa;
+    --metal-mid: #5b5860;
+    --metal-lo: #26242a;
+    --pool: rgba(236, 232, 224, .16)
+}
+
+#daylight-gallery {
+    /* Wall angles differ so the left wall reads as the foreground and the right wall as the angled one. */
+    --wall-angle-l: 16deg;
+    --wall-angle-r: 24deg;
+    --corner-z: calc(var(--base-height, 480px) * -.25);
+    /* Farthest depth the floor and ceiling reach, as a fraction of the scene height (kept well inside the 47em camera). */
+    --depth-back: .6;
+    --depth-front: .5;
+    position: fixed;
+    top: var(--topbar-h);
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: calc(100vh - var(--topbar-h));
+    height: calc(100dvh - var(--topbar-h));
+    overflow: hidden;
+    background: linear-gradient(var(--wallB), var(--doorb));
+    color: var(--ink)
+}
+
+/* display is set above, so [hidden] needs its own rule. */
+#daylight-gallery[hidden] {
+    display: none
+}
+
+#gallery-scene-mount {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+/* Flat fallback is a normal page: it scrolls inside the layer. */
+#gallery-scene-mount:has(.gallery-flat) {
+    align-items: flex-start;
+    overflow-x: hidden;
+    overflow-y: auto
+}
+
+.gallery-scene {
+    position: relative;
+    flex: none;
+    width: var(--base-width, 640px);
+    height: var(--base-height, 480px);
+    font-size: 1rem;
+    /* 47em of 16px is about 750px. The vanishing point sits left of centre and high so the ceiling
+       shows above the eye line and the right wall turns away more sharply. */
+    perspective: 47em;
+    perspective-origin: 26% 20%;
+    transform-style: preserve-3d;
+    /* The scene plane sits at z = 0, in front of the walls and frames (negative z), so 3D hit
+       testing would hand every click to the scene. Only frames take pointer events. */
+    pointer-events: none;
+    /* Ratios of --base-width: wall width (large, so walls bleed off screen), frame width, slot pitch,
+       first slot offset from the wall pivot, and half the alcove opening between the two walls. */
+    --wall-w: 1.3;
+    --fw: .1;
+    --pitch: .12;
+    --d0: .05;
+    --gap: .06
+}
+
+/* ---- Floor, ceiling ------------------------------------------------------
+   Each plane is centred on its own origin, so rotateX(90deg) lays it flat at its vertical
+   centre. translateZ (applied after the rotation) slides it along the depth axis so it runs from
+   behind the corner (z = -depth-back * H) to in front of the walls (z = +depth-front * H). */
+.gallery-scene .base,
+.gallery-scene .ground,
+.gallery-scene .ceiling {
+    --plane-h: calc(var(--base-height, 480px) * (var(--depth-back) + var(--depth-front)));
+    --plane-z: calc(var(--base-height, 480px) * (var(--depth-front) - var(--depth-back)) / 2);
+    position: absolute;
+    width: calc(var(--base-width, 640px) * 3);
+    height: var(--plane-h);
+    left: calc(var(--base-width, 640px) * -1);
+    top: calc(var(--base-height, 480px) * .75 - var(--plane-h) / 2);
+    transform-style: preserve-3d;
+    pointer-events: none
+}
+
+/* Boards run toward the viewer, which sells the depth. The gradient dims the back so the alcove is moody. */
+.gallery-scene .base {
+    background:
+        linear-gradient(color-mix(in srgb, var(--doorb) 70%, transparent), transparent 45%, color-mix(in srgb, var(--doorb) 35%, transparent)),
+        repeating-linear-gradient(90deg, var(--floor1) 0 calc(var(--base-width, 640px) * .06), var(--floor2) calc(var(--base-width, 640px) * .06) calc(var(--base-width, 640px) * .063));
+    transform: translateZ(var(--plane-z)) rotateX(90deg)
+}
+
+/* Floor reflections: a pool of light under each wall and a faint cold sheen where the alcove opens.
+   One plane-normal pixel above the floor so it never z-fights. */
+.gallery-scene .ground {
+    background:
+        radial-gradient(ellipse 18% 32% at 24% 52%, var(--pool), transparent 70%),
+        radial-gradient(ellipse 18% 32% at 76% 52%, var(--pool), transparent 70%),
+        linear-gradient(90deg, transparent 38%, color-mix(in srgb, var(--wallA) 30%, transparent) 50%, transparent 62%);
+    transform: translateZ(var(--plane-z)) rotateX(90deg) translateZ(1px)
+}
+
+/* Ceiling at y = 0, above the eye line (20%), so it is seen from below. Coffer ribs and a lit panel above each wall. */
+.gallery-scene .ceiling {
+    top: calc(var(--plane-h) / -2);
+    /* style.css gives the corridor's .ceiling a hidden back face and side borders; undo both here. */
+    backface-visibility: visible;
+    border: 0;
+    background:
+        radial-gradient(ellipse 22% 26% at 30% 62%, color-mix(in srgb, var(--wallA) 55%, transparent), transparent 70%),
+        radial-gradient(ellipse 22% 26% at 70% 62%, color-mix(in srgb, var(--wallA) 55%, transparent), transparent 70%),
+        repeating-linear-gradient(90deg, transparent 0 calc(var(--base-width, 640px) * .17), var(--line) calc(var(--base-width, 640px) * .17) calc(var(--base-width, 640px) * .172)),
+        linear-gradient(color-mix(in srgb, var(--doorb) 80%, var(--wallB)), color-mix(in srgb, var(--wallB) 75%, var(--doorb)));
+    transform: translateZ(var(--plane-z)) rotateX(90deg)
+}
+
+/* ---- Alcove --------------------------------------------------------------
+   A dark recess where the two walls stop short of each other. The plane sits behind the wall pivots. */
+.gallery-scene .alcove {
+    position: absolute;
+    left: calc(50% - var(--base-width, 640px) * var(--gap) * 2.5);
+    width: calc(var(--base-width, 640px) * var(--gap) * 5);
+    top: 0;
+    height: calc(var(--base-height, 480px) * .75);
+    pointer-events: none;
+    background:
+        linear-gradient(90deg, transparent 35%, color-mix(in srgb, var(--wallB) 22%, transparent) 50%, transparent 65%),
+        radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--wallB) 20%, transparent), transparent 60%),
+        linear-gradient(var(--doorb), var(--door) 80%, var(--doorb));
+    transform: translateZ(calc(var(--corner-z) - var(--base-height, 480px) * .3))
+}
+
+/* ---- Walls ---------------------------------------------------------------
+   Pivot lines sit --gap either side of centre at z = --corner-z. Left wall pivots on its right
+   edge, right wall on its left edge, so both swing toward the viewer. */
+.gallery-scene .leftside,
+.gallery-scene .rightside {
+    position: absolute;
+    top: 0;
+    width: calc(var(--base-width, 640px) * var(--wall-w));
+    height: calc(var(--base-height, 480px) * .75);
+    border: 1px solid var(--line);
+    pointer-events: none
+}
+
+/* Layers, top to bottom: ceiling shade, inner-edge shadow near the alcove, cornice and baseboard bands, wall colour. */
+.gallery-scene .leftside {
+    left: calc(50% - var(--base-width, 640px) * (var(--gap) + var(--wall-w)));
+    transform-origin: 100% 50%;
+    transform: translateZ(var(--corner-z)) rotateY(var(--wall-angle-l));
+    background:
+        linear-gradient(color-mix(in srgb, var(--doorb) 38%, transparent), transparent 30%),
+        linear-gradient(90deg, transparent 82%, color-mix(in srgb, var(--doorb) 78%, transparent)),
+        linear-gradient(transparent 94%, color-mix(in srgb, var(--doorb) 30%, transparent) 94% 100%),
+        linear-gradient(var(--wallA), var(--wallB))
+}
+
+.gallery-scene .rightside {
+    left: calc(50% + var(--base-width, 640px) * var(--gap));
+    transform-origin: 0 50%;
+    transform: translateZ(var(--corner-z)) rotateY(calc(var(--wall-angle-r) * -1));
+    /* The angled wall faces away from the light, so it is darker. */
+    background:
+        linear-gradient(color-mix(in srgb, var(--doorb) 48%, transparent), transparent 30%),
+        linear-gradient(270deg, transparent 82%, color-mix(in srgb, var(--doorb) 82%, transparent)),
+        linear-gradient(transparent 94%, color-mix(in srgb, var(--doorb) 40%, transparent) 94% 100%),
+        linear-gradient(color-mix(in srgb, var(--wallA) 82%, var(--doorb)), color-mix(in srgb, var(--wallB) 82%, var(--doorb)))
+}
+
+/* Cornice: a thin ledge where wall meets ceiling. */
+.gallery-scene .leftside::before,
+.gallery-scene .rightside::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2.2%;
+    background: linear-gradient(var(--metal-mid), var(--metal-lo));
+    opacity: .55
+}
+
+/* Sconces: a small fixture plus a glow made from gradients and opacity only. */
+.gallery-scene .walllight {
+    position: absolute;
+    top: calc(var(--base-height, 480px) * .12);
+    width: calc(var(--base-width, 640px) * .02);
+    min-width: 8px;
+    height: calc(var(--base-height, 480px) * .05);
+    background: linear-gradient(90deg, var(--metal-hi), var(--metal-mid) 50%, var(--metal-lo));
+    border: 1px solid var(--line);
+    pointer-events: none
+}
+
+.gallery-scene .walllight::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    width: calc(var(--base-width, 640px) * .12);
+    height: calc(var(--base-height, 480px) * .22);
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at 50% 0, var(--pool), transparent 70%);
+    animation: fl 6s infinite
+}
+
+.gallery-scene .walllight[data-side=left] {
+    --at: calc(var(--base-width, 640px) * .19);
+    left: calc(50% - var(--base-width, 640px) * var(--gap) - var(--at));
+    transform-origin: var(--at) 50%;
+    transform: translateZ(var(--corner-z)) rotateY(var(--wall-angle-l)) translateZ(2px)
+}
+
+.gallery-scene .walllight[data-side=right] {
+    --at: calc(var(--base-width, 640px) * .19);
+    left: calc(50% + var(--base-width, 640px) * var(--gap) + var(--at));
+    transform-origin: calc(var(--at) * -1) 50%;
+    transform: translateZ(var(--corner-z)) rotateY(calc(var(--wall-angle-r) * -1)) translateZ(2px)
+}
+
+/* ---- Frames --------------------------------------------------------------
+   --slot (0, 1, 2...) is the position along the wall, counted from the alcove outward.
+   d = distance along the wall from its pivot line. The transform-origin sits on the pivot so the
+   rotateY turns about the same line as the wall the frame hangs on. */
+.frame {
+    position: relative;
+    display: block;
+    padding: 4px;
+    background: var(--mat);
+    color: var(--ink);
+    border: 3px solid var(--frame);
+    border-radius: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    box-shadow: 0 .6em 1.2em var(--shadow);
+    transition: box-shadow .25s
+}
+
+.frame:hover {
+    box-shadow: 0 0 1.6em var(--glow), 0 .6em 1.2em var(--shadow)
+}
+
+.frame:focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 4px
+}
+
+.gallery-scene .frame {
+    --d: calc(var(--base-width, 640px) * (var(--d0) + var(--slot, 0) * var(--pitch)));
+    --w: max(44px, calc(var(--base-width, 640px) * var(--fw)));
+    --gap-px: calc(var(--base-width, 640px) * var(--gap));
+    position: absolute;
+    top: calc(var(--base-height, 480px) * .3);
+    pointer-events: auto;
+    width: var(--w);
+    min-height: 44px;
+    /* Lets the picture-light bar stand off the wall in real depth. */
+    transform-style: preserve-3d
+}
+
+.gallery-scene .frame[data-side=left] {
+    left: calc(50% - var(--gap-px) - var(--d) - var(--w));
+    transform-origin: calc(var(--d) + var(--w)) 50%;
+    /* translateZ(20px) lifts the frame off its wall. A smaller lift let the other wall's depth-sorted plane hide the frame edge nearest the alcove. */
+    transform: translateZ(var(--corner-z)) rotateY(var(--wall-angle-l)) translateZ(20px)
+}
+
+.gallery-scene .frame[data-side=right] {
+    left: calc(50% + var(--gap-px) + var(--d));
+    transform-origin: calc(var(--d) * -1) 50%;
+    transform: translateZ(var(--corner-z)) rotateY(calc(var(--wall-angle-r) * -1)) translateZ(20px)
+}
+
+.frame-art {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center
+}
+
+/* In the 3D frame, coplanar layers are ordered by a tiny z offset instead of relying on paint order. */
+.gallery-scene .frame-art {
+    transform: translateZ(1px)
+}
+
+/* Spotlight pool: light thrown on the wall behind the frame, starting at the picture light.
+   It sits on the wall (20px behind the frame) and the caption sits on its own opaque chip, so the
+   light never lowers caption contrast. */
+.frame .spotlight {
+    position: absolute;
+    left: -35%;
+    right: -35%;
+    top: -50%;
+    height: 230%;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 50% 18%, var(--pool), transparent 68%)
+}
+
+.gallery-scene .frame .spotlight {
+    transform: translateZ(-19px)
+}
+
+/* Picture light: a metal bar on a short arm above the frame. The arm runs back to the wall in depth. */
+.picture-light {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 1.3em);
+    width: 72%;
+    height: .5em;
+    min-height: 5px;
+    transform: translateX(-50%);
+    pointer-events: none;
+    background: linear-gradient(var(--metal-hi), var(--metal-mid) 48%, var(--metal-lo));
+    border: 1px solid var(--line);
+    box-shadow: 0 .25em .5em var(--shadow)
+}
+
+.picture-light::after {
+    /* The lamp's own glow, a short wash under the bar. */
+    content: "";
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 100%;
+    height: 1.4em;
+    background: linear-gradient(var(--pool), transparent);
+    animation: fl 7s infinite
+}
+
+.gallery-scene .picture-light {
+    transform: translateX(-50%) translateZ(16px)
+}
+
+.gallery-scene .picture-light::before {
+    /* Arm: a 36px strip turned to run from the bar back to the wall (20px lift + 16px stand-off). */
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 4px;
+    height: 36px;
+    margin-left: -2px;
+    background: linear-gradient(90deg, var(--metal-hi), var(--metal-lo));
+    transform-origin: 50% 0;
+    transform: rotateX(-90deg)
+}
+
+/* Caption: opaque chip, ink on wallA is well above 4.5:1 in both themes. Two lines at most, then an ellipsis. */
+.frame-caption {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: calc(var(--base-width, 640px) * (var(--pitch) - .008));
+    min-width: 100%;
+    padding: .15em .4em;
+    background: var(--wallA);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    font: 600 max(.62rem, calc(var(--base-width, 640px) * .011)) var(--display);
+    letter-spacing: .12em;
+    line-height: 1.25;
+    text-transform: uppercase;
+    text-align: center;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2
+}
+
+.gallery-scene .frame-caption {
+    transform: translateX(-50%) translateZ(2px)
+}
+
+/* Viewed marker: text label plus a shape change (double border), never color alone. */
+.frame.viewed {
+    border-style: double;
+    border-width: 5px
+}
+
+.frame .viewed-marker {
+    position: absolute;
+    top: -.9em;
+    right: -3px;
+    padding: .1em .45em;
+    background: var(--accent);
+    color: var(--mat);
+    font: 600 .6rem var(--display);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    line-height: 1.4
+}
+
+.gallery-scene .frame .viewed-marker {
+    transform: translateZ(2px)
+}
+
+/* Escape CTA: a flat layer over the scene, pinned at the bottom centre. */
+.escape-cta {
+    position: absolute;
+    left: 50%;
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    z-index: 3;
+    min-width: 44px;
+    min-height: 44px;
+    margin: 0;
+    padding: .8rem 1.8rem;
+    background: var(--accent);
+    color: var(--mat);
+    border: 1px solid var(--accent);
+    border-radius: 0;
+    box-shadow: 0 .5em 1.4em var(--shadow);
+    font: 600 .95rem var(--display);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: opacity .2s, box-shadow .2s
+}
+
+.escape-cta:hover {
+    opacity: .88;
+    box-shadow: 0 0 1.6em var(--glow), 0 .5em 1.4em var(--shadow)
+}
+
+/* Ring in two layers (page background gap, then ink) so it reads on the filled button and the floor. */
+.escape-cta:focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 3px var(--bg)
+}
+
+/* Flat, keyboard-reachable fallback when preserve-3d is unavailable (Requirement 6.6). */
+.gallery-flat {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 1.5rem 1rem;
+    width: min(100%, 60rem);
+    margin: 0 auto;
+    padding: 4rem 1.25rem 6rem
+}
+
+.gallery-flat .frame {
+    width: 100%;
+    min-height: 44px;
+    padding-bottom: 4px
+}
+
+.gallery-flat .frame-caption {
+    position: static;
+    transform: none;
+    max-width: none;
+    margin-top: 6px;
+    font-size: .8rem
+}
+
+.gallery-flat .picture-light {
+    display: none
+}
+
+@supports not (transform-style: preserve-3d) {
+    .gallery-scene {
+        display: none
+    }
+}
+
+/* Phone portrait: narrower alcove, slightly wider frames so each projects to at least 44px after perspective shrinks it. */
+@media(max-width:640px) {
+    .gallery-scene {
+        --wall-w: 1.6;
+        --fw: .16;
+        --pitch: .165;
+        --d0: .04;
+        --gap: .03
+    }
+
+    .gallery-scene .frame-caption {
+        letter-spacing: .08em
+    }
+
+    .escape-cta {
+        padding: .75rem 1.2rem;
+        font-size: .85rem
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+
+    .gallery-scene .walllight::after,
+    .picture-light::after {
+        animation: none !important
+    }
+
+    .frame,
+    .frame .spotlight,
+    .escape-cta,
+    #daylight-gallery {
+        animation: none !important;
+        transition: none !important
+    }
+}

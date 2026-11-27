@@ -16,7 +16,6 @@
     "viewedMarker": "VIEWED",
     "lockedLabel": "LOCKED",
     "unlockedLabel": "UNLOCKED",
-    "galleryProgress": "{viewed}/{total} viewed",
     "modeAnnouncement": "After-Hours has begun. The doors are locked.",
     "sessionResumed": "Your escape room session was resumed."
   },

@@ -23,7 +23,6 @@ export const UI_STRING_FIELDS = [
   "viewedMarker",
   "lockedLabel",
   "unlockedLabel",
-  "galleryProgress",
   "modeAnnouncement",
   "sessionResumed",
 ];
