@@ -21,121 +21,193 @@
   },
   "artworks": [
     {
-      "id": "the-patient-watcher",
-      "title": "The Patient Watcher",
-      "artist": "Unknown",
-      "year": "c. 1884",
-      "medium": "Oil on canvas",
-      "size": "92 x 76 cm",
-      "curatorNote": "Placeholder note: notice how the sitter's gaze seems to follow you down the hall.",
-      "lesson": "Placeholder lesson: a keyboard has many keys, yet it unlocks no door. Riddles often describe a thing by what it has and what it lacks.",
-      "colors": ["#7a1f2b", "#120609"],
-      "puzzle": {
-        "type": "riddle",
-        "prompt": "I have keys but no locks. What am I?",
-        "answers": ["keyboard", "a keyboard"],
-        "hint": "You are probably touching one right now.",
-        "nudge": "Think about what sits under your hands as you type.",
-        "explanation": "A keyboard has keys, yet nothing for them to unlock."
-      }
-    },
-    {
-      "id": "lantern-at-low-tide",
-      "title": "Lantern at Low Tide",
-      "artist": "M. Alder",
-      "year": "1921",
-      "medium": "Watercolor on paper",
-      "size": "40 x 55 cm",
-      "curatorNote": "Placeholder note: the painter used a single lantern to light the whole shoreline.",
-      "lesson": "Placeholder lesson: the Moon's pull on the ocean causes tides, so the water rises and falls twice a day.",
-      "colors": ["#2b4a5e", "#0a1218"],
+      "id": "seduction-scene-on-a-terrace-by-moonlight",
+      "title": "Seduction Scene on a Terrace by Moonlight",
+      "artist": "Mughal",
+      "year": "18th century",
+      "medium": "Opaque watercolor with gold on paper",
+      "size": "Image: 16.8 ├ù 23.5 cm (6 5/8 ├ù 9 1/4 in.)",
+      "curatorNote": "A full moon hangs over a palace terrace. Notice the white canopy, the water pipe on the floor and the gold flecks scattered across the mount. The artist built the whole scene from opaque watercolor with gold on paper.",
+      "lesson": "Mughal court painters worked in opaque watercolor, which sits on the paper as a solid layer instead of a see-through wash. That is why the moon and the pale terrace glow so brightly against the dark sky. Gold was added for shimmer.",
+      "colors": [
+        "#1f2438",
+        "#0a0b12"
+      ],
+      "alt": "A full moon over a pale palace terrace at night. A figure reclines under a white canopy while attendants stand nearby. The scene is framed by a gold border on speckled paper.",
       "puzzle": {
         "type": "choice",
-        "prompt": "What mainly causes the ocean tides?",
-        "options": ["The Moon's gravity", "Strong winds", "Ocean currents", "The Sun's heat"],
-        "correctIndex": 0,
-        "hint": "It is the bright thing that watches the shore at night.",
-        "nudge": "Look up at the night sky for your answer.",
-        "explanation": "The Moon's gravity pulls on the ocean and raises the tides."
-      }
-    },
-    {
-      "id": "the-quiet-staircase",
-      "title": "The Quiet Staircase",
-      "artist": "E. Vance",
-      "year": "1907",
-      "medium": "Charcoal on paper",
-      "size": "60 x 45 cm",
-      "curatorNote": "Placeholder note: each step is drawn a little darker than the last.",
-      "lesson": "Placeholder lesson: an echo is sound that bounces off a surface and returns to your ears.",
-      "colors": ["#4a4540", "#0d0c0b"],
-      "puzzle": {
-        "type": "riddle",
-        "prompt": "I speak without a mouth and answer only when you call. What am I?",
-        "answers": ["echo", "an echo"],
-        "hint": "Try calling out in an empty stairwell.",
-        "nudge": "Think of a sound that comes back to you.",
-        "explanation": "An echo is your own sound reflected back from a surface."
-      }
-    },
-    {
-      "id": "the-cartographers-window",
-      "title": "The Cartographer's Window",
-      "artist": "R. Hale",
-      "year": "1889",
-      "medium": "Ink on vellum",
-      "size": "50 x 70 cm",
-      "curatorNote": "Placeholder note: the mapmaker painted the sunrise through his own window, always on the same side.",
-      "lesson": "Placeholder lesson: the Sun rises in the east and sets in the west, because Earth turns toward the east.",
-      "colors": ["#5e3a2b", "#150b07"],
-      "puzzle": {
-        "type": "choice",
-        "prompt": "In which direction does the Sun rise?",
-        "options": ["West", "North", "East", "South"],
-        "correctIndex": 2,
-        "hint": "Mapmakers mark it on the right-hand side of a standard map.",
-        "nudge": "Face the morning light and name the direction.",
-        "explanation": "Earth turns toward the east, so the Sun appears to rise there."
-      }
-    },
-    {
-      "id": "the-clock-without-hands",
-      "title": "The Clock Without Hands",
-      "artist": "Unknown",
-      "year": "c. 1902",
-      "medium": "Oil on panel",
-      "size": "64 x 64 cm",
-      "curatorNote": "Placeholder note: the face is complete, yet the hands were never painted.",
-      "lesson": "Placeholder lesson: a clock has hands that point to the hour and minute, though it cannot clap or wave.",
-      "colors": ["#3a3a4a", "#0c0c10"],
-      "puzzle": {
-        "type": "riddle",
-        "prompt": "I have hands but cannot clap. What am I?",
-        "answers": ["clock", "a clock"],
-        "hint": "You may glance at one on the wall before class.",
-        "nudge": "Think of something that tells you the time.",
-        "explanation": "A clock has hands that point to the time, but they cannot clap."
-      }
-    },
-    {
-      "id": "the-last-candle",
-      "title": "The Last Candle",
-      "artist": "S. Marrow",
-      "year": "1936",
-      "medium": "Gouache on board",
-      "size": "35 x 48 cm",
-      "curatorNote": "Placeholder note: a single candle is the only light in an otherwise empty hall.",
-      "lesson": "Placeholder lesson: a flame needs oxygen to keep burning, so a candle goes out when the air is cut off.",
-      "colors": ["#6b5a2e", "#100d05"],
-      "puzzle": {
-        "type": "choice",
-        "prompt": "What does a flame need to keep burning?",
-        "options": ["Nitrogen", "Oxygen", "Helium", "Carbon dioxide"],
+        "prompt": "Which medium did the painter use for this moonlit terrace?",
+        "options": [
+          "Oil on canvas",
+          "Opaque watercolor with gold on paper",
+          "Charcoal on paper",
+          "Oil on cradled panel"
+        ],
         "correctIndex": 1,
-        "hint": "It is the part of the air that you breathe in.",
-        "nudge": "A jar placed over a candle takes this away.",
-        "explanation": "Fire needs oxygen, so a flame goes out when the oxygen runs low."
-      }
+        "hint": "The plaque says the paint sits as a solid layer, and the mount is flecked with a precious metal.",
+        "nudge": "Think about what makes the moon and terrace glow against the dark sky, and what glitters on the border.",
+        "explanation": "The plaque names opaque watercolor with gold on paper, which is why the moon and terrace shine."
+      },
+      "image": "assets/images/art/seduction-scene-on-a-terrace-by-moonlight.jpg",
+      "credit": "Mughal, Seduction Scene on a Terrace by Moonlight, 18th century. Everett and Ann McNear Collection. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/120669"
+    },
+    {
+      "id": "the-girl-by-the-window",
+      "title": "The Girl by the Window",
+      "artist": "Edvard Munch",
+      "year": "1893",
+      "medium": "Oil on canvas",
+      "size": "96.5 ├ù 65.4 cm (38 ├ù 25 3/4 in.)",
+      "curatorNote": "A girl in her nightgown stands in a dark room and looks out at a brighter night. Her face is hidden. With one hand she draws back a pale curtain, the lightest shape in the room besides the window itself.",
+      "lesson": "Edvard Munch painted this in 1893 with loose, open brushwork. Deep browns, blues and greens fill the room, while light blues and pink whites mark the girl and the window. The contrast pulls your eye to the one gesture in the picture.",
+      "colors": [
+        "#3b4a5c",
+        "#121618"
+      ],
+      "alt": "A brown-haired girl in a nightgown stands in a dark room, gazing out a window into a brighter night. Her face is unseen and her hand draws back a pale curtain.",
+      "puzzle": {
+        "type": "riddle",
+        "prompt": "The girl looks out at the night. What does her hand draw back?",
+        "answers": [
+          "curtain",
+          "the curtain",
+          "a curtain",
+          "pale curtain",
+          "the pale curtain"
+        ],
+        "hint": "It hangs at the window and is one of the lightest shapes in the dark room.",
+        "nudge": "Look at her hand. It is moving something soft and pale that hangs beside the glass.",
+        "explanation": "Her hand draws back the pale curtain, the lightest shape in the dark room."
+      },
+      "image": "assets/images/art/the-girl-by-the-window.jpg",
+      "credit": "Edvard Munch, The Girl by the Window, 1893. Searle Family Trust and Goldabelle McComb Finn endowments; Charles H. and Mary F. S. Worcester Collection. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/154235"
+    },
+    {
+      "id": "pardon-in-brittany",
+      "title": "Pardon in Brittany",
+      "artist": "Gaston La Touche",
+      "year": "1896",
+      "medium": "Oil on canvas",
+      "size": "100.5 ├ù 110.5 cm (39 9/16 ├ù 43 1/2 in.)",
+      "curatorNote": "A rider on a pale horse rises above a sea of white caps at dusk. The whole sky is washed in rose-mauve, and tiny warm flecks of light glow among the crowd like candle flames.",
+      "lesson": "Gaston La Touche painted this crowd in 1896 with soft, blended strokes in oil. The sky stays one gentle rose-mauve tone, so the small warm lights below read as the brightest points in the picture.",
+      "colors": [
+        "#8a6a80",
+        "#1c1a2e"
+      ],
+      "alt": "At dusk a dark rider on a pale horse rises above a crowd of white-capped people. The sky is rose-mauve and small warm lights glow among the crowd.",
+      "puzzle": {
+        "type": "choice",
+        "prompt": "Which color washes the dusk sky above the crowd?",
+        "options": [
+          "Storm green",
+          "Midnight black",
+          "Rose-mauve",
+          "Golden yellow"
+        ],
+        "correctIndex": 2,
+        "hint": "It is a soft blend of pink and purple, the color of a late sunset.",
+        "nudge": "Look above the rider. The sky is gentle and pale, not dark and not golden.",
+        "explanation": "The sky is washed in rose-mauve, which makes the small warm lights below stand out."
+      },
+      "image": "assets/images/art/pardon-in-brittany.jpg",
+      "credit": "Gaston La Touche, Pardon in Brittany, 1896. Mr. and Mrs. Martin A. Ryerson Collection. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/111656"
+    },
+    {
+      "id": "self-portrait",
+      "title": "Self-Portrait",
+      "artist": "Walter Shirlaw",
+      "year": "1878",
+      "medium": "Oil on canvas",
+      "size": "70.2 ├ù 53.4 cm (27 5/8 ├ù 21 in.)",
+      "curatorNote": "The painter turns toward us against a deep red-brown ground. He holds a brush in one hand and a palette in the other. His collar and face catch the light while the rest fades into shadow.",
+      "lesson": "Walter Shirlaw painted himself in 1878. Showing the tools of the trade in a self-portrait declares the sitter to be a working artist. The dark ground makes the pale collar and face the focus.",
+      "colors": [
+        "#5a2a24",
+        "#150a09"
+      ],
+      "alt": "A mustached man in a brown coat turns toward the viewer against a deep red-brown background. He holds a brush in one hand and a palette in the other.",
+      "puzzle": {
+        "type": "riddle",
+        "prompt": "Besides his brush, what does the painter hold to show his trade?",
+        "answers": [
+          "palette",
+          "a palette",
+          "the palette",
+          "painters palette",
+          "painter's palette",
+          "artists palette",
+          "artist's palette"
+        ],
+        "hint": "Painters rest it on one arm and mix their colors on it.",
+        "nudge": "Look at his other hand. It carries a flat, curved board covered in paint.",
+        "explanation": "He holds a palette, the board where painters mix color, which marks him as a working artist."
+      },
+      "image": "assets/images/art/self-portrait.jpg",
+      "credit": "Walter Shirlaw, Self-Portrait, 1878. Gift of Joseph M. Rogers. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/11"
+    },
+    {
+      "id": "approaching-storm",
+      "title": "Approaching Storm",
+      "artist": "Eug├¿ne Louis Boudin",
+      "year": "1864",
+      "medium": "Oil on cradled panel",
+      "size": "36.3 ├ù 57.9 cm (14 3/8 ├ù 22 1/2 in.)",
+      "curatorNote": "Heavy gray clouds roll in over a sandy beach. Ladies in wide skirts, a child in red and a small white dog wait beside tall wooden huts on wheels. A pennant snaps from a pole at left.",
+      "lesson": "Eugène Louis Boudin painted this in 1864 on a small oil panel. He was known for skies, and here the cloud-filled sky takes up most of the picture. The pale huts catch the last light before the weather turns.",
+      "colors": [
+        "#4a5a68",
+        "#14181c"
+      ],
+      "alt": "A beach under dark gray storm clouds. Well-dressed figures gather beside pale wooden bathing huts on wheels while a pennant flies from a tall pole.",
+      "puzzle": {
+        "type": "choice",
+        "prompt": "What do the beachgoers gather beside as the storm approaches?",
+        "options": [
+          "Lighthouses",
+          "Fishing nets",
+          "Horse carriages",
+          "Wooden bathing huts on wheels"
+        ],
+        "correctIndex": 3,
+        "hint": "Swimmers once changed inside these small pale buildings and rolled them toward the water.",
+        "nudge": "Look at the tall pale shapes with peaked roofs standing on the sand.",
+        "explanation": "The plaque points to the wooden bathing huts on wheels, the pale shapes that catch the last light."
+      },
+      "image": "assets/images/art/approaching-storm.jpg",
+      "credit": "Eug├¿ne Louis Boudin, Approaching Storm, 1864. Mr. and Mrs. Lewis Larned Coburn Memorial Collection. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/27764"
+    },
+    {
+      "id": "fishing-boats-with-hucksters-bargaining-for-fish",
+      "title": "Fishing Boats with Hucksters Bargaining for Fish",
+      "artist": "Joseph Mallord William Turner",
+      "year": "1837ΓÇô38",
+      "medium": "Oil on canvas",
+      "size": "174.5 ├ù 224.9 cm (68 3/4 ├ù 88 1/2 in.)",
+      "curatorNote": "Boats ride rough waves under storm clouds, and the whole canvas is large and loosely painted. The title tells you what the people on the water are doing: bargaining over the catch.",
+      "lesson": "Joseph Mallord William Turner, usually called J. M. W. Turner, painted this sea in 1837 to 1838. He cared more about weather, light and the motion of water than about crisp outlines. That is why the waves and clouds blur together.",
+      "colors": [
+        "#56666e",
+        "#14191b"
+      ],
+      "alt": "A large marine landscape of boats on rough waves beneath storm clouds.",
+      "puzzle": {
+        "type": "riddle",
+        "prompt": "Which painter, known by the initials J. M. W., made this stormy sea? Give the surname.",
+        "answers": [
+          "turner",
+          "j.m.w. turner",
+          "jmw turner",
+          "j. m. w. turner",
+          "william turner",
+          "joseph mallord william turner"
+        ],
+        "hint": "He loved weather, light and moving water more than sharp outlines.",
+        "nudge": "The plaque spells out three names ending in a surname that also names a person who turns things.",
+        "explanation": "Joseph Mallord William Turner, known as J. M. W. Turner, painted this blurred, stormy sea."
+      },
+      "image": "assets/images/art/fishing-boats-with-hucksters-bargaining-for-fish.jpg",
+      "credit": "Joseph Mallord William Turner, Fishing Boats with Hucksters Bargaining for Fish, 1837ΓÇô38. Mr. and Mrs. W. W. Kimball Collection. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/4796"
     }
   ]
 }

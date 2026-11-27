@@ -55,13 +55,13 @@ test("computeDoorCode is not exported", () => {
 });
 
 // Requirements 6.1 to 6.4, 6.6, 5.3
-test("default exhibition: 6 artworks, unique ids, original ids, mixed puzzles, no digit, 7 messages", () => {
+test("default exhibition: 6 artworks, unique ids, credited images, mixed puzzles, no digit, 7 messages", () => {
   const ex = readJson("content/default-exhibition.json");
   assert.equal(ex.artworks.length, 6);
   const ids = ex.artworks.map((a) => a.id);
   assert.equal(new Set(ids).size, 6);
-  for (const id of ["the-patient-watcher", "lantern-at-low-tide", "the-quiet-staircase"]) {
-    assert.ok(ids.includes(id), id);
+  for (const a of ex.artworks) {
+    assert.ok(a.image && a.credit, `${a.id} needs an image and a credit`);
   }
   const types = ex.artworks.map((a) => a.puzzle.type);
   assert.ok(types.filter((t) => t === "riddle").length >= 2);
