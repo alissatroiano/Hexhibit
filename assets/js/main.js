@@ -8,6 +8,7 @@ import { initFlashlight } from "./flashlight.js";
 import { createState, themeFor, enterEscape, markSolved, submitCode, returnToGallery, markViewed, revealHint, revealedDigit } from "./state.js";
 import { DEFAULT_EXHIBITION_PATH, resolveExhibitionPath, resolveModeParameter, loadExhibition, applyUiDefaults, fillTemplate, wallFor } from "./content.js";
 import { readSavedGame, restoreGameState, writeSavedGame, clearSavedGame } from "./session.js";
+import { initBackGuard } from "./back-guard.js";
 
 // Door swing starts once the camera has walked to the exit stop; the escaped dialog follows the swing (~1.4s).
 const DOOR_SWING_DELAY = 1600, ESCAPE_DIALOG_DELAY = 4200;
@@ -18,6 +19,8 @@ const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: r
 const SOLVE_FIRST_TEXT = "Solve every puzzle first.";
 // Shown when the lock cannot be set (no crypto, or the generator threw).
 const LOCK_FAILED_TEXT = "The lock would not set. Please try again.";
+// Announced when Back is pressed during After-Hours (the gallery doors are sealed until the exit code is solved).
+const BACK_SEALED_TEXT = "The gallery doors are sealed. Solve the exit code to leave.";
 // Random_Source for the generator: one byte per call from the browser CSPRNG. No Math.random fallback:
 // if crypto is missing, enterEscape throws and the player stays in the gallery.
 const byteSource = () => { const b = new Uint8Array(1); window.crypto.getRandomValues(b); return b[0] };
@@ -138,7 +141,7 @@ function render() {
     gallery.setVisible(inGallery);
     stage.hidden = inGallery; stage.inert = inGallery;
     flashlight.setActive(dk);
-    syncHint(inGallery); announceModeChange(inGallery);
+    syncHint(inGallery); announceModeChange(inGallery); backGuard.arm();
     // Hiding the gallery drops keyboard focus to <body>; hand it to Next so keyboard users keep their place.
     if (!inGallery && $("daylight-gallery").contains(document.activeElement)) $("next").focus();
     s.replaceChildren();
@@ -147,6 +150,24 @@ function render() {
     $("prog").textContent = dk ? `${S.solved.size}/${n} solved` : `${S.viewed.size}/${n} artworks viewed`;
     const open = ph === "escaped"; corridor.setLockLabel(open ? EX.ui.unlockedLabel : EX.ui.lockedLabel); corridor.setDoorOpenable(open)
 }
+// ---- Back-button guard and bfcache restore: After-Hours is one-way until the player escapes ----
+const inAfterHours = () => !!S && (S.phase === "escape" || S.phase === "solved");
+// Clear then set on the next tick so screen readers announce a repeated message on every Back press.
+function announceSealed() { const st = $("mode-status"); st.replaceChildren(); setTimeout(() => st.replaceChildren(BACK_SEALED_TEXT), 50) }
+const backGuard = initBackGuard({ isActive: inAfterHours, onBlocked: announceSealed });
+// Mobile browsers restore play.html from the bfcache without re-running boot(), so the live state can be stale
+// (for example a gallery page from before the escape began). Re-check the Session_Store and restore in place.
+window.addEventListener("pageshow", e => {
+    if (!e.persisted || !S || !corridor) return;
+    const ids = P.map(a => a.id), saved = readSavedGame(ids), restored = saved ? restoreGameState(saved, ids) : null;
+    backGuard.reset();
+    if (!restored) { backGuard.arm(); return }
+    if (isOpen()) closeDialog();
+    const wasGallery = S.phase === "gallery";
+    S = restored; resumed = wasGallery; busy = false;
+    corridor.reset(); P.forEach((p, i) => { if (isSolved(i)) corridor.markDone(i) }); corridor.goToEntrance();
+    render();
+});
 // Modal (shell lives in assets/js/modal.js)
 initModal($("modal"), { onClose: () => { mode = null; getAns = null } });
 let getAns = null;
