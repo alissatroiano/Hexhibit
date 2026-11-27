@@ -12,6 +12,22 @@
   <link rel="stylesheet" href="assets/css/landing.css">
   <!-- <link rel="stylesheet" href="style.css"> -->
   <title>Hexhibit</title>
+  <script>
+    // An active After-Hours session must not be abandoned by Back: send the player straight back to play.html.
+    (function () {
+      function resume() {
+        try {
+          var raw = sessionStorage.getItem("hexhibit.session.v1");
+          if (!raw) return;
+          var d = JSON.parse(raw);
+          if (d && d.v === 1 && typeof d.doorCode === "string" && Array.isArray(d.artworkIds)) location.replace("play.html");
+        } catch (e) { /* storage unavailable or malformed: stay on the landing page */ }
+      }
+      resume();
+      document.addEventListener("DOMContentLoaded", resume);
+      window.addEventListener("pageshow", resume);
+    })();
+  </script>
 </head>
 
 <body>
