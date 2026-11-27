@@ -16,12 +16,15 @@
 
 html {
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
 }
 
 body {
     background: var(--bg);
     color: var(--ink);
     font: 400 16px/1.5 "Inter Tight", system-ui, sans-serif;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 a {
@@ -38,8 +41,12 @@ section.jumbotron {
     background-size: cover;
     max-width: 100%;
     min-height: 100vh;
+    min-height: 100dvh;
     height: auto;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 /* ---------- nav ---------- */
@@ -49,7 +56,11 @@ section.jumbotron {
 }
 
 .open-btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
     padding: 10px 16px;
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -132,6 +143,8 @@ div.row {
     align-items: center;
     justify-content: center;
     margin: 0 auto;
+    padding: 0 var(--pad) 48px;
+    width: 100%;
 }
 
 a.cta-btn {
@@ -139,13 +152,18 @@ a.cta-btn {
     border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(30px);
     color: rgba(255, 255, 255, 0.8);
-    padding: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    max-width: 100%;
+    padding: 12px 28px;
     border-radius: 14px;
     text-transform: uppercase;
     font-family: "Antonio", sans-serif;
     text-align: center;
     margin-top: 20px;
-    display: inline-block;
     transform: translateY(105%);
     animation: rise 3.15s var(--ease) forwards;
 }
@@ -189,8 +207,10 @@ a.cta-btn:hover {
     font-weight: 500;
     letter-spacing: -0.055em;
     line-height: 0.9;
-    font-size: clamp(56px, 10.4vw, 176px);
+    font-size: clamp(52px, 13vw, 176px);
     text-align: center;
+    max-width: 100%;
+    overflow-wrap: anywhere;
     color: #fafafa;
     margin: 0px auto;
 }
@@ -242,6 +262,15 @@ span.hex {
     }
 }
 
+@media (max-width: 1024px) {
+    .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding-top: 110px;
+        gap: 16px;
+    }
+}
+
 @media (max-width: 820px) {
     .links {
         display: none;
@@ -273,11 +302,17 @@ span.hex {
     }
 }
 
+/* Intro video stage. It stays a fixed overlay so the intro covers the page
+   until it ends or is skipped. 100dvh tracks the mobile browser toolbar, with
+   100vh as the fallback for browsers without dynamic viewport units. */
 .video-intro-wrapper {
     position: fixed;
-    width: 100vw;
-    height: 100vh;
     inset: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    background-size: contain;
     z-index: 9999;
     background: #000;
     transition: opacity 0.8s ease, visibility 0.8s ease;
@@ -289,55 +324,50 @@ span.hex {
     pointer-events: none;
 }
 
+/* object-fit: cover fills any aspect ratio, so there are no letterbox bars. */
 .bg-video {
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    max-width: 100%;
+    height: 100%;
+    object-fit: contain;
     display: block;
 }
 
-.skip-intro-btn {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 10001;
-    background: rgba(0, 0, 0, 0.5);
-    color: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 8px 16px;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    cursor: pointer;
-}
-
-.skip-intro-btn:hover {
-    color: #fff;
-    border-color: #fff;
-}
-
-/* Sits at the opposite bottom corner from the skip button so the two
-   controls never overlap on narrow screens. Same colors as .skip-intro-btn. */
+/* Shared control styling. Solid dark plate with near-white text keeps the
+   contrast above 4.5:1 over any video frame. Offsets respect the notch and
+   home-indicator safe areas. */
+.skip-intro-btn,
 .mute-toggle-btn {
-    position: fixed;
-    bottom: 24px;
-    left: 24px;
+    position: absolute;
+    bottom: max(20px, env(safe-area-inset-bottom));
     z-index: 10001;
     min-width: 44px;
     min-height: 44px;
-    background: rgba(0, 0, 0, 0.5);
-    color: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.72);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    padding: 10px 18px;
     font-family: "Antonio", sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.16em;
     cursor: pointer;
 }
 
+.skip-intro-btn {
+    right: max(20px, env(safe-area-inset-right));
+}
+
+/* Opposite bottom corner from Skip, so the two never overlap on narrow screens. */
+.mute-toggle-btn {
+    left: max(20px, env(safe-area-inset-left));
+}
+
+.skip-intro-btn:hover,
 .mute-toggle-btn:hover {
-    color: #fff;
     border-color: #fff;
+    background: rgba(0, 0, 0, 0.9);
 }
 
 /* Keyboard focus rings. These controls sit on dark surfaces (the 0.625-0.75
