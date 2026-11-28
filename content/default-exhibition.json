@@ -26,14 +26,14 @@
       "artist": "Mughal",
       "year": "18th century",
       "medium": "Opaque watercolor with gold on paper",
-      "size": "Image: 16.8 ├ù 23.5 cm (6 5/8 ├ù 9 1/4 in.)",
-      "curatorNote": "A full moon hangs over a palace terrace. Notice the white canopy, the water pipe on the floor and the gold flecks scattered across the mount. The artist built the whole scene from opaque watercolor with gold on paper.",
-      "lesson": "Mughal court painters worked in opaque watercolor, which sits on the paper as a solid layer instead of a see-through wash. That is why the moon and the pale terrace glow so brightly against the dark sky. Gold was added for shimmer.",
+      "size": "Image: 16.8 × 23.5 cm (6 5/8 × 9 1/4 in.)",
+      "curatorNote": "Lean close. This moonlit terrace is a miniature painting, its image only 16.8 by 23.5 centimeters. The museum catalogues it as Mughal, from India, possibly Murshidabad in West Bengal. The record keeps the painter's name to itself, and so must we.",
+      "lesson": "The plaque names the medium: opaque watercolor with gold on paper. Opaque paint covers the paper beneath it instead of letting it show through, and gold joins the watercolor on the page. The museum dates the work only to the 18th century.",
       "colors": [
         "#1f2438",
         "#0a0b12"
       ],
-      "alt": "A full moon over a pale palace terrace at night. A figure reclines under a white canopy while attendants stand nearby. The scene is framed by a gold border on speckled paper.",
+      "alt": "A small miniature painting of a terrace by moonlight, made in opaque watercolor with gold on paper.",
       "puzzle": {
         "type": "choice",
         "prompt": "Which medium did the painter use for this moonlit terrace?",
@@ -44,9 +44,9 @@
           "Oil on cradled panel"
         ],
         "correctIndex": 1,
-        "hint": "The plaque says the paint sits as a solid layer, and the mount is flecked with a precious metal.",
-        "nudge": "Think about what makes the moon and terrace glow against the dark sky, and what glitters on the border.",
-        "explanation": "The plaque names opaque watercolor with gold on paper, which is why the moon and terrace shine."
+        "hint": "The plaque describes a paint that covers the paper beneath it, and it is not oil.",
+        "nudge": "Not that one. Return to the plaque's medium line: a water-based paint, with something precious added.",
+        "explanation": "The museum record lists opaque watercolor with gold on paper for this miniature painting."
       },
       "image": "assets/images/art/seduction-scene-on-a-terrace-by-moonlight.jpg",
       "credit": "Mughal, Seduction Scene on a Terrace by Moonlight, 18th century. Everett and Ann McNear Collection. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/120669"
@@ -57,9 +57,9 @@
       "artist": "Edvard Munch",
       "year": "1893",
       "medium": "Oil on canvas",
-      "size": "96.5 ├ù 65.4 cm (38 ├ù 25 3/4 in.)",
-      "curatorNote": "A girl in her nightgown stands in a dark room and looks out at a brighter night. Her face is hidden. With one hand she draws back a pale curtain, the lightest shape in the room besides the window itself.",
-      "lesson": "Edvard Munch painted this in 1893 with loose, open brushwork. Deep browns, blues and greens fill the room, while light blues and pink whites mark the girl and the window. The contrast pulls your eye to the one gesture in the picture.",
+      "size": "96.5 × 65.4 cm (38 × 25 3/4 in.)",
+      "curatorNote": "A girl in her nightgown stands in a darkened room and gazes out a window into a brighter night. Her face stays hidden from us. With one hand she draws back the pale curtain. Look down as well: moonlight lays glowing rectangles across the sharply tilted floor.",
+      "lesson": "Edvard Munch painted this in 1893, the same year as The Scream. Around that time he wrote a manifesto declaring that artists should depict \"living people who breathe and feel, suffer and love.\" Loosely applied browns, blues and greens fill the shadows, while light blues and pink whites pick out the girl and the window.",
       "colors": [
         "#3b4a5c",
         "#121618"
@@ -67,17 +67,18 @@
       "alt": "A brown-haired girl in a nightgown stands in a dark room, gazing out a window into a brighter night. Her face is unseen and her hand draws back a pale curtain.",
       "puzzle": {
         "type": "riddle",
-        "prompt": "The girl looks out at the night. What does her hand draw back?",
+        "prompt": "Around the time he painted her, Munch wrote a manifesto. What kind of people did he say artists should depict?",
         "answers": [
-          "curtain",
-          "the curtain",
-          "a curtain",
-          "pale curtain",
-          "the pale curtain"
+          "living",
+          "living people",
+          "the living",
+          "living people who breathe and feel",
+          "living people who breathe and feel, suffer and love",
+          "living people who breathe and feel suffer and love"
         ],
-        "hint": "It hangs at the window and is one of the lightest shapes in the dark room.",
-        "nudge": "Look at her hand. It is moving something soft and pale that hangs beside the glass.",
-        "explanation": "Her hand draws back the pale curtain, the lightest shape in the dark room."
+        "hint": "The lesson quotes him. These people breathe and feel, suffer and love.",
+        "nudge": "Close, but the plaque used Munch's own word. Recall the quotation in the lesson and the one word that describes these people.",
+        "explanation": "Munch's manifesto called for \"living people who breathe and feel, suffer and love\", and this girl at the window is one of them."
       },
       "image": "assets/images/art/the-girl-by-the-window.jpg",
       "credit": "Edvard Munch, The Girl by the Window, 1893. Searle Family Trust and Goldabelle McComb Finn endowments; Charles H. and Mary F. S. Worcester Collection. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/154235"
@@ -88,27 +89,27 @@
       "artist": "Gaston La Touche",
       "year": "1896",
       "medium": "Oil on canvas",
-      "size": "100.5 ├ù 110.5 cm (39 9/16 ├ù 43 1/2 in.)",
-      "curatorNote": "A rider on a pale horse rises above a sea of white caps at dusk. The whole sky is washed in rose-mauve, and tiny warm flecks of light glow among the crowd like candle flames.",
-      "lesson": "Gaston La Touche painted this crowd in 1896 with soft, blended strokes in oil. The sky stays one gentle rose-mauve tone, so the small warm lights below read as the brightest points in the picture.",
+      "size": "100.5 × 110.5 cm (39 9/16 × 43 1/2 in.)",
+      "curatorNote": "The title carries us to Brittany. The museum's catalogue names who and what gathers here: women and men, headdresses, a horse, and candles with a candleholder. The French painter Gaston La Touche signed the lower left corner: G. La Touche.",
+      "lesson": "La Touche, who lived from 1854 to 1913, painted this in oil on canvas in 1896. The museum record links it to Chicago's Century of Progress world's fair but tells no more of its story. Where the archive falls silent, let your eyes do the reading.",
       "colors": [
         "#8a6a80",
         "#1c1a2e"
       ],
-      "alt": "At dusk a dark rider on a pale horse rises above a crowd of white-capped people. The sky is rose-mauve and small warm lights glow among the crowd.",
+      "alt": "A gathering of women and men in headdresses in Brittany, with a horse and candles among them.",
       "puzzle": {
         "type": "choice",
-        "prompt": "Which color washes the dusk sky above the crowd?",
+        "prompt": "The museum record links this canvas to a world's fair. Which one?",
         "options": [
-          "Storm green",
-          "Midnight black",
-          "Rose-mauve",
-          "Golden yellow"
+          "The Exposition Universelle in Paris",
+          "The Great Exhibition in London",
+          "The Century of Progress in Chicago",
+          "The Centennial Exposition in Philadelphia"
         ],
         "correctIndex": 2,
-        "hint": "It is a soft blend of pink and purple, the color of a late sunset.",
-        "nudge": "Look above the rider. The sky is gentle and pale, not dark and not golden.",
-        "explanation": "The sky is washed in rose-mauve, which makes the small warm lights below stand out."
+        "hint": "The fair is named in the lesson, not the curator note, along with its city.",
+        "nudge": "Not that fair. The plaque named one held in the same city as the museum that owns this canvas.",
+        "explanation": "The museum record links Pardon in Brittany to Chicago's Century of Progress world's fair, as the lesson said."
       },
       "image": "assets/images/art/pardon-in-brittany.jpg",
       "credit": "Gaston La Touche, Pardon in Brittany, 1896. Mr. and Mrs. Martin A. Ryerson Collection. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/111656"
@@ -119,29 +120,32 @@
       "artist": "Walter Shirlaw",
       "year": "1878",
       "medium": "Oil on canvas",
-      "size": "70.2 ├ù 53.4 cm (27 5/8 ├ù 21 in.)",
-      "curatorNote": "The painter turns toward us against a deep red-brown ground. He holds a brush in one hand and a palette in the other. His collar and face catch the light while the rest fades into shadow.",
-      "lesson": "Walter Shirlaw painted himself in 1878. Showing the tools of the trade in a self-portrait declares the sitter to be a working artist. The dark ground makes the pale collar and face the focus.",
+      "size": "70.2 × 53.4 cm (27 5/8 × 21 in.)",
+      "curatorNote": "The American painter Walter Shirlaw meets your eye in his own likeness. He left his mark at the lower right of the canvas: W. Shirlaw, 1878. The museum records no story of the sitting, so the portrait keeps its own counsel.",
+      "lesson": "In a self-portrait the artist and the sitter are the same person. Shirlaw, who lived from 1838 to 1909, painted this one in oil on canvas in 1878, the year he wrote beside his name. It came to the museum as a gift of Joseph M. Rogers.",
       "colors": [
         "#5a2a24",
         "#150a09"
       ],
-      "alt": "A mustached man in a brown coat turns toward the viewer against a deep red-brown background. He holds a brush in one hand and a palette in the other.",
+      "alt": "A self-portrait of the painter Walter Shirlaw, signed at the lower right.",
       "puzzle": {
         "type": "riddle",
-        "prompt": "Besides his brush, what does the painter hold to show his trade?",
+        "prompt": "The painter signed his name and a year on the canvas. In which corner?",
         "answers": [
-          "palette",
-          "a palette",
-          "the palette",
-          "painters palette",
-          "painter's palette",
-          "artists palette",
-          "artist's palette"
+          "lower right",
+          "the lower right",
+          "lower right corner",
+          "the lower right corner",
+          "bottom right",
+          "the bottom right",
+          "bottom right corner",
+          "the bottom right corner",
+          "lower-right",
+          "bottom-right"
         ],
-        "hint": "Painters rest it on one arm and mix their colors on it.",
-        "nudge": "Look at his other hand. It carries a flat, curved board covered in paint.",
-        "explanation": "He holds a palette, the board where painters mix color, which marks him as a working artist."
+        "hint": "The plaque tells you exactly where he left his mark, and it is not at the top.",
+        "nudge": "Not that corner. Return to the plaque's line about his name and the year.",
+        "explanation": "Shirlaw signed the lower right corner with his name and 1878, the date on the plaque."
       },
       "image": "assets/images/art/self-portrait.jpg",
       "credit": "Walter Shirlaw, Self-Portrait, 1878. Gift of Joseph M. Rogers. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/11"
@@ -149,17 +153,17 @@
     {
       "id": "approaching-storm",
       "title": "Approaching Storm",
-      "artist": "Eug├¿ne Louis Boudin",
+      "artist": "Eugène Louis Boudin",
       "year": "1864",
       "medium": "Oil on cradled panel",
-      "size": "36.3 ├ù 57.9 cm (14 3/8 ├ù 22 1/2 in.)",
-      "curatorNote": "Heavy gray clouds roll in over a sandy beach. Ladies in wide skirts, a child in red and a small white dog wait beside tall wooden huts on wheels. A pennant snaps from a pole at left.",
-      "lesson": "Eugène Louis Boudin painted this in 1864 on a small oil panel. He was known for skies, and here the cloud-filled sky takes up most of the picture. The pale huts catch the last light before the weather turns.",
+      "size": "36.3 × 57.9 cm (14 3/8 × 22 1/2 in.)",
+      "curatorNote": "A storm creeps toward the shore. Holidaymakers wear the same clothes they would wear in the city, and they wait beside huts on wheels. Those huts were portable changing rooms, pulled into the water so bathers could change without fear of being seen.",
+      "lesson": "Eugène Louis Boudin, a painter from Normandy and Claude Monet's teacher, painted this in 1864 in oil on a cradled panel. He painted in the open air, a practice Monet followed and one that mattered greatly to the painters later called the Impressionists. Boudin painted many beach scenes at the fashionable resorts of Trouville and Deauville.",
       "colors": [
         "#4a5a68",
         "#14181c"
       ],
-      "alt": "A beach under dark gray storm clouds. Well-dressed figures gather beside pale wooden bathing huts on wheels while a pennant flies from a tall pole.",
+      "alt": "A beach as a storm approaches. Women in dresses and children gather beside bathing huts on wheels.",
       "puzzle": {
         "type": "choice",
         "prompt": "What do the beachgoers gather beside as the storm approaches?",
@@ -170,22 +174,22 @@
           "Wooden bathing huts on wheels"
         ],
         "correctIndex": 3,
-        "hint": "Swimmers once changed inside these small pale buildings and rolled them toward the water.",
-        "nudge": "Look at the tall pale shapes with peaked roofs standing on the sand.",
-        "explanation": "The plaque points to the wooden bathing huts on wheels, the pale shapes that catch the last light."
+        "hint": "The plaque explains how bathers on this beach kept their modesty.",
+        "nudge": "Not those. Look for the thing the plaque says was pulled into the water.",
+        "explanation": "The museum explains that the huts on wheels were portable changing rooms, pulled into the water so bathers could change unseen."
       },
       "image": "assets/images/art/approaching-storm.jpg",
-      "credit": "Eug├¿ne Louis Boudin, Approaching Storm, 1864. Mr. and Mrs. Lewis Larned Coburn Memorial Collection. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/27764"
+      "credit": "Eugène Louis Boudin, Approaching Storm, 1864. Mr. and Mrs. Lewis Larned Coburn Memorial Collection. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/27764"
     },
     {
       "id": "fishing-boats-with-hucksters-bargaining-for-fish",
       "title": "Fishing Boats with Hucksters Bargaining for Fish",
       "artist": "Joseph Mallord William Turner",
-      "year": "1837ΓÇô38",
+      "year": "1837–38",
       "medium": "Oil on canvas",
-      "size": "174.5 ├ù 224.9 cm (68 3/4 ├ù 88 1/2 in.)",
-      "curatorNote": "Boats ride rough waves under storm clouds, and the whole canvas is large and loosely painted. The title tells you what the people on the water are doing: bargaining over the catch.",
-      "lesson": "Joseph Mallord William Turner, usually called J. M. W. Turner, painted this sea in 1837 to 1838. He cared more about weather, light and the motion of water than about crisp outlines. That is why the waves and clouds blur together.",
+      "size": "174.5 × 224.9 cm (68 3/4 × 88 1/2 in.)",
+      "curatorNote": "J. M. W. Turner was fascinated by the sea. A crowded fishing boat rides rolling, tumultuous waves while a smaller boat of hucksters, or peddlers, draws near to bargain for fish to sell back at port. Behind them a steamship chugs along, a sign of the new industrial age.",
+      "lesson": "The English painter Joseph Mallord William Turner made this large canvas in 1837 to 1838, when he was more and more drawn to atmospheric drama and the effects of light. A storm brews behind, and the sunlit water in front is dotted with thick impasto, paint laid on heavily for depth and texture. He signed it on the white flag high on the fishing boat's mast.",
       "colors": [
         "#56666e",
         "#14191b"
@@ -193,21 +197,23 @@
       "alt": "A large marine landscape of boats on rough waves beneath storm clouds.",
       "puzzle": {
         "type": "riddle",
-        "prompt": "Which painter, known by the initials J. M. W., made this stormy sea? Give the surname.",
+        "prompt": "The title calls the people in the smaller boat hucksters. What plainer word does the plaque give for them?",
         "answers": [
-          "turner",
-          "j.m.w. turner",
-          "jmw turner",
-          "j. m. w. turner",
-          "william turner",
-          "joseph mallord william turner"
+          "peddlers",
+          "peddler",
+          "pedlars",
+          "pedlar",
+          "peddlars",
+          "peddlar",
+          "the peddlers",
+          "fish peddlers"
         ],
-        "hint": "He loved weather, light and moving water more than sharp outlines.",
-        "nudge": "The plaque spells out three names ending in a surname that also names a person who turns things.",
-        "explanation": "Joseph Mallord William Turner, known as J. M. W. Turner, painted this blurred, stormy sea."
+        "hint": "It is an everyday word for a seller of goods, and it begins with the letter P.",
+        "nudge": "Not quite. The plaque says the hucksters buy fish to sell back at port, and it gives them a second name.",
+        "explanation": "Hucksters are peddlers: they come out to buy the catch and sell it back at port."
       },
       "image": "assets/images/art/fishing-boats-with-hucksters-bargaining-for-fish.jpg",
-      "credit": "Joseph Mallord William Turner, Fishing Boats with Hucksters Bargaining for Fish, 1837ΓÇô38. Mr. and Mrs. W. W. Kimball Collection. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/4796"
+      "credit": "Joseph Mallord William Turner, Fishing Boats with Hucksters Bargaining for Fish, 1837–38. Mr. and Mrs. W. W. Kimball Collection. Art Institute of Chicago, CC0 public domain. https://www.artic.edu/artworks/4796"
     }
   ]
 }
